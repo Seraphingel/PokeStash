@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Info, Star, Target, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 export function EventDetailsModal({ evt, onClose }) {
   if (!evt) return null;
@@ -59,7 +60,7 @@ export function EventDetailsModal({ evt, onClose }) {
         }}>
           {evt.imageUrl && (
             <img 
-              src={evt.imageUrl} 
+              src={getAssetUrl(evt.imageUrl)} 
               alt={evt.name} 
               style={{ 
                 width: '80px', 
@@ -117,7 +118,7 @@ export function EventDetailsModal({ evt, onClose }) {
                 {evt.name.toLowerCase().includes('twilight') && (
                   <div style={{ borderRadius: '14px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)', background: '#F8FAFC', boxShadow: '0 4px 12px rgba(0,0,0,0.04)' }}>
                     <img 
-                      src={featureImg} 
+                      src={getAssetUrl(featureImg)} 
                       alt={sectionKey} 
                       style={{ width: '100%', height: 'auto', display: 'block' }} 
                     />

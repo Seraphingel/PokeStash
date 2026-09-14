@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, AlertCircle, ChevronDown, MapPin, Tag } from 'lucide-react';
 import { getEventsForDate } from '../data/events';
 import { EventDetailsModal } from './EventDetailsModal';
+import { getAssetUrl } from '../utils/assets';
 
 export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -139,7 +140,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           zIndex: 1
         }}>
           {evt.imageUrl ? (
-            <img src={evt.imageUrl} alt={evt.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+            <img src={getAssetUrl(evt.imageUrl)} alt={evt.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
           ) : (
             <Calendar color={color} size={24} />
           )}
@@ -186,7 +187,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             start: "2026-09-08",
             end: "2026-12-01",
             color: "#6cb5b3",
-            imageUrl: "/assets/events/twilight-trails-banner.jpg",
+            imageUrl: getAssetUrl("/assets/events/twilight-trails-banner.jpg"),
             details: {
               "Pokémon Debuts": ["Maschiff", "Mabosstiff"],
               "Mega-Evolved Pokémon": ["Staraptor", "Chandelure"],
@@ -197,7 +198,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           setSelectedEvent(seasonEvt);
         }}
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.85) 100%), url('/assets/events/twilight-trails-banner.jpg')`,
+          backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.85) 100%), url('${getAssetUrl('/assets/events/twilight-trails-banner.jpg')}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           borderRadius: '20px',
