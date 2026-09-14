@@ -1,99 +1,116 @@
 import { useState, useEffect } from 'react';
 
 const INITIAL_COINS = 153;
-const DAILY_COINS = 50;
+export const DAILY_COINS = 50;
+
+// Helper to get the most recent Wednesday at 8:00 AM
+const getMostRecentWednesday8AM = (date) => {
+  const d = new Date(date);
+  const day = d.getDay();
+  let diff = 0;
+  
+  if (day === 3 && d.getHours() >= 8) {
+    diff = 0;
+  } else {
+    diff = d.getDate() - day - (day <= 3 ? 4 : -3);
+  }
+  
+  d.setDate(diff);
+  d.setHours(8, 0, 0, 0);
+  return d;
+};
 
 export function usePokecoins() {
   const [coins, setCoins] = useState(() => {
     const saved = localStorage.getItem('pokecoins');
-    return saved !== null ? parseInt(saved, 10) : INITIAL_COINS;
+    return saved ? parseInt(saved, 10) : INITIAL_COINS;
   });
 
   const [lastClaimDate, setLastClaimDate] = useState(() => {
-    const saved = localStorage.getItem('lastClaimDate');
-    return saved || null;
+    return localStorage.getItem('lastClaimDate') || '';
   });
 
-  const [todayClaimed, setTodayClaimed] = useState(() => {
-    const saved = localStorage.getItem('todayClaimed');
-    return saved === 'true';
+  const [todayClaimedAmount, setTodayClaimedAmount] = useState(() => {
+    const saved = localStorage.getItem('todayClaimedAmount');
+    return saved ? parseInt(saved, 10) : 0;
   });
 
-  // Calculate missed days and auto-claim
-  useEffect(() => {
-    const now = new Date();
-    // 12 PM local time logic
-    const today12PM = new Date(now);
-    today12PM.setHours(12, 0, 0, 0);
+  const [megaRaidDoneThisWeek, setMegaRaidDoneThisWeek] = useState(() => {
+    return localStorage.getItem('megaRaidDoneThisWeek') === 'true';
+  });
 
-    const currentDateStr = now.toISOString().split('T')[0];
+  const [lastMegaRaidReset, setLastMegaRaidReset] = useState(() => {
+    return localStorage.getItem('lastMegaRaidReset') || new Date().toISOString();
+  });
 
-    if (!lastClaimDate) {
-      // First time opening the app, no missed days to calculate yet
-      setLastClaimDate(currentDateStr);
-      setTodayClaimed(false);
-      return;
-    }
-
-    if (now >= today12PM && lastClaimDate !== currentDateStr) {
-      // It's past 12 PM and we haven't claimed today (based on lastClaimDate being older than today)
-      
-      // Calculate days missed
-      const last = new Date(lastClaimDate);
-      const diffTime = Math.abs(now - last);
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays > 0) {
-        // Auto claim for missed days (excluding today which we will handle below)
-        const missedCoins = (diffDays - 1) * DAILY_COINS;
-        
-        // Auto claim for today as well
-        const totalNewCoins = missedCoins + DAILY_COINS;
-        
-        setCoins(prev => prev + totalNewCoins);
-        setLastClaimDate(currentDateStr);
-        setTodayClaimed(true);
-      }
-    } else if (now < today12PM && lastClaimDate !== currentDateStr) {
-      // It's a new day, but before 12 PM. We haven't auto-claimed yet.
-      setTodayClaimed(false);
-    }
-  }, [lastClaimDate]);
-
-  // Sync to local storage
+  // Save changes to localStorage
   useEffect(() => {
     localStorage.setItem('pokecoins', coins.toString());
-    localStorage.setItem('lastClaimDate', lastClaimDate || '');
-    localStorage.setItem('todayClaimed', todayClaimed.toString());
-  }, [coins, lastClaimDate, todayClaimed]);
+    localStorage.setItem('lastClaimDate', lastClaimDate);
+    localStorage.setItem('todayClaimedAmount', todayClaimedAmount.toString());
+    localStorage.setItem('megaRaidDoneThisWeek', megaRaidDoneThisWeek.toString());
+    localStorage.setItem('lastMegaRaidReset', lastMegaRaidReset);
+  }, [coins, lastClaimDate, todayClaimedAmount, megaRaidDoneThisWeek, lastMegaRaidReset]);
 
-  const toggleTodayClaim = () => {
-    if (todayClaimed) {
-      // Uncheck
-      setCoins(prev => prev - DAILY_COINS);
-      setTodayClaimed(false);
-    } else {
-      // Check
-      setCoins(prev => prev + DAILY_COINS);
-      setTodayClaimed(true);
-      setLastClaimDate(new Date().toISOString().split('T')[0]);
+  // Daily auto-claim logic and Weekly Reset Logic
+  useEffect(() => {
+    const now = new Date();
+    
+    // Check Weekly Mega Raid Reset
+    const currentReset = getMostRecentWednesday8AM(now);
+    const lastReset = getMostRecentWednesday8AM(new Date(lastMegaRaidReset));
+    
+    if (currentReset > lastReset) {
+      setMegaRaidDoneThisWeek(false);
+      setLastMegaRaidReset(now.toISOString());
     }
+
+    const todayStr = now.toDateString();
+    
+    // If today is a new day
+    if (lastClaimDate !== todayStr) {
+      if (lastClaimDate) {
+        // If we completely missed yesterday, auto-claim 50 coins as a fallback.
+        // We consider it "missed" if they didn't log any coins yesterday.
+        if (todayClaimedAmount === 0) {
+           setCoins(c => c + DAILY_COINS);
+        }
+      }
+      setLastClaimDate(todayStr);
+      setTodayClaimedAmount(0); // Reset today's amount
+    }
+  }, [lastClaimDate, todayClaimedAmount, lastMegaRaidReset]);
+
+  const logTodayCoins = (amount) => {
+    const diff = amount - todayClaimedAmount; 
+    setCoins(c => c + diff);
+    setTodayClaimedAmount(amount);
   };
 
   const deductCoins = (amount) => {
     if (coins >= amount) {
-      setCoins(prev => prev - amount);
+      setCoins(coins - amount);
       return true;
     }
     return false;
   };
 
+  const toggleMegaRaid = () => {
+    setMegaRaidDoneThisWeek(!megaRaidDoneThisWeek);
+  };
+
+  const overrideCoins = (amount) => {
+    setCoins(amount);
+  };
+
   return {
     coins,
-    setCoins,
-    todayClaimed,
-    toggleTodayClaim,
+    todayClaimedAmount,
+    logTodayCoins,
     deductCoins,
+    megaRaidDoneThisWeek,
+    toggleMegaRaid,
+    overrideCoins,
     DAILY_COINS
   };
 }

@@ -1,5 +1,5 @@
 {
-  "name": "pokemon-go-tool",
+  "name": "PokeStash",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cheerio": "^1.2.0",
     "lucide-react": "^1.45.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

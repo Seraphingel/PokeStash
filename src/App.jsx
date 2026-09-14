@@ -1,87 +1,141 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePokecoins } from './hooks/usePokecoins';
+import { HomeTab } from './components/HomeTab';
+import { EventsTab } from './components/EventsTab';
 import { Shop } from './components/Shop';
-import { EventCard } from './components/EventCard';
-import { Coins, CheckCircle, Circle } from 'lucide-react';
+import { WalletTab } from './components/WalletTab';
+import { Coins, Home, Calendar, ShoppingBag, Menu, X, Wallet } from 'lucide-react';
 import './index.css';
 
 function App() {
-  const { coins, todayClaimed, toggleTodayClaim, deductCoins, DAILY_COINS } = usePokecoins();
+  const { coins, todayClaimedAmount, logTodayCoins, deductCoins, megaRaidDoneThisWeek, toggleMegaRaid, DAILY_COINS, overrideCoins } = usePokecoins();
+  const [activeTab, setActiveTab] = useState('home');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const TabLink = ({ id, label, icon: Icon, isMobile }) => {
+    const isActive = activeTab === id;
+    if (isMobile) {
+      return (
+        <a 
+          href={`#${id}`}
+          onClick={(e) => { e.preventDefault(); setActiveTab(id); setIsMobileMenuOpen(false); }}
+          className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+        >
+          {Icon && <Icon size={20} />} {label}
+        </a>
+      );
+    }
+    
+    return (
+      <a 
+        href={`#${id}`}
+        onClick={(e) => { e.preventDefault(); setActiveTab(id); }}
+        style={{
+          textDecoration: 'none',
+          color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
+          fontWeight: isActive ? 'bold' : '500',
+          padding: '8px 16px',
+          position: 'relative',
+          transition: 'color 0.2s ease'
+        }}
+      >
+        {label}
+        {isActive && (
+          <span style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '20px', height: '3px', background: 'var(--color-primary)', borderRadius: '3px' }} />
+        )}
+      </a>
+    );
+  };
 
   return (
     <div>
-      <div className="pokedex-header" style={{ borderRadius: '0 0 24px 24px', marginBottom: '24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <h1 style={{ margin: 0, fontSize: '2rem' }}>Pokedex OS</h1>
-            <p style={{ margin: 0, opacity: 0.8 }}>Companion App • Sept 2026</p>
-          </div>
-          <div style={{ 
-            background: 'rgba(255,255,255,0.2)', 
-            padding: '12px 24px', 
-            borderRadius: '999px',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px'
-          }}>
-            <Coins size={24} color="#FCD34D" />
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{coins}</span>
-          </div>
-        </div>
+      {/* Mobile Top Bar (Only visible when premium header is hidden) */}
+      <div className="mobile-menu-btn" style={{ position: 'fixed', top: '16px', left: '16px', zIndex: 1999 }}>
+        <button onClick={() => setIsMobileMenuOpen(true)} style={{ background: '#fff', border: '1px solid #f0f0f5', borderRadius: '12px', padding: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', cursor: 'pointer', display: 'flex' }}>
+          <Menu size={24} color="var(--color-text-primary)" />
+        </button>
       </div>
+      
+      {/* Mobile Sidebar Overlay */}
+      <div className={`sidebar-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)} />
 
-      <div className="bento-grid">
-        
-        {/* Daily Claim Status Card */}
-        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <h2 style={{ fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            Daily Bonus
-          </h2>
-          <div style={{ 
-            background: 'white', 
-            borderRadius: 'var(--border-radius-md)', 
-            padding: '24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            border: '1px solid rgba(0,0,0,0.05)'
-          }}>
-            <div>
-              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>+{DAILY_COINS} Pokecoins</div>
-              <div style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>
-                Resets at 12:00 PM
-              </div>
+      {/* Premium Mobile Sidebar */}
+      <aside className={`premium-mobile-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
+              P
             </div>
-            
-            <button 
-              onClick={toggleTodayClaim}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: todayClaimed ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                transition: 'transform 0.2s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              {todayClaimed ? <CheckCircle size={48} /> : <Circle size={48} />}
-            </button>
+            <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>Pokedex OS</span>
           </div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginTop: '16px', textAlign: 'center' }}>
-            Check or uncheck manually. It automatically claims every 12 PM.
-          </p>
+          <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)' }}>
+            <X size={24} />
+          </button>
+        </div>
+        
+        <nav style={{ display: 'flex', flexDirection: 'column' }}>
+          <TabLink id="home" label="Home" icon={Home} isMobile={true} />
+          <TabLink id="events" label="Events" icon={Calendar} isMobile={true} />
+          <TabLink id="shop" label="Shop" icon={ShoppingBag} isMobile={true} />
+          <TabLink id="wallet" label="Wallet" icon={Wallet} isMobile={true} />
+        </nav>
+      </aside>
+
+      {/* Desktop Sticky Header */}
+      <header className={`premium-header ${isScrolled ? 'is-scrolled' : ''}`} style={isScrolled ? {
+        top: '10px',
+        padding: '8px 24px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+      } : {}}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
+            P
+          </div>
+          <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-text-primary)' }}>Pokedex OS</span>
         </div>
 
-        {/* Shop Simulator Card */}
-        <div className="bento-col-span-2">
+        <nav style={{ display: 'flex', gap: '8px' }}>
+          <TabLink id="home" label="Home" />
+          <TabLink id="events" label="Events" />
+          <TabLink id="shop" label="Shop" />
+        </nav>
+
+        <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }} onClick={() => setActiveTab('wallet')}>
+          <Coins size={16} color="#FCD34D" style={{ marginRight: '4px' }} />
+          {coins} Coins
+        </button>
+      </header>
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px 48px 24px' }}>
+        {activeTab === 'home' && (
+          <HomeTab 
+            coins={coins} 
+            todayClaimedAmount={todayClaimedAmount} 
+            logTodayCoins={logTodayCoins} 
+            DAILY_COINS={DAILY_COINS} 
+          />
+        )}
+        {activeTab === 'events' && (
+          <EventsTab 
+            megaRaidDoneThisWeek={megaRaidDoneThisWeek} 
+            toggleMegaRaid={toggleMegaRaid} 
+          />
+        )}
+        {activeTab === 'shop' && (
           <Shop coins={coins} deductCoins={deductCoins} />
-        </div>
-
-        {/* Events Card */}
-        <EventCard />
-
+        )}
+        {activeTab === 'wallet' && (
+          <WalletTab coins={coins} overrideCoins={overrideCoins} DAILY_COINS={DAILY_COINS} />
+        )}
       </div>
     </div>
   );
