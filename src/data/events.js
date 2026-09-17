@@ -217,8 +217,11 @@ export const events = {
         advice: "2:00 PM to 5:00 PM local time. Gather friends to defeat the new Gigantamax!"
       }
     },
-    { name: "Harvest Festival 2026", start: "2026-10-05", end: "2026-10-09", color: EVENT_COLORS.Event },
-    { name: "October Community Day", start: "2026-10-10", end: "2026-10-10", color: EVENT_COLORS.CommunityDay },
+    { name: "Choose Your Path: Twilight Trails", start: "2026-09-23", end: "2026-09-28", color: EVENT_COLORS.Event },
+    { name: "Harvest Festival 2026: Applin Picking", start: "2026-09-29", end: "2026-10-05", color: EVENT_COLORS.Event },
+    { name: "Patterns of the Wild", start: "2026-10-02", end: "2026-10-02", color: EVENT_COLORS.Event },
+    { name: "Harvest Festival: Taken Over", start: "2026-10-02", end: "2026-10-05", color: EVENT_COLORS.Event },
+    { name: "October Community Day (Zorua)", start: "2026-10-10", end: "2026-10-10", color: EVENT_COLORS.CommunityDay },
     { 
       name: "PokéXciting! Taipei", 
       start: "2026-10-10", 
@@ -359,6 +362,35 @@ export const events = {
       details: {
         regions: ["Japan"],
         "Wild Encounters": ["Pikachu"]
+      }
+    },
+    {
+      name: "Celebrando con Hawlucha",
+      type: "event",
+      start: "2026-09-15",
+      end: "2026-09-21",
+      color: EVENT_COLORS.Event,
+      imageUrl: `${BASE_ASSET_URL}pm701.icon.png`,
+      details: {
+        regions: ["Mexico"],
+        "Bonuses": [
+          "Incense will last twice as long (2x Incense Duration)"
+        ],
+        "Wild Encounters": [
+          "Hawlucha (Appearing more frequently in the wild)"
+        ],
+        "Timed Research: Pick Your Side": [
+          "Candela Path (Team Valor): Ponyta, Torchic, Chimchar",
+          "Arlo Path (Team GO Rocket): Hisuian Sneasel, Scizor, Primeape",
+          "Both Path Rewards: Hawlucha Encounter, XP, Incense, Charged TMs"
+        ],
+        "Field Research": [
+          "Hawlucha"
+        ],
+        "Collection Challenges": [
+          "Hawlucha"
+        ],
+        advice: "10:00 AM – 8:00 PM local time. Exclusive event celebrating Hawlucha across Mexico with pick-your-path Timed Research between Candela and Arlo!"
       }
     }
   ],
@@ -520,14 +552,16 @@ const cleanEventName = (name) => {
     .replace(/\bcelebration event\b/gi, '')
     .replace(/\bcelebration\b/gi, '')
     .replace(/\bevent\b/gi, '')
-    .replace(/max monday:?/gi, '')
-    .replace(/during max monday/gi, '')
+    .replace(/during max mondays?/gi, '')
+    .replace(/max mondays?:?/gi, '')
     .replace(/in (mega|5-star|shadow|primal) raid(s| battles)?/gi, '')
     .replace(/spotlight hour/gi, '')
     .replace(/super mega/gi, '')
     .replace(/raid day/gi, '')
     .replace(/max battle day/gi, '')
     .replace(/community day/gi, '')
+    .replace(/applin picking/gi, '')
+    .replace(/\band\b/gi, '')
     .replace(/[^a-z0-9\s]/gi, '')
     .replace(/\s+/g, ' ')
     .trim();

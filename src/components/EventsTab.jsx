@@ -242,7 +242,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
                 padding: '4px 12px', 
                 borderRadius: '999px',
                 letterSpacing: '1px',
-                textTransform: 'uppercase'
+                fontWeight: '600'
               }}>
                 CURRENT SEASON
               </span>
@@ -274,11 +274,11 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
         {/* Season Timeline Progress Bar */}
         <div style={{ marginTop: '20px', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', opacity: 0.9, marginBottom: '6px', fontWeight: '600' }}>
-            <span>Start: Sep 8</span>
-            <span style={{ color: '#6cb5b3' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', fontSize: '0.8rem', opacity: 0.9, marginBottom: '8px', fontWeight: '600' }}>
+            <span style={{ color: '#6cb5b3', flex: '1 1 100%', textAlign: 'center', marginBottom: '4px' }}>
               Season Cycle Timeline ({Math.round(Math.min(100, Math.max(0, ((selectedDate - new Date('2026-09-08')) / (new Date('2026-12-01') - new Date('2026-09-08'))) * 100)))}% Complete)
             </span>
+            <span>Start: Sep 8</span>
             <span>End: Dec 1</span>
           </div>
           <div style={{ width: '100%', height: '10px', background: 'rgba(255,255,255,0.15)', borderRadius: '999px', overflow: 'hidden' }}>
@@ -333,7 +333,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             </div>
             
             <div style={{ marginTop: '32px' }}>
-              <div style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.7, marginBottom: '8px' }}>Raid Recommendation</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: '600', opacity: 0.7, marginBottom: '8px' }}>Raid Recommendation</div>
               {recommendMega && recommendedMegaEvent ? (
                 <div>
                   <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#FCD34D', lineHeight: '1.3' }}>
@@ -445,7 +445,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             
             {(selectedEvents.discoveries.length > 0 || selectedEvents.spotlightHours.length > 0) && (
               <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem', marginBottom: '16px' }}>Discoveries & Spotlight</h4>
+                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Discoveries & Spotlight</h4>
                 {selectedEvents.discoveries.map((evt, j) => <EventItemCard key={`d-${j}`} evt={evt} categoryName="Daily Discovery" />)}
                 {selectedEvents.spotlightHours.map((evt, j) => <EventItemCard key={`sh-${j}`} evt={evt} categoryName="Spotlight Hour" />)}
               </div>
@@ -453,7 +453,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
             {(selectedEvents.fiveStarRaids.length > 0 || selectedEvents.megaRaids.length > 0 || selectedEvents.shadowRaids.length > 0) && (
               <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem', marginBottom: '16px' }}>Active Raids</h4>
+                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Active Raids</h4>
                 {selectedEvents.fiveStarRaids.map((evt, j) => <EventItemCard key={`r5-${j}`} evt={evt} categoryName="5-Star Raid" />)}
                 {selectedEvents.megaRaids.map((evt, j) => <EventItemCard key={`rm-${j}`} evt={evt} categoryName="Mega Raid" />)}
                 {selectedEvents.shadowRaids.map((evt, j) => <EventItemCard key={`rs-${j}`} evt={evt} categoryName="Shadow Raid" />)}
@@ -462,7 +462,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
             {selectedEvents.majorEvents.length > 0 && (
               <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem', marginBottom: '16px' }}>Major Events</h4>
+                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Major Events</h4>
                 {selectedEvents.majorEvents.filter(e => !e.name.toLowerCase().includes('twilight')).map((evt, j) => <EventItemCard key={`e-${j}`} evt={evt} categoryName="Event" />)}
               </div>
             )}

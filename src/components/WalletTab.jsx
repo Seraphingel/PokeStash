@@ -29,11 +29,11 @@ export function WalletTab({ coins, overrideCoins, DAILY_COINS }) {
 
         <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
           <div style={{ flex: 1, background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px' }}>
-            <div style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase' }}>Daily Limit</div>
+            <div style={{ fontSize: '0.8rem', opacity: 0.8, fontWeight: '600' }}>Daily Limit</div>
             <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{DAILY_COINS}</div>
           </div>
           <div style={{ flex: 1, background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px' }}>
-            <div style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase' }}>Status</div>
+            <div style={{ fontSize: '0.8rem', opacity: 0.8, fontWeight: '600' }}>Status</div>
             <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#FCD34D' }}>Active</div>
           </div>
         </div>

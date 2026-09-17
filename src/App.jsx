@@ -115,7 +115,7 @@ function App() {
         </button>
       </header>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px 48px 24px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'var(--main-padding)' }}>
         {activeTab === 'home' && (
           <HomeTab 
             coins={coins} 

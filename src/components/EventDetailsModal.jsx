@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Info, Star, Target, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
+import { formatEventDateRange } from '../utils/date';
 
 export function EventDetailsModal({ evt, onClose }) {
   if (!evt) return null;
@@ -73,7 +74,7 @@ export function EventDetailsModal({ evt, onClose }) {
           <div>
             <h2 style={{ margin: '0 0 8px 0', fontSize: '1.5rem', lineHeight: '1.2' }}>{evt.name}</h2>
             <div style={{ opacity: 0.9, fontSize: '0.9rem' }}>
-              {evt.start ? `${evt.start} to ${evt.end}` : (evt.date || evt.description)}
+              {evt.start ? formatEventDateRange(evt.start, evt.end, evt.type) : (evt.date || evt.description)}
             </div>
           </div>
           
@@ -242,7 +243,41 @@ export function EventDetailsModal({ evt, onClose }) {
             </div>
           )}
 
-          {/* Event Bonuses removed */}
+          {/* Event Bonuses */}
+          {(evt.details?.bonuses || evt.details?.Bonuses) && (
+            <div>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#EA580C', fontSize: '1.05rem', fontWeight: '700' }}>
+                <Gift size={18} /> Event Bonuses
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {(evt.details.bonuses || evt.details.Bonuses).map((b, i) => (
+                  <div key={i} style={{ background: 'rgba(234,88,12,0.08)', color: '#C2410C', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
+                    {b}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Timed Research & Special Challenges */}
+          {['Timed Research', 'Timed Research: Pick Your Side', 'Field Research', 'Collection Challenges'].map(sectionKey => {
+            if (!evt.details?.[sectionKey] || evt.details[sectionKey].length === 0) return null;
+            const items = evt.details[sectionKey];
+            return (
+              <div key={sectionKey}>
+                <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#4F46E5', fontSize: '1.05rem', fontWeight: '700' }}>
+                  <Target size={18} /> {sectionKey}
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {items.map((item, i) => (
+                    <div key={i} style={{ background: 'rgba(79,70,229,0.06)', border: '1px solid rgba(79,70,229,0.15)', color: '#3730A3', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
 
           {/* 3. Sales & Web Store Deals Section */}
           {evt.details?.Sales && evt.details.Sales.length > 0 && (

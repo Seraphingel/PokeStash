@@ -20,6 +20,14 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.05);
+  
+  --main-padding: 32px 24px 48px 24px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --main-padding: 80px 16px 48px 16px;
+  }
 }
 
 * {
@@ -54,7 +62,7 @@ body {
 }
 
 .glass-panel:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
@@ -416,7 +424,7 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(145deg, var(--color-primary), var(--color-primary-dark));
   color: white;
   box-shadow: 0 8px 20px rgba(229, 57, 53, 0.25);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 .premium-date.active strong {
   color: white;
@@ -522,7 +530,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .premium-cart-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 /* ------------------------------------- */
 /* MOBILE SIDEBAR UI                     */
@@ -607,7 +615,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.3s ease;
 }
 .wallet-pill:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 .wallet-icon-box {
@@ -766,7 +774,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .bento-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
 .bento-wide {
@@ -795,7 +803,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .premium-feature-card:hover {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 .premium-liquid {
   position: absolute;

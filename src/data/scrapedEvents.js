@@ -3,41 +3,6 @@
 export const scrapedEvents = {
   "spotlightHours": [
     {
-      "name": "Houndour and Houndoom",
-      "type": "pokémon-spotlight-hour",
-      "start": "2026-09-13",
-      "end": "2026-09-13",
-      "imageUrl": "/assets/events/pokemon_icon_228_00.png",
-      "details": {
-        "Wild Encounters": [
-          "Houndour",
-          "Houndoom"
-        ],
-        "type": [
-          "Dark",
-          "Fire"
-        ],
-        "weaknesses": [
-          "Fighting",
-          "Ground",
-          "Rock",
-          "Water"
-        ],
-        "counters": [
-          "Kyogre",
-          "Terrakion",
-          "Rampardos",
-          "Swampert",
-          "Groudon",
-          "Lucario",
-          "Conkeldurr"
-        ],
-        "featured": [
-          "Mega Houndoom"
-        ]
-      }
-    },
-    {
       "name": "Charmander wearing Friede's goggles",
       "type": "pokémon-spotlight-hour",
       "start": "2026-09-17",
@@ -484,69 +449,6 @@ export const scrapedEvents = {
   ],
   "majorEvents": [
     {
-      "name": "Mega Squads",
-      "type": "event",
-      "start": "2026-09-08",
-      "end": "2026-09-14",
-      "imageUrl": "/assets/events/Maschiff.png",
-      "details": {
-        "Pokémon Debuts": [
-          "Maschiff",
-          "Mabosstiff",
-          "Flamigo"
-        ],
-        "Spotlight Hours": [
-          "Spotlight Hours will take place from 6:00 p.m. to 7:00 p.m. local time on the following dates.",
-          "Weedle",
-          "You may also encounter the following Pokémon—if you’re lucky!",
-          "Kakuna",
-          "Beedrill",
-          "Houndour",
-          "Houndoom"
-        ],
-        "Wild Encounters": [
-          "September 8 at 10:00 a.m. – September 11 at 10:00 a.m.",
-          "September 11 at 10:00 a.m. – September 14 at 8:00 p.m."
-        ],
-        "Sales": [
-          "GO Pass Deluxe: Mega Squads - 10 Ultra Balls, five Max Revives, one Premium Battle Pass, and five Max Potions",
-          "GO Pass Deluxe: Mega Squads + 6 Ranks - 10 Ultra Balls, five Max Revives, two Premium Battle Passes, and five Max Potions",
-          "web-exclusive GO Pass Deluxe: Mega Squads + 6 Ranks Ultra Box - 20 Ultra Balls, 10 Max Revives, 10 Max Potions, and five Premium Battle Passes"
-        ]
-      }
-    },
-    {
-      "name": "Dynamax Rhyhorn during Max Monday",
-      "type": "max-mondays",
-      "start": "2026-09-14",
-      "end": "2026-09-14",
-      "imageUrl": "/assets/events/pokemon_icon_111_00.png",
-      "details": {
-        "type": [
-          "Ground",
-          "Rock"
-        ],
-        "weaknesses": [
-          "Water (Double Weakness)",
-          "Grass (Double Weakness)",
-          "Ice",
-          "Fighting",
-          "Ground",
-          "Steel"
-        ],
-        "counters": [
-          "Kyogre",
-          "Kartana",
-          "Kingler",
-          "Swampert",
-          "Roselia"
-        ],
-        "featured": [
-          "Dynamax Rhyhorn"
-        ]
-      }
-    },
-    {
       "name": "Great League: Mega Edition, Ultra League: Mega Edition, and Master League: Mega Edition | Twilight Trails",
       "type": "go-battle-league",
       "start": "2026-09-08",
@@ -590,7 +492,7 @@ export const scrapedEvents = {
       "imageUrl": "/assets/events/pokemon_icon_282_00.png"
     },
     {
-      "name": "Pokémon Horizons: The Series Celebration Event",
+      "name": "Pokémon Horizons: The Series Celebration Event 2026",
       "type": "event",
       "start": "2026-09-16",
       "end": "2026-09-22",
@@ -602,16 +504,29 @@ export const scrapedEvents = {
           "Charizard wearing Friede's goggles"
         ],
         "Wild Encounters": [
-          "Charmander wearing Friede's goggles",
-          "Captain's Cap Pikachu",
+          "Charizard wearing Friede's goggles",
+          "Meowscarada",
+          "Skeledirge",
+          "Quaquaval",
           "From 5:00 a.m. to 5:00 p.m.",
+          "Charmander wearing Friede's goggles",
+          "Sprigatito",
+          "Fuecoco",
+          "Quaxly",
           "Fidough",
           "Wattrel",
+          "Captain's Cap Pikachu",
           "Chansey",
           "From 5:00 p.m. to 5:00 a.m.",
+          "Rhyhorn",
           "Eevee",
           "Hatenna",
+          "Nacli",
+          "Tinkatink",
           "Rockruff"
+        ],
+        "Spotlight Hours": [
+          "Charmander wearing Friede’s goggles Spotlight Hour takes place on Thursday, September 17, 2026, from 6:00 p.m. to 7:00 p.m. local time. Charmander wearing Friede’s goggles will appear more frequently in the wild, and Trainers will earn 2× Stardust for catching Pokémon."
         ],
         "featured": [
           "Captain's Cap Pikachu",
@@ -663,6 +578,13 @@ export const scrapedEvents = {
           "Gengar"
         ]
       }
+    },
+    {
+      "name": "Choose Your Path: Twilight Trails",
+      "type": "choose-your-path",
+      "start": "2026-09-23",
+      "end": "2026-09-28",
+      "imageUrl": "/assets/events/choose-your-path-twilight-trails-2026.jpg"
     },
     {
       "name": "Dynamax Sobble during Max Monday",
@@ -795,11 +717,19 @@ export const scrapedEvents = {
       "imageUrl": "/assets/events/gobattleleague-master-key.jpg"
     },
     {
-      "name": "October",
+      "name": "Zorua",
       "type": "community-day",
       "start": "2026-10-10",
       "end": "2026-10-10",
-      "imageUrl": "/assets/events/cd-default.jpg"
+      "imageUrl": "/assets/events/pm570.icon.png",
+      "details": {
+        "Wild Encounters": [
+          "Zorua"
+        ],
+        "Sales": [
+          "Community Day Ultra Box will be available soon for US$1.99 (or the equivalent pricing tier in your local currency) and - an event ticket and five Ultra Balls!"
+        ]
+      }
     },
     {
       "name": "Great League: Mega Edition, Ultra League: Mega Edition, and Master League: Mega Edition | Twilight Trails",
