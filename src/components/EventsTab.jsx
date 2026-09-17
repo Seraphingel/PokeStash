@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, AlertCircle, ChevronDown, MapPin, Tag } from 'lucide-react';
-import { getEventsForDate } from '../data/events';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X } from 'lucide-react';
+import { getEventsForDate, events } from '../data/events';
+import { scrapedEvents } from '../data/scrapedEvents';
 import { EventDetailsModal } from './EventDetailsModal';
 import { getAssetUrl } from '../utils/assets';
 
 export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState(() => {
     const d = new Date();
     d.setHours(0,0,0,0);
@@ -47,6 +49,47 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
   const selectedEvents = getEventsForDate(selectedDate);
   const totalEventsCount = selectedEvents.discoveries.length + selectedEvents.spotlightHours.length + selectedEvents.fiveStarRaids.length + selectedEvents.megaRaids.length + selectedEvents.shadowRaids.length + selectedEvents.majorEvents.length;
+
+  const searchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return [];
+
+    const pool = [
+      ...(events.majorEvents || []),
+      ...(events.fiveStarRaids || []),
+      ...(events.megaRaids || []),
+      ...(events.shadowRaids || []),
+      ...(events.spotlightHours || []),
+      ...(events.discoveries || []),
+      ...(scrapedEvents.majorEvents || []),
+      ...(scrapedEvents.fiveStarRaids || []),
+      ...(scrapedEvents.megaRaids || []),
+      ...(scrapedEvents.shadowRaids || []),
+      ...(scrapedEvents.spotlightHours || [])
+    ];
+
+    const seen = new Set();
+    const matches = [];
+
+    pool.forEach(evt => {
+      if (!evt || !evt.name) return;
+      const key = `${evt.name}-${evt.start || evt.date || ''}`;
+      if (seen.has(key)) return;
+
+      const detailsStr = evt.details ? JSON.stringify(evt.details).toLowerCase() : '';
+      const nameMatch = evt.name.toLowerCase().includes(q);
+      const bonusMatch = (evt.bonus || '').toLowerCase().includes(q);
+      const descMatch = (evt.description || '').toLowerCase().includes(q);
+      const detailsMatch = detailsStr.includes(q);
+
+      if (nameMatch || bonusMatch || descMatch || detailsMatch) {
+        seen.add(key);
+        matches.push(evt);
+      }
+    });
+
+    return matches;
+  }, [searchQuery]);
 
   const recommendMega = !megaRaidDoneThisWeek;
   const recommendedMegaEvent = selectedEvents.megaRaids[0];
@@ -367,110 +410,168 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
         {/* Right Content - Calendar & Events */}
         <div style={{ display: 'flex', flexDirection: 'column', background: '#fcfcfd', minWidth: 0 }}>
           
-          <div style={{ padding: '24px 24px 0 24px', display: 'flex', alignItems: 'center', position: 'relative' }}>
-            <button 
-              onClick={() => setShowMonthDropdown(!showMonthDropdown)}
-              style={{ 
-              display: 'flex', alignItems: 'center', gap: '8px', 
-              background: '#fff', border: '1px solid #f0f0f5', 
-              padding: '8px 16px', borderRadius: '12px', 
-              fontWeight: 'bold', color: 'var(--color-text-primary)',
-              cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
-            }}>
-              {new Date(currentYear, currentMonth).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
-              <ChevronDown size={16} color="var(--color-text-secondary)" />
-            </button>
-            
-            {showMonthDropdown && (
-              <div style={{
-                position: 'absolute', top: '100%', left: '24px', marginTop: '8px',
-                background: '#fff', border: '1px solid #f0f0f5',
-                borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-                zIndex: 100, overflow: 'hidden', minWidth: '180px'
+          <div style={{ padding: '24px 24px 16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+              <button 
+                onClick={() => setShowMonthDropdown(!showMonthDropdown)}
+                style={{ 
+                display: 'flex', alignItems: 'center', gap: '8px', 
+                background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.08)', 
+                padding: '8px 16px', borderRadius: '12px', 
+                fontWeight: 'bold', color: 'var(--color-text-primary)',
+                cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
               }}>
-                {monthsList.map((mItem, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setCurrentMonth(mItem.m);
-                      setCurrentYear(mItem.y);
-                      setShowMonthDropdown(false);
-                      // Select 1st of the new month
-                      setSelectedDate(new Date(mItem.y, mItem.m, 1));
-                    }}
-                    style={{
-                      display: 'block', width: '100%', textAlign: 'left',
-                      padding: '12px 16px', border: 'none',
-                      background: (currentMonth === mItem.m && currentYear === mItem.y) ? 'var(--color-primary-light, #f0ebff)' : '#fff',
-                      color: (currentMonth === mItem.m && currentYear === mItem.y) ? 'var(--color-primary)' : 'var(--color-text-primary)',
-                      fontWeight: (currentMonth === mItem.m && currentYear === mItem.y) ? 'bold' : 'normal',
-                      cursor: 'pointer', borderBottom: idx < monthsList.length - 1 ? '1px solid #f0f0f5' : 'none'
-                    }}
-                  >
-                    {mItem.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+                {new Date(currentYear, currentMonth).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+                <ChevronDown size={16} color="var(--color-text-secondary)" />
+              </button>
+              
+              {showMonthDropdown && (
+                <div style={{
+                  position: 'absolute', top: '100%', left: '0', marginTop: '8px',
+                  background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.08)',
+                  borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                  zIndex: 100, overflow: 'hidden', minWidth: '180px'
+                }}>
+                  {monthsList.map((mItem, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setCurrentMonth(mItem.m);
+                        setCurrentYear(mItem.y);
+                        setShowMonthDropdown(false);
+                        setSelectedDate(new Date(mItem.y, mItem.m, 1));
+                      }}
+                      style={{
+                        display: 'block', width: '100%', textAlign: 'left',
+                        padding: '12px 16px', border: 'none',
+                        background: (currentMonth === mItem.m && currentYear === mItem.y) ? 'rgba(229, 57, 53, 0.1)' : 'transparent',
+                        color: (currentMonth === mItem.m && currentYear === mItem.y) ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                        fontWeight: (currentMonth === mItem.m && currentYear === mItem.y) ? 'bold' : 'normal',
+                        cursor: 'pointer', borderBottom: idx < monthsList.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none'
+                      }}
+                    >
+                      {mItem.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          <div 
-            className="premium-dates-bar" 
-            style={{ padding: '16px 24px', borderBottom: '1px solid #f0f0f5', overflowX: 'auto', display: 'flex' }}
-            onWheel={(e) => {
-              if (e.deltaY !== 0) {
-                e.preventDefault();
-                e.currentTarget.scrollLeft += e.deltaY;
-              }
-            }}
-          >
-            {dates.map((d, i) => {
-              const isActive = d.getTime() === selectedDate.getTime();
-              return (
-                <button 
-                  key={i} 
-                  className={`premium-date ${isActive ? 'active' : ''}`}
-                  onClick={() => setSelectedDate(d)}
+            {/* Event & Pokémon Search Input */}
+            <div style={{ position: 'relative', flex: '1 1 200px', maxWidth: '340px' }}>
+              <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)', pointerEvents: 'none' }} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search events, raids, Pokémon..."
+                style={{
+                  width: '100%',
+                  padding: '9px 36px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  background: 'var(--color-surface-solid)',
+                  color: 'var(--color-text-primary)',
+                  fontSize: '0.88rem',
+                  outline: 'none',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', display: 'flex' }}
+                  aria-label="Clear search"
                 >
-                  <span style={{ fontSize: '0.85rem', opacity: isActive ? 0.9 : 0.6, marginBottom: '4px' }}>
-                    {d.toLocaleDateString(undefined, { weekday: 'short' })}
-                  </span>
-                  <strong>{d.getDate()}</strong>
+                  <X size={16} />
                 </button>
-              )
-            })}
+              )}
+            </div>
           </div>
 
-          <div style={{ padding: '24px', overflowY: 'auto', maxHeight: '500px' }}>
+          {!searchQuery && (
+            <div 
+              className="premium-dates-bar" 
+              style={{ padding: '12px 24px 16px 24px', borderBottom: '1px solid rgba(0,0,0,0.05)', overflowX: 'auto', display: 'flex' }}
+              onWheel={(e) => {
+                if (e.deltaY !== 0) {
+                  e.preventDefault();
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }
+              }}
+            >
+              {dates.map((d, i) => {
+                const isActive = d.getTime() === selectedDate.getTime();
+                return (
+                  <button 
+                    key={i} 
+                    className={`premium-date ${isActive ? 'active' : ''}`}
+                    onClick={() => setSelectedDate(d)}
+                  >
+                    <span style={{ fontSize: '0.85rem', opacity: isActive ? 0.9 : 0.6, marginBottom: '4px' }}>
+                      {d.toLocaleDateString(undefined, { weekday: 'short' })}
+                    </span>
+                    <strong>{d.getDate()}</strong>
+                  </button>
+                )
+              })}
+            </div>
+          )}
+
+          <div style={{ padding: '24px', overflowY: 'auto', maxHeight: '520px' }}>
             
-            {(selectedEvents.discoveries.length > 0 || selectedEvents.spotlightHours.length > 0) && (
-              <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Discoveries & Spotlight</h4>
-                {selectedEvents.discoveries.map((evt, j) => <EventItemCard key={`d-${j}`} evt={evt} categoryName="Daily Discovery" />)}
-                {selectedEvents.spotlightHours.map((evt, j) => <EventItemCard key={`sh-${j}`} evt={evt} categoryName="Spotlight Hour" />)}
+            {searchQuery ? (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                  <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.9rem', margin: 0 }}>
+                    Found {searchResults.length} {searchResults.length === 1 ? 'event' : 'events'} for "{searchQuery}"
+                  </h4>
+                  <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '0.82rem', fontWeight: 'bold', cursor: 'pointer' }}>
+                    Clear Search
+                  </button>
+                </div>
+                {searchResults.length > 0 ? (
+                  searchResults.map((evt, idx) => (
+                    <EventItemCard key={`search-${idx}`} evt={evt} categoryName={evt.type || 'Event'} />
+                  ))
+                ) : (
+                  <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                    No events found matching "{searchQuery}". Try searching for a Pokémon name (e.g. Hawlucha, Zacian), boss, or event keyword.
+                  </div>
+                )}
               </div>
-            )}
+            ) : (
+              <>
+                {(selectedEvents.discoveries.length > 0 || selectedEvents.spotlightHours.length > 0) && (
+                  <div style={{ marginBottom: '32px' }}>
+                    <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Discoveries & Spotlight</h4>
+                    {selectedEvents.discoveries.map((evt, j) => <EventItemCard key={`d-${j}`} evt={evt} categoryName="Daily Discovery" />)}
+                    {selectedEvents.spotlightHours.map((evt, j) => <EventItemCard key={`sh-${j}`} evt={evt} categoryName="Spotlight Hour" />)}
+                  </div>
+                )}
 
-            {(selectedEvents.fiveStarRaids.length > 0 || selectedEvents.megaRaids.length > 0 || selectedEvents.shadowRaids.length > 0) && (
-              <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Active Raids</h4>
-                {selectedEvents.fiveStarRaids.map((evt, j) => <EventItemCard key={`r5-${j}`} evt={evt} categoryName="5-Star Raid" />)}
-                {selectedEvents.megaRaids.map((evt, j) => <EventItemCard key={`rm-${j}`} evt={evt} categoryName="Mega Raid" />)}
-                {selectedEvents.shadowRaids.map((evt, j) => <EventItemCard key={`rs-${j}`} evt={evt} categoryName="Shadow Raid" />)}
-              </div>
-            )}
+                {(selectedEvents.fiveStarRaids.length > 0 || selectedEvents.megaRaids.length > 0 || selectedEvents.shadowRaids.length > 0) && (
+                  <div style={{ marginBottom: '32px' }}>
+                    <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Active Raids</h4>
+                    {selectedEvents.fiveStarRaids.map((evt, j) => <EventItemCard key={`r5-${j}`} evt={evt} categoryName="5-Star Raid" />)}
+                    {selectedEvents.megaRaids.map((evt, j) => <EventItemCard key={`rm-${j}`} evt={evt} categoryName="Mega Raid" />)}
+                    {selectedEvents.shadowRaids.map((evt, j) => <EventItemCard key={`rs-${j}`} evt={evt} categoryName="Shadow Raid" />)}
+                  </div>
+                )}
 
-            {selectedEvents.majorEvents.length > 0 && (
-              <div style={{ marginBottom: '32px' }}>
-                <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Major Events</h4>
-                {selectedEvents.majorEvents.filter(e => !e.name.toLowerCase().includes('twilight')).map((evt, j) => <EventItemCard key={`e-${j}`} evt={evt} categoryName="Event" />)}
-              </div>
-            )}
+                {selectedEvents.majorEvents.length > 0 && (
+                  <div style={{ marginBottom: '32px' }}>
+                    <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Major Events</h4>
+                    {selectedEvents.majorEvents.filter(e => !e.name.toLowerCase().includes('twilight')).map((evt, j) => <EventItemCard key={`e-${j}`} evt={evt} categoryName="Event" />)}
+                  </div>
+                )}
 
-            {totalEventsCount === 0 && (
-              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
-                No events scheduled for this day.
-              </div>
+                {totalEventsCount === 0 && (
+                  <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                    No events scheduled for this day.
+                  </div>
+                )}
+              </>
             )}
           </div>
 

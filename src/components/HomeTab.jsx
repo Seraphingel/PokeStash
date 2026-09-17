@@ -152,6 +152,59 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS 
         </div>
       </div>
 
+      {/* Expandable FAQ Section */}
+      <div className="bento-card" style={{ background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', padding: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(229,57,53,0.1)', color: 'var(--color-primary)', display: 'grid', placeItems: 'center' }}>
+            <Sparkles size={18} />
+          </div>
+          <div>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-text-primary)' }}>Frequently Asked Questions</h3>
+            <span style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>Everything you need to know about coin tracking and mechanics</span>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {[
+            {
+              q: "How do I earn the daily 50 PokéCoins in Pokémon GO?",
+              a: "You earn 1 PokéCoin for every 10 minutes your defending Pokémon stays in a gym. When it is knocked out, you receive the accumulated coins up to a strict cap of 50 coins per day, regardless of how many Pokémon return."
+            },
+            {
+              q: "When does the weekly Mega Raid tracker reset?",
+              a: "PokéStash resets the weekly Mega Raid status every Wednesday at 8:00 AM local time, aligning with the global weekly raid cycle."
+            },
+            {
+              q: "What should I spend my free PokéCoins on first?",
+              a: "Most trainers recommend expanding your Item Bag and Pokémon Storage first (+50 capacity each for 200 coins), followed by Premium or Remote Battle Passes for exclusive raid events."
+            },
+            {
+              q: "Is my coin data saved if I share this link or refresh?",
+              a: "Yes! All coins and claimed amounts are stored 100% client-side in your device's browser localStorage. Your balance is completely private to your phone or computer."
+            }
+          ].map((faq, idx) => (
+            <details 
+              key={idx} 
+              style={{
+                background: 'rgba(0,0,0,0.02)',
+                borderRadius: '14px',
+                padding: '16px 20px',
+                border: '1px solid rgba(0,0,0,0.04)',
+                cursor: 'pointer'
+              }}
+            >
+              <summary style={{ fontWeight: '600', color: 'var(--color-text-primary)', fontSize: '0.98rem', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {faq.q}
+                <span style={{ color: 'var(--color-primary)', fontWeight: 'bold', fontSize: '1.2rem', marginLeft: '12px' }}>+</span>
+              </summary>
+              <p style={{ margin: '12px 0 0 0', color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }

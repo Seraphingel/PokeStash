@@ -193,7 +193,7 @@ export const events = {
       }
     },
     { name: "Super Mega Raid Day (Staraptor)", start: "2026-09-19", end: "2026-09-19", color: EVENT_COLORS.Raid, imageUrl: `${BASE_ASSET_URL}pm398.icon.png` },
-    { name: "Korea Outing", start: "2026-09-24", end: "2026-09-26", color: EVENT_COLORS.Event, details: { regions: ["Nationwide South Korea"], featured: ["Orange Hanbok Pikachu"] } },
+    { name: "Korea Outing", start: "2026-09-24", end: "2026-09-26", color: EVENT_COLORS.Event, imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, details: { regions: ["Nationwide South Korea"], featured: ["Orange Hanbok Pikachu"] } },
     { name: "Catch Mastery (Phantump)", start: "2026-09-26", end: "2026-09-26", color: EVENT_COLORS.Event, imageUrl: `${BASE_ASSET_URL}pm708.icon.png` },
     { 
       name: "City Safari (Global)", 
@@ -217,11 +217,11 @@ export const events = {
         advice: "2:00 PM to 5:00 PM local time. Gather friends to defeat the new Gigantamax!"
       }
     },
-    { name: "Choose Your Path: Twilight Trails", start: "2026-09-23", end: "2026-09-28", color: EVENT_COLORS.Event },
-    { name: "Harvest Festival 2026: Applin Picking", start: "2026-09-29", end: "2026-10-05", color: EVENT_COLORS.Event },
-    { name: "Patterns of the Wild", start: "2026-10-02", end: "2026-10-02", color: EVENT_COLORS.Event },
-    { name: "Harvest Festival: Taken Over", start: "2026-10-02", end: "2026-10-05", color: EVENT_COLORS.Event },
-    { name: "October Community Day (Zorua)", start: "2026-10-10", end: "2026-10-10", color: EVENT_COLORS.CommunityDay },
+    { name: "Choose Your Path: Twilight Trails", start: "2026-09-23", end: "2026-09-28", color: EVENT_COLORS.Event, imageUrl: "/assets/events/choose-your-path-twilight-trails-2026.jpg" },
+    { name: "Harvest Festival 2026: Applin Picking", start: "2026-09-29", end: "2026-10-05", color: EVENT_COLORS.Event, imageUrl: "/assets/events/harvest-festival-2026.jpg" },
+    { name: "Patterns of the Wild", start: "2026-10-02", end: "2026-10-02", color: EVENT_COLORS.Event, imageUrl: "/assets/events/patterns-of-the-wild-2026.jpg" },
+    { name: "Harvest Festival: Taken Over", start: "2026-10-02", end: "2026-10-05", color: EVENT_COLORS.Event, imageUrl: "/assets/events/harvest-festival-taken-over-2026.jpg" },
+    { name: "October Community Day (Zorua)", start: "2026-10-10", end: "2026-10-10", color: EVENT_COLORS.CommunityDay, imageUrl: `${BASE_ASSET_URL}pm570.icon.png` },
     { 
       name: "PokéXciting! Taipei", 
       start: "2026-10-10", 
@@ -230,9 +230,9 @@ export const events = {
       imageUrl: `${BASE_ASSET_URL}pm25.icon.png`,
       details: { regions: ["Xinyi District, Taipei"], featured: ["Pink T-Shirt Pikachu", "Regional spawns"] }
     },
-    { name: "Hatch Day", start: "2026-10-17", end: "2026-10-17", color: EVENT_COLORS.Event },
-    { name: "Max Battle Day", start: "2026-10-24", end: "2026-10-24", color: EVENT_COLORS.MaxMonday },
-    { name: "Super Mega Raid Day", start: "2026-10-31", end: "2026-10-31", color: EVENT_COLORS.Raid },
+    { name: "Hatch Day", start: "2026-10-17", end: "2026-10-17", color: EVENT_COLORS.Event, imageUrl: "/assets/events/events-default-img.jpg" },
+    { name: "Max Battle Day", start: "2026-10-24", end: "2026-10-24", color: EVENT_COLORS.MaxMonday, imageUrl: "/assets/events/max-battles-kanto.jpg" },
+    { name: "Super Mega Raid Day", start: "2026-10-31", end: "2026-10-31", color: EVENT_COLORS.Raid, imageUrl: "/assets/events/mega-default.jpg" },
     { 
       name: "PokéXciting! Singapore", 
       start: "2026-11-07", 
@@ -561,6 +561,7 @@ const cleanEventName = (name) => {
     .replace(/max battle day/gi, '')
     .replace(/community day/gi, '')
     .replace(/applin picking/gi, '')
+    .replace(/\b(therian|incarnate)(\s+forme)?\b/gi, '')
     .replace(/\band\b/gi, '')
     .replace(/[^a-z0-9\s]/gi, '')
     .replace(/\s+/g, ' ')

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Lost in the Tall Grass | PokéStash</title>
+  <link rel="icon" type="image/png" href="./assets/pokemon/pokeball.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5F5F7;
+      --card: #FFFFFF;
+      --text: #1D1D1F;
+      --subtext: #86868B;
+      --primary: #E53935;
+      --primary-dark: #C62828;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0B0F19;
+        --card: #151D30;
+        --text: #F8FAFC;
+        --subtext: #94A3B8;
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      background-image: radial-gradient(var(--primary) 0.5px, transparent 0.5px);
+      background-size: 24px 24px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 28px;
+      padding: 48px 36px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .badge {
+      background: rgba(229, 57, 53, 0.1);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    .psyduck-img {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      animation: float 3s ease-in-out infinite;
+      margin: 8px 0;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    p {
+      color: var(--subtext);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .btn {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(229, 57, 53, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(229, 57, 53, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">ERROR 404</span>
+    <img 
+      src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/54.png" 
+      alt="Psyduck is confused" 
+      class="psyduck-img"
+    />
+    <h1>Psyduck is Confused!</h1>
+    <p>You seem to have wandered off into the tall grass. This page or route does not exist.</p>
+    <a href="./" class="btn">
+      Return to PokéStash
+    </a>
+  </div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const INITIAL_COINS = 153;
+const INITIAL_COINS = 0;
 export const DAILY_COINS = 50;
 
 // Helper to get the most recent Wednesday at 8:00 AM

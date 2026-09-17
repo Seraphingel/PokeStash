@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Plus, Minus, CreditCard, Tag, Lock, Trash2, Box } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, CreditCard, Tag, Lock, Trash2, Box, AlertCircle, CheckCircle2, X } from 'lucide-react';
 
 const SHOP_ITEMS = [
   { id: 'premium_pass', name: 'Premium Battle Pass', price: 100, icon: '🎫' },
@@ -34,6 +34,9 @@ export function Shop({ coins, deductCoins }) {
   
   const clearCart = () => setCart([]);
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [purchaseStatus, setPurchaseStatus] = useState(null);
+
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const projectedBalance = coins - cartTotal;
@@ -42,14 +45,26 @@ export function Shop({ coins, deductCoins }) {
   const FREE_BONUS_THRESHOLD = 1000;
   const progressPercent = Math.min(100, (cartTotal / FREE_BONUS_THRESHOLD) * 100);
 
-  const handleBuyNow = () => {
+  const handleOpenCheckout = () => {
     if (cart.length === 0) return;
-    
+    if (coins < cartTotal) {
+      setPurchaseStatus({ type: 'error', message: 'Insufficient PokéCoins in your wallet!' });
+      setTimeout(() => setPurchaseStatus(null), 3500);
+      return;
+    }
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmPurchase = () => {
     if (deductCoins(cartTotal)) {
       setCart([]);
-      alert('Purchase successful!');
+      setShowConfirmModal(false);
+      setPurchaseStatus({ type: 'success', message: `Successfully purchased items for ${cartTotal} PokéCoins!` });
+      setTimeout(() => setPurchaseStatus(null), 4000);
     } else {
-      alert('Not enough Pokecoins!');
+      setShowConfirmModal(false);
+      setPurchaseStatus({ type: 'error', message: 'Transaction failed. Check your coin balance.' });
+      setTimeout(() => setPurchaseStatus(null), 3500);
     }
   };
 
@@ -158,7 +173,7 @@ export function Shop({ coins, deductCoins }) {
 
               <button 
                 className="premium-cart-btn" 
-                onClick={handleBuyNow}
+                onClick={handleOpenCheckout}
                 disabled={projectedBalance < 0}
                 style={{ opacity: projectedBalance < 0 ? 0.5 : 1 }}
               >
@@ -169,6 +184,97 @@ export function Shop({ coins, deductCoins }) {
           )}
         </div>
       </div>
+
+      {/* Purchase Confirmation Modal */}
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)',
+          display: 'grid', placeItems: 'center', zIndex: 3000, padding: '20px'
+        }}>
+          <div style={{
+            background: 'var(--color-surface-solid)', borderRadius: '24px',
+            maxWidth: '440px', width: '100%', padding: '28px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.25)', border: '1px solid rgba(0,0,0,0.08)',
+            display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative'
+          }}>
+            <button 
+              onClick={() => setShowConfirmModal(false)}
+              style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)' }}
+            >
+              <X size={20} />
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(229, 57, 53, 0.1)', color: 'var(--color-primary)', display: 'grid', placeItems: 'center' }}>
+                <CreditCard size={24} />
+              </div>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-text-primary)' }}>Confirm Purchase</h3>
+                <span style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>Spend PokéCoins</span>
+              </div>
+            </div>
+
+            <div style={{ background: 'rgba(0,0,0,0.03)', padding: '16px', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                <span>Items in Cart ({totalItems})</span>
+                <span style={{ fontWeight: '600', color: 'var(--color-text-primary)' }}>{cart.map(c => `${c.quantity}x ${c.name}`).join(', ')}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
+                <span>Current Balance</span>
+                <span style={{ fontWeight: 'bold' }}>{coins} Coins</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', color: 'var(--color-primary)', fontWeight: 'bold' }}>
+                <span>Total Deduction</span>
+                <span>-{cartTotal} Coins</span>
+              </div>
+              <div style={{ height: '1px', background: 'rgba(0,0,0,0.06)', margin: '4px 0' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1rem', fontWeight: 'bold' }}>
+                <span>Remaining Balance</span>
+                <span style={{ color: projectedBalance >= 0 ? '#10B981' : '#E53935' }}>{projectedBalance} Coins</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button 
+                onClick={() => setShowConfirmModal(false)}
+                style={{
+                  flex: 1, padding: '12px', borderRadius: '12px',
+                  background: 'rgba(0,0,0,0.05)', border: 'none',
+                  color: 'var(--color-text-primary)', fontWeight: 'bold', cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleConfirmPurchase}
+                style={{
+                  flex: 1, padding: '12px', borderRadius: '12px',
+                  background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))',
+                  border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer',
+                  boxShadow: '0 8px 20px rgba(229, 57, 53, 0.25)'
+                }}
+              >
+                Confirm Purchase
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Status Toast */}
+      {purchaseStatus && (
+        <div style={{
+          position: 'fixed', bottom: '24px', right: '24px', zIndex: 4000,
+          background: purchaseStatus.type === 'success' ? '#065F46' : '#991B1B',
+          color: 'white', padding: '14px 20px', borderRadius: '14px',
+          display: 'flex', alignItems: 'center', gap: '10px',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.2)', fontSize: '0.92rem', fontWeight: '600'
+        }}>
+          {purchaseStatus.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+          {purchaseStatus.message}
+        </div>
+      )}
 
     </div>
   );
