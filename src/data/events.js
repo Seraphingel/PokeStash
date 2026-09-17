@@ -543,7 +543,7 @@ export const events = {
   ]
 };
 
-const cleanEventName = (name) => {
+export const cleanEventName = (name) => {
   return (name || '')
     .toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -552,6 +552,8 @@ const cleanEventName = (name) => {
     .replace(/\bcelebration event\b/gi, '')
     .replace(/\bcelebration\b/gi, '')
     .replace(/\bevent\b/gi, '')
+    .replace(/\bwearing\b/gi, '')
+    .replace(/\bfriedes?\s+goggles\b/gi, 'goggles')
     .replace(/during max mondays?/gi, '')
     .replace(/max mondays?:?/gi, '')
     .replace(/in (mega|5-star|shadow|primal) raid(s| battles)?/gi, '')
@@ -568,7 +570,7 @@ const cleanEventName = (name) => {
     .trim();
 };
 
-const areEventsEqual = (name1, name2) => {
+export const areEventsEqual = (name1, name2) => {
   const n1 = (name1 || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\ufffd/gi, 'e');
   const n2 = (name2 || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\ufffd/gi, 'e');
   if (n1 === n2 || n1.includes(n2) || n2.includes(n1)) return true;
@@ -635,4 +637,70 @@ export const getEventsForDate = (date) => {
     megaRaids: dedupeAndMerge(events.megaRaids, scrapedEvents.megaRaids, EVENT_COLORS.Raid),
     shadowRaids: activeShadowRaids
   };
+};
+
+export const getUpcomingEvents = (fromDate = new Date()) => {
+  const year = fromDate.getFullYear();
+  const month = String(fromDate.getMonth() + 1).padStart(2, '0');
+  const day = String(fromDate.getDate()).padStart(2, '0');
+  const dateStr = `${year}-${month}-${day}`;
+
+  const all = [];
+  const addCategory = (list, category, typeLabel, defaultColor) => {
+    if (!list) return;
+    list.forEach(e => {
+      all.push({ 
+        ...e, 
+        category, 
+        typeLabel: typeLabel || category,
+        color: e.color || defaultColor 
+      });
+    });
+  };
+
+  addCategory(events.majorEvents, 'event', 'Special Event', EVENT_COLORS.Event);
+  addCategory(scrapedEvents.majorEvents, 'event', 'Special Event', EVENT_COLORS.Event);
+  addCategory(events.fiveStarRaids, 'raid', '5-Star Raid', EVENT_COLORS.Raid);
+  addCategory(scrapedEvents.fiveStarRaids, 'raid', '5-Star Raid', EVENT_COLORS.Raid);
+  addCategory(events.megaRaids, 'mega', 'Mega Raid', EVENT_COLORS.Raid);
+  addCategory(scrapedEvents.megaRaids, 'mega', 'Mega Raid', EVENT_COLORS.Raid);
+  addCategory(events.shadowRaids, 'shadow', 'Shadow Raid', EVENT_COLORS.Raid);
+  addCategory(scrapedEvents.shadowRaids, 'shadow', 'Shadow Raid', EVENT_COLORS.Raid);
+  addCategory(events.spotlightHours?.map(s => ({ ...s, start: s.date, end: s.date })), 'spotlight', 'Spotlight Hour', EVENT_COLORS.Spotlight);
+  addCategory(scrapedEvents.spotlightHours, 'spotlight', 'Spotlight Hour', EVENT_COLORS.Spotlight);
+
+  const unique = [];
+  all.forEach(item => {
+    const end = item.end || item.start;
+    if (end < dateStr) return;
+    const nameLower = (item.name || '').toLowerCase();
+    if (nameLower.includes('go pass')) return;
+
+    const existingIdx = unique.findIndex(u => areEventsEqual(u.name, item.name));
+    if (existingIdx >= 0) {
+      unique[existingIdx].details = { ...(item.details || {}), ...(unique[existingIdx].details || {}) };
+      if (!unique[existingIdx].imageUrl && item.imageUrl) {
+        unique[existingIdx].imageUrl = item.imageUrl;
+      }
+      if (item.color && !unique[existingIdx].color) {
+        unique[existingIdx].color = item.color;
+      }
+    } else {
+      unique.push({ ...item });
+    }
+  });
+
+  return unique.sort((a, b) => {
+    const aIsFutureOrToday = (a.start || '') >= dateStr;
+    const bIsFutureOrToday = (b.start || '') >= dateStr;
+
+    if (aIsFutureOrToday && !bIsFutureOrToday) return -1;
+    if (!aIsFutureOrToday && bIsFutureOrToday) return 1;
+
+    if (aIsFutureOrToday && bIsFutureOrToday) {
+      return (a.start || '').localeCompare(b.start || '');
+    }
+
+    return (a.end || '').localeCompare(b.end || '');
+  });
 };

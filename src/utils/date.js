@@ -36,3 +36,30 @@ export function formatEventDateRange(start, end, type) {
   // The user explicitly requested "September 17, 2026 - September 17, 2026" even for single day events
   return `${startFormatted} - ${endFormatted}${timeString}`;
 }
+
+export function formatUntilDate(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return 'Next Rotation';
+  try {
+    const parts = dateStr.split('-');
+    if (parts.length >= 3) {
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      const months = [
+        'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June', 
+        'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'
+      ];
+      if (m >= 1 && m <= 12 && !isNaN(d)) {
+        return `Until ${months[m - 1]} ${d}`;
+      }
+    }
+    return `Until ${dateStr}`;
+  } catch (e) {
+    return `Until ${dateStr}`;
+  }
+}
+
+export function getSubtleRegionDisplay(regions) {
+  if (!regions || !Array.isArray(regions) || regions.length === 0) return null;
+  if (regions.length === 1) return regions[0];
+  return `${regions[0]}...`;
+}

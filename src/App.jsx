@@ -4,8 +4,44 @@ import { HomeTab } from './components/HomeTab';
 import { EventsTab } from './components/EventsTab';
 import { Shop } from './components/Shop';
 import { WalletTab } from './components/WalletTab';
-import { Coins, Home, Calendar, ShoppingBag, Menu, X, Wallet, Sun, Moon, ArrowUp } from 'lucide-react';
+import { Home, Calendar, ShoppingBag, Menu, X, Wallet, Sun, Moon, ArrowUp } from 'lucide-react';
+import { getAssetUrl } from './utils/assets';
 import './index.css';
+
+const TabLink = ({ id, label, icon: Icon, isMobile, activeTab, setActiveTab, setIsMobileMenuOpen }) => {
+  const isActive = activeTab === id;
+  if (isMobile) {
+    return (
+      <a 
+        href={`#${id}`}
+        onClick={(e) => { e.preventDefault(); setActiveTab(id); if (setIsMobileMenuOpen) setIsMobileMenuOpen(false); }}
+        className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+      >
+        {Icon && <Icon size={20} />} {label}
+      </a>
+    );
+  }
+  
+  return (
+    <a 
+      href={`#${id}`}
+      onClick={(e) => { e.preventDefault(); setActiveTab(id); }}
+      style={{
+        textDecoration: 'none',
+        color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
+        fontWeight: isActive ? 'bold' : '500',
+        padding: '8px 16px',
+        position: 'relative',
+        transition: 'color 0.2s ease'
+      }}
+    >
+      {label}
+      {isActive && (
+        <span style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '20px', height: '3px', background: 'var(--color-primary)', borderRadius: '3px' }} />
+      )}
+    </a>
+  );
+};
 
 function App() {
   const { coins, todayClaimedAmount, logTodayCoins, deductCoins, megaRaidDoneThisWeek, toggleMegaRaid, DAILY_COINS, overrideCoins } = usePokecoins();
@@ -28,56 +64,31 @@ function App() {
   };
 
   useEffect(() => {
+    let rafId = null;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      setShowScrollTop(window.scrollY > 300);
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalScroll > 0) {
-        setScrollProgress((window.scrollY / totalScroll) * 100);
-      }
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 50);
+        setShowScrollTop(window.scrollY > 300);
+        const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalScroll > 0) {
+          setScrollProgress((window.scrollY / totalScroll) * 100);
+        }
+        rafId = null;
+      });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const TabLink = ({ id, label, icon: Icon, isMobile }) => {
-    const isActive = activeTab === id;
-    if (isMobile) {
-      return (
-        <a 
-          href={`#${id}`}
-          onClick={(e) => { e.preventDefault(); setActiveTab(id); setIsMobileMenuOpen(false); }}
-          className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-        >
-          {Icon && <Icon size={20} />} {label}
-        </a>
-      );
-    }
-    
-    return (
-      <a 
-        href={`#${id}`}
-        onClick={(e) => { e.preventDefault(); setActiveTab(id); }}
-        style={{
-          textDecoration: 'none',
-          color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
-          fontWeight: isActive ? 'bold' : '500',
-          padding: '8px 16px',
-          position: 'relative',
-          transition: 'color 0.2s ease'
-        }}
-      >
-        {label}
-        {isActive && (
-          <span style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '20px', height: '3px', background: 'var(--color-primary)', borderRadius: '3px' }} />
-        )}
-      </a>
-    );
-  };
+
 
   return (
     <div>
@@ -101,7 +112,7 @@ function App() {
 
       {/* Mobile Top Bar */}
       <div className="mobile-menu-btn" style={{ position: 'fixed', top: '16px', left: '16px', zIndex: 1999 }}>
-        <button onClick={() => setIsMobileMenuOpen(true)} style={{ background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '12px', padding: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', cursor: 'pointer', display: 'flex' }}>
+        <button onClick={() => setIsMobileMenuOpen(true)} style={{ background: 'var(--color-surface-solid)', border: '1px solid var(--color-border)', borderRadius: '12px', padding: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', cursor: 'pointer', display: 'flex' }}>
           <Menu size={24} color="var(--color-text-primary)" />
         </button>
       </div>
@@ -134,7 +145,7 @@ function App() {
               justifyContent: 'space-between', 
               padding: '12px 16px', 
               borderRadius: '12px', 
-              background: 'rgba(0,0,0,0.04)', 
+              background: 'var(--color-surface-hover)', 
               border: 'none', 
               cursor: 'pointer', 
               color: 'var(--color-text-primary)',
@@ -150,10 +161,10 @@ function App() {
         </div>
         
         <nav style={{ display: 'flex', flexDirection: 'column' }}>
-          <TabLink id="home" label="Home" icon={Home} isMobile={true} />
-          <TabLink id="events" label="Events" icon={Calendar} isMobile={true} />
-          <TabLink id="shop" label="Shop" icon={ShoppingBag} isMobile={true} />
-          <TabLink id="wallet" label="Wallet" icon={Wallet} isMobile={true} />
+          <TabLink id="home" label="Home" icon={Home} isMobile={true} activeTab={activeTab} setActiveTab={setActiveTab} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+          <TabLink id="events" label="Calendar" icon={Calendar} isMobile={true} activeTab={activeTab} setActiveTab={setActiveTab} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+          <TabLink id="shop" label="Shop" icon={ShoppingBag} isMobile={true} activeTab={activeTab} setActiveTab={setActiveTab} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+          <TabLink id="wallet" label="Wallet" icon={Wallet} isMobile={true} activeTab={activeTab} setActiveTab={setActiveTab} setIsMobileMenuOpen={setIsMobileMenuOpen} />
         </nav>
       </aside>
 
@@ -171,9 +182,9 @@ function App() {
         </div>
 
         <nav style={{ display: 'flex', gap: '8px' }}>
-          <TabLink id="home" label="Home" />
-          <TabLink id="events" label="Events" />
-          <TabLink id="shop" label="Shop" />
+          <TabLink id="home" label="Home" activeTab={activeTab} setActiveTab={setActiveTab} />
+          <TabLink id="events" label="Calendar" activeTab={activeTab} setActiveTab={setActiveTab} />
+          <TabLink id="shop" label="Shop" activeTab={activeTab} setActiveTab={setActiveTab} />
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -182,7 +193,7 @@ function App() {
             onClick={toggleTheme}
             style={{ 
               background: 'var(--color-surface-solid)', 
-              border: '1px solid rgba(0,0,0,0.08)', 
+              border: '1px solid var(--color-border)', 
               borderRadius: '10px', 
               padding: '8px', 
               cursor: 'pointer', 
@@ -199,9 +210,28 @@ function App() {
             {theme === 'dark' ? <Sun size={18} color="#F59E0B" /> : <Moon size={18} color="#6366F1" />}
           </button>
 
-          <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }} onClick={() => setActiveTab('wallet')}>
-            <Coins size={16} color="#FCD34D" style={{ marginRight: '4px' }} />
-            {coins} Coins
+          <button 
+            className="btn btn-primary" 
+            style={{ 
+              padding: '8px 16px', 
+              fontSize: '0.9rem', 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '6px' 
+            }} 
+            onClick={() => setActiveTab('wallet')}
+            title="Open Wallet & Ledger"
+          >
+            <img 
+              src={getAssetUrl('/assets/items/pokecoin.png')} 
+              alt="PokéCoin" 
+              style={{ width: '18px', height: '18px', objectFit: 'contain', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+              }}
+            />
+            <span>{coins.toLocaleString()} Coins</span>
           </button>
         </div>
       </header>
@@ -213,6 +243,7 @@ function App() {
             todayClaimedAmount={todayClaimedAmount} 
             logTodayCoins={logTodayCoins} 
             DAILY_COINS={DAILY_COINS} 
+            setActiveTab={setActiveTab}
           />
         )}
         {activeTab === 'events' && (
@@ -222,7 +253,13 @@ function App() {
           />
         )}
         {activeTab === 'shop' && (
-          <Shop coins={coins} deductCoins={deductCoins} />
+          <Shop 
+            coins={coins} 
+            deductCoins={deductCoins} 
+            DAILY_COINS={DAILY_COINS} 
+            overrideCoins={overrideCoins}
+            onNavigateToWallet={() => setActiveTab('wallet')}
+          />
         )}
         {activeTab === 'wallet' && (
           <WalletTab coins={coins} overrideCoins={overrideCoins} DAILY_COINS={DAILY_COINS} />

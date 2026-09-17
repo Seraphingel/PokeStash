@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X } from 'lucide-react';
-import { getEventsForDate, events } from '../data/events';
+import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X, Globe } from 'lucide-react';
+import { getEventsForDate, events, areEventsEqual, cleanEventName, EVENT_COLORS } from '../data/events';
 import { scrapedEvents } from '../data/scrapedEvents';
 import { EventDetailsModal } from './EventDetailsModal';
 import { getAssetUrl } from '../utils/assets';
+import { getSubtleRegionDisplay } from '../utils/date';
+
+const SEASON_START = new Date('2026-09-08');
+const SEASON_END = new Date('2026-12-01');
 
 export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,7 +68,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
 
-    const pool = [
+    const rawList = [
       ...(events.majorEvents || []),
       ...(events.fiveStarRaids || []),
       ...(events.megaRaids || []),
@@ -78,14 +82,60 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
       ...(scrapedEvents.spotlightHours || [])
     ];
 
-    const seen = new Set();
-    const matches = [];
-
-    pool.forEach(evt => {
+    // Deduplicate and merge events by equality matching
+    const unifiedEvents = [];
+    rawList.forEach(evt => {
       if (!evt || !evt.name) return;
-      const key = `${evt.name}-${evt.start || evt.date || ''}`;
-      if (seen.has(key)) return;
+      const nameLower = evt.name.toLowerCase();
+      if (nameLower.includes('go pass')) return;
 
+      const evtStart = evt.start || evt.date;
+      const matchIndex = unifiedEvents.findIndex(existing => {
+        if (!areEventsEqual(existing.name, evt.name)) return false;
+        
+        const existingStart = existing.start || existing.date;
+        // If neither or only one has a date, or if it's a recurring daily discovery / same event, treat as equal
+        if (!existingStart || !evtStart) return true;
+        if (existingStart === evtStart) return true;
+
+        // If dates are within a few days of each other (scraped vs manual date shifts)
+        const d1 = new Date(existingStart).getTime();
+        const d2 = new Date(evtStart).getTime();
+        if (!isNaN(d1) && !isNaN(d2) && Math.abs(d1 - d2) <= 3 * 86400 * 1000) {
+          return true;
+        }
+
+        // If both represent the same recurring event series or raid boss
+        if (cleanEventName(existing.name) === cleanEventName(evt.name)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (matchIndex >= 0) {
+        const existing = unifiedEvents[matchIndex];
+        unifiedEvents[matchIndex] = {
+          ...existing,
+          bonus: existing.bonus || evt.bonus,
+          description: existing.description || evt.description,
+          imageUrl: existing.imageUrl || evt.imageUrl,
+          start: existing.start || evt.start,
+          end: existing.end || evt.end,
+          date: existing.date || evt.date,
+          type: existing.type || evt.type,
+          details: {
+            ...(evt.details || {}),
+            ...(existing.details || {})
+          }
+        };
+      } else {
+        unifiedEvents.push({ ...evt });
+      }
+    });
+
+    const matches = [];
+    unifiedEvents.forEach(evt => {
       const detailsStr = evt.details ? JSON.stringify(evt.details).toLowerCase() : '';
       const nameMatch = evt.name.toLowerCase().includes(q);
       const bonusMatch = (evt.bonus || '').toLowerCase().includes(q);
@@ -93,7 +143,6 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
       const detailsMatch = detailsStr.includes(q);
 
       if (nameMatch || bonusMatch || descMatch || detailsMatch) {
-        seen.add(key);
         matches.push(evt);
       }
     });
@@ -148,31 +197,30 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
   const EventItemCard = ({ evt, categoryName }) => {
     const { color, badge } = getEventTagStyle(evt, categoryName);
+    const regions = evt.details?.regions || evt.regions;
+    const subtleRegion = getSubtleRegionDisplay(regions);
+
     return (
       <div 
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedEvent({ ...evt, color }); } }}
         onClick={() => setSelectedEvent({ ...evt, color })}
+        className="event-item-card"
         style={{
           display: 'flex',
           alignItems: 'center',
-          background: '#fff',
-          border: '1px solid #f0f0f5',
+          background: 'var(--color-surface-solid)',
+          border: '1px solid var(--color-border)',
           borderRadius: '16px',
           padding: '16px 20px',
           marginBottom: '16px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
+          boxShadow: '0 4px 15px var(--color-surface-subtle)',
           cursor: 'pointer',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           gap: '16px',
           position: 'relative',
           overflow: 'hidden'
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.06)';
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.03)';
         }}
       >
         {/* Decorative background accent */}
@@ -190,7 +238,8 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           background: `${color}1A`,
           display: 'grid',
           placeItems: 'center',
-          zIndex: 1
+          zIndex: 1,
+          flexShrink: 0
         }}>
           {evt.imageUrl ? (
             <img src={getAssetUrl(evt.imageUrl)} alt={evt.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
@@ -199,8 +248,19 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           )}
         </div>
 
-        <div style={{ flex: 1, zIndex: 1 }}>
-          <h4 style={{ margin: '0 0 6px 0', fontSize: '1.1rem', color: 'var(--color-text-primary)' }}>{evt.name}</h4>
+        <div style={{ flex: 1, zIndex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
+            <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'var(--color-text-primary)' }}>{evt.name}</h4>
+            {subtleRegion && (
+              <span 
+                className="event-subtle-region-pill" 
+                title={regions.join(', ')}
+              >
+                <Globe size={11} style={{ flexShrink: 0 }} />
+                <span>{subtleRegion}</span>
+              </span>
+            )}
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>
             {evt.bonus ? (
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -292,7 +352,6 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
                 background: '#6cb5b3', 
                 color: '#0F172A', 
                 fontSize: '0.75rem', 
-                fontWeight: '900', 
                 padding: '4px 12px', 
                 borderRadius: '999px',
                 letterSpacing: '1px',
@@ -330,14 +389,14 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
         <div style={{ marginTop: '20px', position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', fontSize: '0.8rem', opacity: 0.9, marginBottom: '8px', fontWeight: '600' }}>
             <span style={{ color: '#6cb5b3', flex: '1 1 100%', textAlign: 'center', marginBottom: '4px' }}>
-              Season Cycle Timeline ({Math.round(Math.min(100, Math.max(0, ((selectedDate - new Date('2026-09-08')) / (new Date('2026-12-01') - new Date('2026-09-08'))) * 100)))}% Complete)
+              Season Cycle Timeline ({Math.round(Math.min(100, Math.max(0, ((selectedDate - SEASON_START) / (SEASON_END - SEASON_START)) * 100)))}% Complete)
             </span>
             <span>Start: Sep 8</span>
             <span>End: Dec 1</span>
           </div>
           <div style={{ width: '100%', height: '10px', background: 'rgba(255,255,255,0.15)', borderRadius: '999px', overflow: 'hidden' }}>
             <div style={{ 
-              width: `${Math.min(100, Math.max(3, ((selectedDate - new Date('2026-09-08')) / (new Date('2026-12-01') - new Date('2026-09-08'))) * 100))}%`, 
+              width: `${Math.min(100, Math.max(3, ((selectedDate - SEASON_START) / (SEASON_END - SEASON_START)) * 100))}%`, 
               height: '100%', 
               background: 'linear-gradient(90deg, #6cb5b3, #38BDF8)', 
               borderRadius: '999px',
@@ -419,7 +478,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
         </div>
 
         {/* Right Content - Calendar & Events */}
-        <div style={{ display: 'flex', flexDirection: 'column', background: '#fcfcfd', minWidth: 0 }}>
+        <div className="calendar-main-panel" style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           
           <div style={{ padding: '24px 24px 16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', position: 'relative' }}>
             <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
@@ -427,7 +486,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
                 onClick={() => setShowMonthDropdown(!showMonthDropdown)}
                 style={{ 
                 display: 'flex', alignItems: 'center', gap: '8px', 
-                background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.08)', 
+                background: 'var(--color-surface-solid)', border: '1px solid var(--color-border)', 
                 padding: '8px 16px', borderRadius: '12px', 
                 fontWeight: 'bold', color: 'var(--color-text-primary)',
                 cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
@@ -439,7 +498,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
               {showMonthDropdown && (
                 <div style={{
                   position: 'absolute', top: '100%', left: '0', marginTop: '8px',
-                  background: 'var(--color-surface-solid)', border: '1px solid rgba(0,0,0,0.08)',
+                  background: 'var(--color-surface-solid)', border: '1px solid var(--color-border)',
                   borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
                   zIndex: 100, overflow: 'hidden', minWidth: '180px'
                 }}>
@@ -458,7 +517,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
                         background: (currentMonth === mItem.m && currentYear === mItem.y) ? 'rgba(229, 57, 53, 0.1)' : 'transparent',
                         color: (currentMonth === mItem.m && currentYear === mItem.y) ? 'var(--color-primary)' : 'var(--color-text-primary)',
                         fontWeight: (currentMonth === mItem.m && currentYear === mItem.y) ? 'bold' : 'normal',
-                        cursor: 'pointer', borderBottom: idx < monthsList.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none'
+                        cursor: 'pointer', borderBottom: idx < monthsList.length - 1 ? '1px solid var(--color-border)' : 'none'
                       }}
                     >
                       {mItem.label}
@@ -480,7 +539,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
                   width: '100%',
                   padding: '9px 36px',
                   borderRadius: '12px',
-                  border: '1px solid rgba(0,0,0,0.08)',
+                  border: '1px solid var(--color-border)',
                   background: 'var(--color-surface-solid)',
                   color: 'var(--color-text-primary)',
                   fontSize: '0.88rem',
@@ -503,7 +562,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           {!searchQuery && (
             <div 
               className="premium-dates-bar" 
-              style={{ padding: '12px 24px 16px 24px', borderBottom: '1px solid rgba(0,0,0,0.05)', overflowX: 'auto', display: 'flex' }}
+              style={{ padding: '12px 24px 16px 24px', borderBottom: '1px solid var(--color-border)', overflowX: 'auto', display: 'flex' }}
               onWheel={(e) => {
                 if (e.deltaY !== 0) {
                   e.preventDefault();

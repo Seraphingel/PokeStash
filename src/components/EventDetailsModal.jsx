@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, Info, Star, Target, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 import { formatEventDateRange } from '../utils/date';
@@ -29,6 +29,14 @@ export function EventDetailsModal({ evt, onClose }) {
   const wildEncountersList = evt.details?.['Wild Encounters'] || evt.details?.Spawns || [];
   const cleanWildSpawns = filterCleanPokemonNames(wildEncountersList);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div style={{
       position: 'fixed',
@@ -43,15 +51,13 @@ export function EventDetailsModal({ evt, onClose }) {
       padding: '24px'
     }} onClick={onClose}>
       
-      <div style={{
-        background: 'var(--color-bg)',
-        width: '100%',
-        maxWidth: '560px',
-        borderRadius: 'var(--border-radius-lg)',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-        overflow: 'hidden',
-        animation: 'slideUp 0.3s ease'
-      }} onClick={e => e.stopPropagation()}>
+      <div 
+        className="event-modal-dialog"
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="event-modal-title"
+      >
         
         {/* Header */}
         <div style={{
@@ -76,7 +82,7 @@ export function EventDetailsModal({ evt, onClose }) {
             />
           )}
           <div>
-            <h2 style={{ margin: '0 0 8px 0', fontSize: '1.5rem', lineHeight: '1.2' }}>{evt.name}</h2>
+            <h2 id="event-modal-title" style={{ margin: '0 0 8px 0', fontSize: '1.5rem', lineHeight: '1.2' }}>{evt.name}</h2>
             <div style={{ opacity: 0.9, fontSize: '0.9rem' }}>
               {evt.start ? formatEventDateRange(evt.start, evt.end, evt.type) : (evt.date || evt.description)}
             </div>
@@ -98,7 +104,23 @@ export function EventDetailsModal({ evt, onClose }) {
         {/* Content */}
         <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '22px', maxHeight: '70vh', overflowY: 'auto' }}>
           
-          {/* 1. Pokémon Debuts (Placed at the top) */}
+          {/* Regional Exclusives (Top Priority) */}
+          {(evt.details?.regions || evt.regions) && (
+            <div>
+              <h4 className="modal-section-title" style={{ color: '#60A5FA' }}>
+                <Globe size={18} /> Regional Exclusives
+              </h4>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {(evt.details?.regions || evt.regions).map((r, i) => (
+                  <span key={i} className="modal-region-chip">
+                    {r}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 1. Pokémon Debuts */}
           {['Pokémon Debuts', 'Mega-Evolved Pokémon', 'Max Pokémon Debuts'].map(sectionKey => {
             const rawList = evt.details?.[sectionKey];
             if (!rawList || rawList.length === 0) return null;
@@ -107,8 +129,7 @@ export function EventDetailsModal({ evt, onClose }) {
 
             const isMega = sectionKey.includes('Mega');
             const isMax = sectionKey.includes('Max');
-            const badgeBg = isMega ? 'rgba(236,72,153,0.1)' : (isMax ? 'rgba(139,92,246,0.1)' : 'rgba(99,102,241,0.1)');
-            const badgeColor = isMega ? '#BE185D' : (isMax ? '#6D28D9' : '#4338CA');
+            const titleColor = isMega ? '#F472B6' : (isMax ? '#A78BFA' : '#818CF8');
             
             const featureImg = isMega 
               ? '/assets/events/twilight-mega-evolved.png' 
@@ -116,7 +137,7 @@ export function EventDetailsModal({ evt, onClose }) {
 
             return (
               <div key={sectionKey} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0, color: badgeColor, fontSize: '1.05rem', fontWeight: '700' }}>
+                <h4 className="modal-section-title" style={{ color: titleColor }}>
                   {isMega || isMax ? <Zap size={18} /> : <Sparkles size={18} />} {sectionKey}
                 </h4>
 
@@ -132,7 +153,7 @@ export function EventDetailsModal({ evt, onClose }) {
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {cleanDebuts.map((item, i) => (
-                    <span key={i} style={{ background: badgeBg, color: badgeColor, padding: '6px 14px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: '600' }}>
+                    <span key={i} className="modal-chip-neutral" style={{ fontWeight: '600' }}>
                       {item}
                     </span>
                   ))}
@@ -144,7 +165,7 @@ export function EventDetailsModal({ evt, onClose }) {
           {/* 2. Wild Encounters Section */}
           {cleanWildSpawns.length > 0 && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#6366F1', fontSize: '1.05rem', fontWeight: '700' }}>
+              <h4 className="modal-section-title" style={{ color: '#818CF8' }}>
                 <Star size={18} /> Wild Encounters
               </h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -152,13 +173,13 @@ export function EventDetailsModal({ evt, onClose }) {
                   const isTimeHeader = item.toLowerCase().includes('a.m.') || item.toLowerCase().includes('p.m.');
                   if (isTimeHeader) {
                     return (
-                      <div key={i} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '6px', margin: '6px 0 2px 0', color: '#4F46E5', fontSize: '0.85rem', fontWeight: '700' }}>
+                      <div key={i} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '6px', margin: '6px 0 2px 0', color: '#818CF8', fontSize: '0.85rem', fontWeight: '700' }}>
                         <Clock size={14} /> {item}
                       </div>
                     );
                   }
                   return (
-                    <span key={i} style={{ background: 'rgba(99,102,241,0.08)', color: '#4338CA', padding: '6px 12px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: '500' }}>
+                    <span key={i} className="modal-chip-neutral">
                       {item}
                     </span>
                   );
@@ -167,43 +188,27 @@ export function EventDetailsModal({ evt, onClose }) {
             </div>
           )}
 
-          {/* Regional Exclusives */}
-          {evt.details?.regions && (
-            <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: '#3B82F6' }}>
-                <Globe size={16} /> Regional Exclusives
-              </h4>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {evt.details.regions.map((r, i) => (
-                  <span key={i} style={{ background: 'rgba(59,130,246,0.1)', color: '#1D4ED8', padding: '6px 12px', borderRadius: '8px', fontSize: '0.9rem', fontWeight: '500' }}>
-                    {r}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Promo Codes */}
           {evt.details?.promoCodes && evt.details.promoCodes.length > 0 && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: '#EAB308' }}>
-                <Gift size={16} /> Promo Codes
+              <h4 className="modal-section-title" style={{ color: '#FACC15' }}>
+                <Gift size={18} /> Promo Codes
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {evt.details.promoCodes.map((promo, i) => (
-                  <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px', background: 'rgba(234,179,8,0.1)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(234,179,8,0.2)' }}>
+                  <div key={i} className="modal-promo-box">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontWeight: 'bold', color: '#A16207', fontSize: '1.05rem', fontFamily: 'monospace' }}>{promo.code}</span>
+                      <span style={{ fontWeight: 'bold', fontSize: '1.05rem', fontFamily: 'monospace' }}>{promo.code}</span>
                       <button 
                         onClick={() => navigator.clipboard.writeText(promo.code)}
-                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#CA8A04', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}
+                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'inherit', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}
                         title="Copy to clipboard"
                       >
                         <Copy size={14} /> COPY
                       </button>
                     </div>
                     {promo.description && (
-                      <div style={{ fontSize: '0.9rem', color: '#854D0E' }}>
+                      <div style={{ fontSize: '0.9rem', marginTop: '4px', opacity: 0.9 }}>
                         {promo.description}
                       </div>
                     )}
@@ -213,17 +218,15 @@ export function EventDetailsModal({ evt, onClose }) {
             </div>
           )}
 
-          {/* General Bonus removed */}
-
           {/* Featured Pokémon (if applicable and different from debuts) */}
           {cleanFeatured.length > 0 && !evt.details?.['Pokémon Debuts'] && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: 'var(--color-primary)' }}>
-                <Star size={16} /> Featured Pokémon
+              <h4 className="modal-section-title" style={{ color: '#F87171' }}>
+                <Star size={18} /> Featured Pokémon
               </h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {cleanFeatured.map((f, i) => (
-                  <span key={i} style={{ background: 'rgba(0,0,0,0.05)', padding: '6px 12px', borderRadius: '999px', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <span key={i} className="modal-chip-neutral" style={{ fontWeight: '600' }}>
                     {f}
                   </span>
                 ))}
@@ -234,12 +237,12 @@ export function EventDetailsModal({ evt, onClose }) {
           {/* Type (for Raids) */}
           {evt.details?.type && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: '#8B5CF6' }}>
-                <Shield size={16} /> Type
+              <h4 className="modal-section-title" style={{ color: '#A78BFA' }}>
+                <Shield size={18} /> Type
               </h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {(Array.isArray(evt.details.type) ? evt.details.type : [evt.details.type]).map((t, i) => (
-                  <span key={i} style={{ background: 'rgba(139,92,246,0.15)', color: '#6D28D9', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', fontWeight: '600' }}>
+                  <span key={i} className="modal-type-chip">
                     {t}
                   </span>
                 ))}
@@ -250,7 +253,7 @@ export function EventDetailsModal({ evt, onClose }) {
           {/* Event Bonuses */}
           {(evt.details?.bonuses || evt.details?.Bonuses) && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#EA580C', fontSize: '1.05rem', fontWeight: '700' }}>
+              <h4 className="modal-section-title" style={{ color: '#FB923C' }}>
                 <Gift size={18} /> Event Bonuses
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -258,7 +261,7 @@ export function EventDetailsModal({ evt, onClose }) {
                   ? (evt.details.bonuses || evt.details.Bonuses)
                   : [evt.details.bonuses || evt.details.Bonuses]
                 ).map((b, i) => (
-                  <div key={i} style={{ background: 'rgba(234,88,12,0.08)', color: '#C2410C', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <div key={i} className="modal-bonus-box">
                     {typeof b === 'object' ? JSON.stringify(b) : b}
                   </div>
                 ))}
@@ -273,12 +276,12 @@ export function EventDetailsModal({ evt, onClose }) {
             const items = Array.isArray(rawItems) ? rawItems : [rawItems];
             return (
               <div key={sectionKey}>
-                <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#4F46E5', fontSize: '1.05rem', fontWeight: '700' }}>
+                <h4 className="modal-section-title" style={{ color: '#818CF8' }}>
                   <Target size={18} /> {sectionKey}
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {items.map((item, i) => (
-                    <div key={i} style={{ background: 'rgba(79,70,229,0.06)', border: '1px solid rgba(79,70,229,0.15)', color: '#3730A3', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
+                    <div key={i} className="modal-research-box">
                       {typeof item === 'object' ? JSON.stringify(item) : item}
                     </div>
                   ))}
@@ -287,10 +290,10 @@ export function EventDetailsModal({ evt, onClose }) {
             );
           })}
 
-          {/* 3. Sales & Web Store Deals Section */}
+          {/* Sales & Web Store Deals Section */}
           {evt.details?.Sales && (Array.isArray(evt.details.Sales) ? evt.details.Sales.length > 0 : true) && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#059669', fontSize: '1.05rem', fontWeight: '700' }}>
+              <h4 className="modal-section-title" style={{ color: '#34D399' }}>
                 <ShoppingBag size={18} /> Sales & Web Store Deals
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -299,13 +302,13 @@ export function EventDetailsModal({ evt, onClose }) {
                   const parts = saleStr.split(' - ');
                   if (parts.length > 1) {
                     return (
-                      <div key={i} style={{ background: 'rgba(16,185,129,0.08)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)', fontSize: '0.9rem', color: '#065F46' }}>
-                        <span style={{ fontWeight: '700', color: '#047857' }}>{parts[0]}</span>: {parts.slice(1).join(' - ')}
+                      <div key={i} className="modal-sale-box">
+                        <strong style={{ color: 'inherit' }}>{parts[0]}</strong>: {parts.slice(1).join(' - ')}
                       </div>
                     );
                   }
                   return (
-                    <div key={i} style={{ background: 'rgba(16,185,129,0.08)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)', fontSize: '0.9rem', color: '#065F46', fontWeight: '500' }}>
+                    <div key={i} className="modal-sale-box">
                       {saleStr}
                     </div>
                   );
@@ -321,12 +324,12 @@ export function EventDetailsModal({ evt, onClose }) {
             if (cleanItems.length === 0) return null;
             return (
               <div key={sectionKey}>
-                <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: '#6366f1' }}>
-                  <Star size={16} /> {sectionKey}
+                <h4 className="modal-section-title" style={{ color: '#818CF8' }}>
+                  <Star size={18} /> {sectionKey}
                 </h4>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {cleanItems.map((item, i) => (
-                    <span key={i} style={{ background: 'rgba(0,0,0,0.05)', padding: '6px 12px', borderRadius: '999px', fontSize: '0.88rem' }}>
+                    <span key={i} className="modal-chip-neutral">
                       {item}
                     </span>
                   ))}
@@ -338,10 +341,12 @@ export function EventDetailsModal({ evt, onClose }) {
           {/* Weaknesses */}
           {evt.details?.weaknesses && (
             <div>
-              <h4 style={{ margin: '0 0 8px 0', color: 'var(--color-text-secondary)' }}>Weaknesses</h4>
+              <h4 className="modal-section-title" style={{ color: 'var(--color-text-secondary)' }}>
+                Weaknesses
+              </h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {(Array.isArray(evt.details.weaknesses) ? evt.details.weaknesses : [evt.details.weaknesses]).map((w, i) => (
-                  <span key={i} style={{ background: '#fce8e8', color: '#d94444', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                  <span key={i} className="modal-weakness-chip">
                     {w}
                   </span>
                 ))}
@@ -352,27 +357,34 @@ export function EventDetailsModal({ evt, onClose }) {
           {/* Counters */}
           {evt.details?.counters && (
             <div>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 8px 0', color: '#F59E0B' }}>
-                <Target size={16} /> Top Counters
+              <h4 className="modal-section-title" style={{ color: '#F59E0B' }}>
+                <Target size={18} /> Top Counters
               </h4>
-              <div style={{ background: 'white', padding: '12px', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.05)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                {Array.isArray(evt.details.counters) ? evt.details.counters.join(', ') : evt.details.counters}
+              <div className="modal-counters-container">
+                {(Array.isArray(evt.details.counters) 
+                  ? evt.details.counters 
+                  : (typeof evt.details.counters === 'string' ? evt.details.counters.split(',').map(s => s.trim()).filter(Boolean) : [evt.details.counters])
+                ).map((c, i) => (
+                  <span key={i} className="modal-counter-chip">
+                    {c}
+                  </span>
+                ))}
               </div>
             </div>
           )}
 
           {/* Advice */}
           {evt.details?.advice && (
-            <div style={{ background: 'rgba(0,0,0,0.03)', padding: '12px', borderRadius: '8px', fontStyle: 'italic', fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
-              <Info size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+            <div className="modal-advice-box">
+              <Info size={16} style={{ verticalAlign: 'middle', marginRight: '6px', display: 'inline-block' }} />
               {evt.details.advice}
             </div>
           )}
 
           {/* Difficulty */}
           {evt.details?.difficulty && (
-            <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-              Difficulty: <span style={{ color: 'var(--color-primary)' }}>{evt.details.difficulty}</span>
+            <div style={{ fontSize: '0.92rem', fontWeight: 'bold' }}>
+              Difficulty: <span style={{ color: '#EF4444', fontWeight: '800' }}>{evt.details.difficulty}</span>
             </div>
           )}
 

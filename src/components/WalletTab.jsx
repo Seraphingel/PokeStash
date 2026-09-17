@@ -157,7 +157,7 @@ export function WalletTab({ coins, overrideCoins, DAILY_COINS }) {
 
         <div className="wallet-pill" style={{ opacity: 0.7, cursor: 'not-allowed' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div className="wallet-icon-box" style={{ background: '#f0f0f5', color: 'var(--color-text-secondary)' }}>
+            <div className="wallet-icon-box" style={{ background: 'var(--color-surface-hover)', color: 'var(--color-text-secondary)' }}>
               <History size={24} />
             </div>
             <div>
