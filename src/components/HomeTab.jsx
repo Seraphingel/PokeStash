@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Coins, LogIn, TrendingUp, Sparkles, MapPin, Target, Activity, Globe, Mail, Link2, X, ArrowRight } from 'lucide-react';
+import { Coins, LogIn, TrendingUp, Sparkles, MapPin, Target, Activity, Globe, Mail, Link2, X, ArrowRight, Code2 } from 'lucide-react';
 import { getEventsForDate } from '../data/events';
 
 export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS }) {
@@ -123,32 +123,75 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS 
         <div className="profile-visual" />
         
         <div className="profile-avatar">
-          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #FFDE00, #B3A125)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', fontWeight: 'bold', color: 'white' }}>
+          <img 
+            src="https://avatars.githubusercontent.com/u/224920784?v=4" 
+            alt="Seraphingel" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #FFDE00, #B3A125)', display: 'none', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', fontWeight: 'bold', color: 'white' }}>
             S
           </div>
         </div>
 
         <div className="profile-content">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(52,211,153,0.1)', color: '#10B981', padding: '4px 12px', borderRadius: '16px', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '12px' }}>
-            <span style={{ width: '6px', height: '6px', background: '#10B981', borderRadius: '50%' }} /> Available for projects
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(16,185,129,0.12)', color: '#059669', padding: '6px 14px', borderRadius: '16px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '12px' }}>
+            <span style={{ width: '8px', height: '8px', background: '#10B981', borderRadius: '50%', boxShadow: '0 0 0 2px rgba(16,185,129,0.3)' }} /> Available for projects
           </div>
-          <h2 style={{ margin: '0 0 4px 0', fontSize: '1.8rem' }}>Seraphingel</h2>
-          <div style={{ color: 'var(--color-primary)', fontWeight: 'bold', marginBottom: '12px' }}>@seraphingel</div>
-          <p style={{ color: 'var(--color-text-secondary)', margin: '0 0 16px 0', maxWidth: '400px', lineHeight: 1.5 }}>
-            I create clean digital experiences with modern visuals and usability. Simple ideas, better experiences.
+          <h2 style={{ margin: '0 0 4px 0', fontSize: '1.8rem', fontWeight: '800', color: 'var(--color-text-primary)' }}>Seraphingel</h2>
+          <a 
+            href="https://github.com/Seraphingel" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{ display: 'inline-block', color: 'var(--color-primary)', fontWeight: '700', fontSize: '0.95rem', textDecoration: 'none', marginBottom: '14px' }}
+          >
+            @seraphingel
+          </a>
+          <p style={{ color: 'var(--color-text-secondary)', margin: '0 0 18px 0', maxWidth: '480px', lineHeight: 1.6, fontSize: '0.98rem' }}>
+            I create websites to help me on my gaming experience. I occasionally also make websites for my hyperfixations.
           </p>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ padding: '6px 12px', background: '#f0f0f5', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '500' }}>UI/UX Design</span>
-            <span style={{ padding: '6px 12px', background: '#f0f0f5', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '500' }}>Web Design</span>
-            <span style={{ padding: '6px 12px', background: '#f0f0f5', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '500' }}>Frontend</span>
+            <span className="profile-tag">Fullstack</span>
+            <span className="profile-tag">UI/UX Design</span>
+            <span className="profile-tag">Web Design</span>
           </div>
         </div>
 
         <div className="profile-socials">
-          <button className="social-btn"><Globe size={20} /></button>
-          <button className="social-btn"><Link2 size={20} /></button>
-          <button className="social-btn" style={{ background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', color: 'white' }}><Mail size={20} /></button>
-          <button className="social-btn"><X size={20} /></button>
+          <a 
+            href="https://github.com/Seraphingel" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="social-btn" 
+            title="GitHub Profile"
+            aria-label="GitHub Profile"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>
+          <a 
+            href="https://github.com/Seraphingel/PokeStash" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="social-btn" 
+            title="Repository"
+            aria-label="Repository"
+          >
+            <Link2 size={20} />
+          </a>
+          <a 
+            href="mailto:contact@seraphingel.dev" 
+            className="social-btn" 
+            title="Contact Mail"
+            aria-label="Contact Mail"
+          >
+            <Mail size={20} />
+          </a>
         </div>
       </div>
 

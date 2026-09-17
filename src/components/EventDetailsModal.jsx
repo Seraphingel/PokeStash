@@ -6,8 +6,9 @@ import { formatEventDateRange } from '../utils/date';
 export function EventDetailsModal({ evt, onClose }) {
   if (!evt) return null;
 
-  const rawFeatured = evt.details?.featured || [];
+  const rawFeatured = Array.isArray(evt.details?.featured) ? evt.details.featured : [];
   const cleanFeatured = rawFeatured.filter(f => 
+    typeof f === 'string' &&
     !f.toLowerCase().includes('will be in') && 
     !f.toLowerCase().includes('raid battle') && 
     f.length <= 45
@@ -17,6 +18,7 @@ export function EventDetailsModal({ evt, onClose }) {
   const filterCleanPokemonNames = (list) => {
     if (!Array.isArray(list)) return [];
     return list.filter(item => {
+      if (typeof item !== 'string') return false;
       const lower = item.toLowerCase();
       if (item.length > 60) return false;
       if (lower.includes('will appear') || lower.includes('reach major milestones') || lower.includes('you might find') || lower.includes('complete field research')) return false;
@@ -31,11 +33,13 @@ export function EventDetailsModal({ evt, onClose }) {
     <div style={{
       position: 'fixed',
       top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: 'rgba(0,0,0,0.65)',
+      backdropFilter: 'blur(4px)',
+      WebkitBackdropFilter: 'blur(4px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 1000,
+      zIndex: 99999,
       padding: '24px'
     }} onClick={onClose}>
       
@@ -250,9 +254,12 @@ export function EventDetailsModal({ evt, onClose }) {
                 <Gift size={18} /> Event Bonuses
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {(evt.details.bonuses || evt.details.Bonuses).map((b, i) => (
+                {(Array.isArray(evt.details.bonuses || evt.details.Bonuses)
+                  ? (evt.details.bonuses || evt.details.Bonuses)
+                  : [evt.details.bonuses || evt.details.Bonuses]
+                ).map((b, i) => (
                   <div key={i} style={{ background: 'rgba(234,88,12,0.08)', color: '#C2410C', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
-                    {b}
+                    {typeof b === 'object' ? JSON.stringify(b) : b}
                   </div>
                 ))}
               </div>
@@ -261,8 +268,9 @@ export function EventDetailsModal({ evt, onClose }) {
 
           {/* Timed Research & Special Challenges */}
           {['Timed Research', 'Timed Research: Pick Your Side', 'Field Research', 'Collection Challenges'].map(sectionKey => {
-            if (!evt.details?.[sectionKey] || evt.details[sectionKey].length === 0) return null;
-            const items = evt.details[sectionKey];
+            const rawItems = evt.details?.[sectionKey];
+            if (!rawItems || (Array.isArray(rawItems) && rawItems.length === 0)) return null;
+            const items = Array.isArray(rawItems) ? rawItems : [rawItems];
             return (
               <div key={sectionKey}>
                 <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#4F46E5', fontSize: '1.05rem', fontWeight: '700' }}>
@@ -271,7 +279,7 @@ export function EventDetailsModal({ evt, onClose }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {items.map((item, i) => (
                     <div key={i} style={{ background: 'rgba(79,70,229,0.06)', border: '1px solid rgba(79,70,229,0.15)', color: '#3730A3', padding: '10px 14px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '500' }}>
-                      {item}
+                      {typeof item === 'object' ? JSON.stringify(item) : item}
                     </div>
                   ))}
                 </div>
@@ -280,14 +288,15 @@ export function EventDetailsModal({ evt, onClose }) {
           })}
 
           {/* 3. Sales & Web Store Deals Section */}
-          {evt.details?.Sales && evt.details.Sales.length > 0 && (
+          {evt.details?.Sales && (Array.isArray(evt.details.Sales) ? evt.details.Sales.length > 0 : true) && (
             <div>
               <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', color: '#059669', fontSize: '1.05rem', fontWeight: '700' }}>
                 <ShoppingBag size={18} /> Sales & Web Store Deals
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {evt.details.Sales.map((s, i) => {
-                  const parts = s.split(' - ');
+                {(Array.isArray(evt.details.Sales) ? evt.details.Sales : [evt.details.Sales]).map((s, i) => {
+                  const saleStr = typeof s === 'string' ? s : JSON.stringify(s);
+                  const parts = saleStr.split(' - ');
                   if (parts.length > 1) {
                     return (
                       <div key={i} style={{ background: 'rgba(16,185,129,0.08)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)', fontSize: '0.9rem', color: '#065F46' }}>
@@ -297,7 +306,7 @@ export function EventDetailsModal({ evt, onClose }) {
                   }
                   return (
                     <div key={i} style={{ background: 'rgba(16,185,129,0.08)', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)', fontSize: '0.9rem', color: '#065F46', fontWeight: '500' }}>
-                      {s}
+                      {saleStr}
                     </div>
                   );
                 })}
@@ -331,7 +340,7 @@ export function EventDetailsModal({ evt, onClose }) {
             <div>
               <h4 style={{ margin: '0 0 8px 0', color: 'var(--color-text-secondary)' }}>Weaknesses</h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {evt.details.weaknesses.map((w, i) => (
+                {(Array.isArray(evt.details.weaknesses) ? evt.details.weaknesses : [evt.details.weaknesses]).map((w, i) => (
                   <span key={i} style={{ background: '#fce8e8', color: '#d94444', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 'bold' }}>
                     {w}
                   </span>

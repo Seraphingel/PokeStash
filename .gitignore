@@ -28,6 +28,11 @@ dist-ssr
 .gemini/
 brain/
 scratch/
-task.md
-walkthrough.md
-implementation_plan.md
+task*.md
+walkthrough*.md
+implementation_plan*.md
+learning_proposal*.md
+
+# Local Dev Scratch Scripts
+scripts/downloadMissingAssets.js
+scripts/syncRemainingAssets.js

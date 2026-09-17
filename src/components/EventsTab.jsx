@@ -17,7 +17,17 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
   const [currentYear, setCurrentYear] = useState(() => selectedDate.getFullYear());
   const [showMonthDropdown, setShowMonthDropdown] = useState(false);
   
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState(() => {
+    const arr = [];
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      arr.push(new Date(y, m, i));
+    }
+    return arr;
+  });
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const monthsList = [
@@ -210,7 +220,8 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             fontSize: '0.85rem',
             fontWeight: 'bold',
             border: 'none',
-            boxShadow: `0 4px 12px ${color + '40'}`
+            boxShadow: `0 4px 12px ${color + '40'}`,
+            pointerEvents: 'none'
           }}>
             {badge}
           </button>
