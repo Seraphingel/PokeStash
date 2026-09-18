@@ -1,4 +1,5 @@
 import { scrapedEvents } from './scrapedEvents.js';
+import { hasEventDetails, getPokemon3DIconUrl } from '../utils/pokemonAssets.js';
 
 export const EVENT_COLORS = {
   DailyDiscovery: '#712957',
@@ -217,10 +218,18 @@ export const events = {
         advice: "2:00 PM to 5:00 PM local time. Gather friends to defeat the new Gigantamax!"
       }
     },
-    { name: "Choose Your Path: Twilight Trails", start: "2026-09-23", end: "2026-09-28", color: EVENT_COLORS.Event, imageUrl: "/assets/events/choose-your-path-twilight-trails-2026.jpg" },
-    { name: "Harvest Festival 2026: Applin Picking", start: "2026-09-29", end: "2026-10-05", color: EVENT_COLORS.Event, imageUrl: "/assets/events/harvest-festival-2026.jpg" },
-    { name: "Patterns of the Wild", start: "2026-10-02", end: "2026-10-02", color: EVENT_COLORS.Event, imageUrl: "/assets/events/patterns-of-the-wild-2026.jpg" },
-    { name: "Harvest Festival: Taken Over", start: "2026-10-02", end: "2026-10-05", color: EVENT_COLORS.Event, imageUrl: "/assets/events/harvest-festival-taken-over-2026.jpg" },
+    { 
+      name: "Harvest Festival 2026: Applin Picking", 
+      start: "2026-09-29", 
+      end: "2026-10-05", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: "/assets/events/pm546.cSPRING_2024.icon.png",
+      details: {
+        featured: ["Applin"],
+        "Wild Encounters": ["Applin", "Cottonee", "Oddish", "Bounsweet"],
+        advice: "Collect Applin during the Harvest Festival and look out for Mossy Lure Module bonuses!"
+      }
+    },
     { name: "October Community Day (Zorua)", start: "2026-10-10", end: "2026-10-10", color: EVENT_COLORS.CommunityDay, imageUrl: `${BASE_ASSET_URL}pm570.icon.png` },
     { 
       name: "PokéXciting! Taipei", 
@@ -230,9 +239,6 @@ export const events = {
       imageUrl: `${BASE_ASSET_URL}pm25.icon.png`,
       details: { regions: ["Xinyi District, Taipei"], featured: ["Pink T-Shirt Pikachu", "Regional spawns"] }
     },
-    { name: "Hatch Day", start: "2026-10-17", end: "2026-10-17", color: EVENT_COLORS.Event, imageUrl: "/assets/events/events-default-img.jpg" },
-    { name: "Max Battle Day", start: "2026-10-24", end: "2026-10-24", color: EVENT_COLORS.MaxMonday, imageUrl: "/assets/events/max-battles-kanto.jpg" },
-    { name: "Super Mega Raid Day", start: "2026-10-31", end: "2026-10-31", color: EVENT_COLORS.Raid, imageUrl: "/assets/events/mega-default.jpg" },
     { 
       name: "PokéXciting! Singapore", 
       start: "2026-11-07", 
@@ -253,8 +259,6 @@ export const events = {
         advice: "Play from 10:00 AM to 6:00 PM. Buy the $11.99 ticket for increased shiny chance and 6 extra raid passes per day!"
       }
     },
-    { name: "November Community Day", start: "2026-11-21", end: "2026-11-21", color: EVENT_COLORS.CommunityDay },
-    { name: "Super Mega Raid Day", start: "2026-11-28", end: "2026-11-28", color: EVENT_COLORS.Raid },
     { 
       name: "PokéXciting! Manila", 
       start: "2027-01-23", 
@@ -423,15 +427,19 @@ export const events = {
       }
     },
     { 
-      name: "Ultra Beasts (Kartana/Celesteela/Buzzwole...)", 
+      name: "Xurkitree, Pheromosa, and Buzzwole", 
       start: "2026-09-23", 
       end: "2026-09-29", 
       color: EVENT_COLORS.Raid,
-      imageUrl: `${BASE_ASSET_URL}pm798.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm794.icon.png`,
       details: {
+        featured: ["Xurkitree", "Pheromosa", "Buzzwole"],
         regions: ["Xurkitree (Asia-Pacific)", "Pheromosa (Europe, Middle East, Africa, India)", "Buzzwole (Americas, Greenland)"],
-        weaknesses: ["Varies heavily by Ultra Beast"],
-        advice: "Use Remote Raid passes and coordinate with international friends to collect them all!"
+        type: ["Electric", "Bug", "Fighting"],
+        weaknesses: ["Ground (Xurkitree)", "Flying (Double Weakness - Pheromosa & Buzzwole)", "Fire", "Psychic", "Fairy"],
+        counters: ["Rayquaza", "Mewtwo", "Groudon", "Therian Landorus", "Moltres", "Staraptor", "Excadrill", "Yveltal"],
+        difficulty: "3+ trainers needed",
+        advice: "Ultra Beasts are region-locked! Use Remote Raid passes and coordinate with international friends to collect all three."
       }
     },
     { 
@@ -575,6 +583,11 @@ export const areEventsEqual = (name1, name2) => {
   const n2 = (name2 || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\ufffd/gi, 'e');
   if (n1 === n2 || n1.includes(n2) || n2.includes(n1)) return true;
 
+  // Ultra beasts aliases
+  const isUB1 = n1.includes('ultra beast') || (n1.includes('xurkitree') || n1.includes('pheromosa') || n1.includes('buzzwole'));
+  const isUB2 = n2.includes('ultra beast') || (n2.includes('xurkitree') || n2.includes('pheromosa') || n2.includes('buzzwole'));
+  if (isUB1 && isUB2) return true;
+
   const c1 = cleanEventName(name1);
   const c2 = cleanEventName(name2);
   if (c1 && c2 && (c1 === c2 || c1.includes(c2) || c2.includes(c1))) return true;
@@ -596,6 +609,7 @@ export const getEventsForDate = (date) => {
       if (nameLower.includes('go pass')) return false;
       const isMaxMonday = nameLower.includes('max monday') || event.type === 'max-mondays';
       if (isMaxMonday && dayOfWeek !== 1) return false;
+      if (!hasEventDetails(event)) return false;
       return event.start <= dateStr && event.end >= dateStr;
     });
   };
@@ -604,10 +618,15 @@ export const getEventsForDate = (date) => {
     const manualActive = filterActive(manual);
     const scrapedActive = filterActive(scraped);
 
-    const merged = manualActive.map(mEvent => ({ ...mEvent, details: { ...mEvent.details } }));
+    const merged = manualActive.map(mEvent => ({ 
+      ...mEvent, 
+      imageUrl: getPokemon3DIconUrl(mEvent) || mEvent.imageUrl,
+      details: { ...mEvent.details } 
+    }));
     
     scrapedActive.forEach(sEvent => {
       const matchIndex = merged.findIndex(mEvent => areEventsEqual(mEvent.name, sEvent.name));
+      const sIcon = getPokemon3DIconUrl(sEvent) || sEvent.imageUrl;
       
       if (matchIndex >= 0) {
         if (sEvent.details) {
@@ -616,15 +635,19 @@ export const getEventsForDate = (date) => {
             ...merged[matchIndex].details
           };
         }
-        if (!merged[matchIndex].imageUrl && sEvent.imageUrl) {
-          merged[matchIndex].imageUrl = sEvent.imageUrl;
+        if (!merged[matchIndex].imageUrl && sIcon) {
+          merged[matchIndex].imageUrl = sIcon;
         }
       } else {
-        merged.push({ ...sEvent, color: sEvent.color || color });
+        merged.push({ 
+          ...sEvent, 
+          imageUrl: sIcon,
+          color: sEvent.color || color 
+        });
       }
     });
 
-    return merged;
+    return merged.filter(evt => hasEventDetails(evt));
   };
 
   const activeShadowRaids = dedupeAndMerge(events.shadowRaids.filter(r => !r.isWeekendOnly || (dayOfWeek === 0 || dayOfWeek === 6)), scrapedEvents.shadowRaids, EVENT_COLORS.Raid);
@@ -677,20 +700,21 @@ export const getUpcomingEvents = (fromDate = new Date()) => {
     if (nameLower.includes('go pass')) return;
 
     const existingIdx = unique.findIndex(u => areEventsEqual(u.name, item.name));
+    const icon = getPokemon3DIconUrl(item) || item.imageUrl;
     if (existingIdx >= 0) {
       unique[existingIdx].details = { ...(item.details || {}), ...(unique[existingIdx].details || {}) };
-      if (!unique[existingIdx].imageUrl && item.imageUrl) {
-        unique[existingIdx].imageUrl = item.imageUrl;
+      if (icon) {
+        unique[existingIdx].imageUrl = icon;
       }
       if (item.color && !unique[existingIdx].color) {
         unique[existingIdx].color = item.color;
       }
     } else {
-      unique.push({ ...item });
+      unique.push({ ...item, imageUrl: icon });
     }
   });
 
-  return unique.sort((a, b) => {
+  return unique.filter(evt => hasEventDetails(evt)).sort((a, b) => {
     const aIsFutureOrToday = (a.start || '') >= dateStr;
     const bIsFutureOrToday = (b.start || '') >= dateStr;
 

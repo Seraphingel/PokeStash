@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X, Globe } from 'lucide-react';
+import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X, Globe, CheckCircle2 } from 'lucide-react';
 import { getEventsForDate, events, areEventsEqual, cleanEventName, EVENT_COLORS } from '../data/events';
 import { scrapedEvents } from '../data/scrapedEvents';
 import { EventDetailsModal } from './EventDetailsModal';
 import { getAssetUrl } from '../utils/assets';
 import { getSubtleRegionDisplay } from '../utils/date';
+import { getPokemon3DIconUrl, hasEventDetails } from '../utils/pokemonAssets';
 
 const SEASON_START = new Date('2026-09-08');
 const SEASON_END = new Date('2026-12-01');
@@ -115,11 +116,12 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
 
       if (matchIndex >= 0) {
         const existing = unifiedEvents[matchIndex];
+        const icon = getPokemon3DIconUrl(evt) || evt.imageUrl;
         unifiedEvents[matchIndex] = {
           ...existing,
           bonus: existing.bonus || evt.bonus,
           description: existing.description || evt.description,
-          imageUrl: existing.imageUrl || evt.imageUrl,
+          imageUrl: icon || existing.imageUrl,
           start: existing.start || evt.start,
           end: existing.end || evt.end,
           date: existing.date || evt.date,
@@ -130,12 +132,13 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           }
         };
       } else {
-        unifiedEvents.push({ ...evt });
+        const icon = getPokemon3DIconUrl(evt) || evt.imageUrl;
+        unifiedEvents.push({ ...evt, imageUrl: icon });
       }
     });
 
     const matches = [];
-    unifiedEvents.forEach(evt => {
+    unifiedEvents.filter(evt => hasEventDetails(evt)).forEach(evt => {
       const detailsStr = evt.details ? JSON.stringify(evt.details).toLowerCase() : '';
       const nameMatch = evt.name.toLowerCase().includes(q);
       const bonusMatch = (evt.bonus || '').toLowerCase().includes(q);
@@ -150,10 +153,6 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
     return matches;
   }, [searchQuery]);
 
-  const recommendMega = !megaRaidDoneThisWeek;
-  const recommendedMegaEvent = selectedEvents.megaRaids[0];
-  const recommended5StarEvent = selectedEvents.fiveStarRaids[0];
-
   // Helper to format string with <wbr> at slashes for nice wrapping
   const formatWrapSlash = (text) => {
     if (!text) return text;
@@ -163,6 +162,54 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
       </React.Fragment>
     ));
   };
+
+  // Day-of-week Raid Recommendation Logic:
+  // - Mon, Tue, Wed, Fri: 5-Star Legendary Raids (Wed = Legendary Raid Hour!)
+  // - Thu: Mega Evolution Raids
+  // - Sat, Sun: Weekend-Exclusive Shadow Raids
+  const selectedDayOfWeek = selectedDate.getDay(); // 0 = Sun, 1 = Mon, ..., 4 = Thu, 5 = Fri, 6 = Sat
+  const isThursday = selectedDayOfWeek === 4;
+  const isWeekend = selectedDayOfWeek === 0 || selectedDayOfWeek === 6;
+  const isFiveStarDay = selectedDayOfWeek === 1 || selectedDayOfWeek === 2 || selectedDayOfWeek === 3 || selectedDayOfWeek === 5;
+
+  const activeFiveStar = selectedEvents.fiveStarRaids[0];
+  const activeMega = selectedEvents.megaRaids[0];
+  const activeShadow = selectedEvents.shadowRaids[0];
+
+  let recommendation = {
+    title: 'Free Choice',
+    subtitle: 'Raid any active boss to use your daily free pass.',
+    badge: 'Raid Recommendation',
+    event: null
+  };
+
+  if (isThursday) {
+    recommendation = {
+      title: activeMega ? activeMega.name : 'Mega Evolution Raid',
+      subtitle: megaRaidDoneThisWeek 
+        ? 'Mega Raid completed this week! You can do another Mega or focus on 5-Star Legendary Raids.' 
+        : 'Thursdays are designated for your weekly Mega Raid to bank Mega Energy.',
+      badge: 'Thursday Mega Raid',
+      event: activeMega,
+      isMega: true
+    };
+  } else if (isWeekend) {
+    recommendation = {
+      title: activeShadow ? activeShadow.name : 'Shadow Raid Boss',
+      subtitle: 'Weekends are for Weekend-Exclusive Shadow Raids! Maximize your weekend Shadow passes & Purified Gems.',
+      badge: 'Weekend Shadow Raid',
+      event: activeShadow
+    };
+  } else if (isFiveStarDay) {
+    recommendation = {
+      title: activeFiveStar ? activeFiveStar.name : '5-Star Legendary Raid',
+      subtitle: selectedDayOfWeek === 3
+        ? 'Wednesday Raid Hour (6:00 PM – 7:00 PM)! Perfect time to farm 5-Star Legendary Raids with local communities.'
+        : 'Monday–Wednesday and Friday are prioritized for 5-Star Legendary Raids.',
+      badge: selectedDayOfWeek === 3 ? 'Wednesday Raid Hour' : '5-Star Raid Day',
+      event: activeFiveStar
+    };
+  }
 
   const getEventTagStyle = (evt, defaultCategory) => {
     const name = (evt.name || '').toLowerCase();
@@ -241,11 +288,14 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           zIndex: 1,
           flexShrink: 0
         }}>
-          {evt.imageUrl ? (
-            <img src={getAssetUrl(evt.imageUrl)} alt={evt.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
-          ) : (
-            <Calendar color={color} size={24} />
-          )}
+          {(() => {
+            const icon = getPokemon3DIconUrl(evt) || evt.imageUrl;
+            return icon ? (
+              <img src={getAssetUrl(icon)} alt={evt.name} style={{ width: '44px', height: '44px', objectFit: 'contain' }} />
+            ) : (
+              <Calendar color={color} size={24} />
+            );
+          })()}
         </div>
 
         <div style={{ flex: 1, zIndex: 1, minWidth: 0 }}>
@@ -446,24 +496,48 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             </div>
             
             <div style={{ marginTop: '32px' }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: '600', opacity: 0.7, marginBottom: '8px' }}>Raid Recommendation</div>
-              {recommendMega && recommendedMegaEvent ? (
-                <div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#FCD34D', lineHeight: '1.3' }}>
-                    {formatWrapSlash(recommendedMegaEvent.name)}
-                  </div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '8px', lineHeight: '1.4' }}>
-                    Mega Raids are best done on Thursdays (Wednesdays are for Legendary Raid Hours!).
-                  </div>
+              <div style={{ fontSize: '0.85rem', fontWeight: '600', opacity: 0.7, marginBottom: '8px' }}>
+                {recommendation.badge}
+              </div>
+              <div 
+                style={{ cursor: recommendation.event ? 'pointer' : 'default' }}
+                onClick={() => recommendation.event && setSelectedEvent(recommendation.event)}
+              >
+                <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#FCD34D', lineHeight: '1.3' }}>
+                  {formatWrapSlash(recommendation.title)}
                 </div>
-              ) : recommended5StarEvent ? (
-                <div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#FCD34D', lineHeight: '1.3' }}>
-                    {formatWrapSlash(recommended5StarEvent.name)}
-                  </div>
+                <div style={{ fontSize: '0.82rem', opacity: 0.85, marginTop: '8px', lineHeight: '1.45' }}>
+                  {recommendation.subtitle}
                 </div>
-              ) : (
-                <div style={{ fontSize: '1rem', fontWeight: 'bold' }}>Free Choice</div>
+              </div>
+
+              {/* Mega Raid completion status toggle for Thursday */}
+              {isThursday && toggleMegaRaid && (
+                <div style={{ marginTop: '14px' }}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMegaRaid();
+                    }}
+                    style={{
+                      background: megaRaidDoneThisWeek ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.12)',
+                      border: `1px solid ${megaRaidDoneThisWeek ? 'rgba(16, 185, 129, 0.5)' : 'rgba(255, 255, 255, 0.2)'}`,
+                      color: megaRaidDoneThisWeek ? '#34D399' : '#FFFFFF',
+                      borderRadius: '10px',
+                      padding: '7px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <CheckCircle2 size={14} color={megaRaidDoneThisWeek ? '#34D399' : 'currentColor'} />
+                    <span>{megaRaidDoneThisWeek ? 'Mega Done This Week' : 'Mark Mega as Done'}</span>
+                  </button>
+                </div>
               )}
             </div>
           </div>

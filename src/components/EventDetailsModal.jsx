@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X, Info, Star, Target, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 import { formatEventDateRange } from '../utils/date';
+import { getPokemon3DIconUrl } from '../utils/pokemonAssets';
 
 export function EventDetailsModal({ evt, onClose }) {
   if (!evt) return null;
@@ -69,18 +70,21 @@ export function EventDetailsModal({ evt, onClose }) {
           alignItems: 'center',
           gap: '16px'
         }}>
-          {evt.imageUrl && (
-            <img 
-              src={getAssetUrl(evt.imageUrl)} 
-              alt={evt.name} 
-              style={{ 
-                width: '80px', 
-                height: '80px', 
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
-              }} 
-            />
-          )}
+          {(() => {
+            const icon = getPokemon3DIconUrl(evt) || evt.imageUrl;
+            return icon ? (
+              <img 
+                src={getAssetUrl(icon)} 
+                alt={evt.name} 
+                style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
+                }} 
+              />
+            ) : null;
+          })()}
           <div>
             <h2 id="event-modal-title" style={{ margin: '0 0 8px 0', fontSize: '1.5rem', lineHeight: '1.2' }}>{evt.name}</h2>
             <div style={{ opacity: 0.9, fontSize: '0.9rem' }}>

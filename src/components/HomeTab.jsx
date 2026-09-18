@@ -8,6 +8,7 @@ import { getEventsForDate, getUpcomingEvents, EVENT_COLORS } from '../data/event
 import { EventDetailsModal } from './EventDetailsModal';
 import { getAssetUrl } from '../utils/assets';
 import { formatEventDateRange, formatUntilDate, getSubtleRegionDisplay } from '../utils/date';
+import { getPokemon3DIconUrl } from '../utils/pokemonAssets';
 
 const RaidBossCard = ({ event, badgeLabel, badgeColor, subtitle, onClick }) => {
   return (
@@ -31,7 +32,7 @@ const RaidBossCard = ({ event, badgeLabel, badgeColor, subtitle, onClick }) => {
     >
       <div className="home-event-thumb" style={{ width: '64px', height: '64px' }}>
         <img 
-          src={getAssetUrl(event.imageUrl)} 
+          src={getAssetUrl(getPokemon3DIconUrl(event) || event.imageUrl)} 
           alt={event.name} 
           onError={(e) => { e.target.style.display = 'none'; }}
         />
@@ -396,7 +397,7 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                 <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '12px' }}>
                   <div className="home-event-thumb">
                     <img 
-                      src={getAssetUrl(evt.imageUrl)} 
+                      src={getAssetUrl(getPokemon3DIconUrl(evt) || evt.imageUrl)} 
                       alt={evt.name} 
                       onError={(e) => {
                         e.target.style.display = 'none';
