@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { 
   ShoppingCart, Plus, Minus, CreditCard, Tag, Lock, Trash2, 
   Box, AlertCircle, CheckCircle2, X, Search, 
-  Calculator, ShoppingBag, Check, Pencil
+  Calculator, ShoppingBag, Check, Pencil, Coins
 } from 'lucide-react';
 import { SHOP_ITEMS, SHOP_CATEGORIES } from '../data/shopItems';
 import { getAssetUrl } from '../utils/assets';

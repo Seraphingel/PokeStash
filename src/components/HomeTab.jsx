@@ -38,11 +38,11 @@ const RaidBossCard = ({ event, badgeLabel, badgeColor, subtitle, onClick }) => {
         />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-          <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'white', background: badgeColor, padding: '2px 8px', borderRadius: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', flexWrap: 'nowrap', minWidth: 0 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'white', background: badgeColor, padding: '2px 8px', borderRadius: '8px', whiteSpace: 'nowrap', flexShrink: 0 }}>
             {badgeLabel}
           </span>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {badgeLabel === 'SHADOW RAID' 
               ? (event.end ? formatUntilDate(event.end) : 'Weekend Boss')
               : formatUntilDate(event.end)}
@@ -379,12 +379,12 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedEvent(evt); } }}
               >
                 {/* Top Badge & Category Row */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '8px' }}>
-                  <span className={`home-countdown-badge ${badge.cls}`}>
-                    <Clock size={12} /> {badge.text}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '8px', minWidth: 0, flexWrap: 'nowrap' }}>
+                  <span className={`home-countdown-badge ${badge.cls}`} style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    <Clock size={12} style={{ flexShrink: 0 }} /> <span>{badge.text}</span>
                   </span>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flexShrink: 1, justifyContent: 'flex-end' }}>
                     {subtleRegion && (
                       <span 
                         className="event-subtle-region-pill" 
@@ -400,7 +400,9 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                       padding: '3px 9px', 
                       borderRadius: '8px', 
                       background: `${evt.color || EVENT_COLORS.Event}20`, 
-                      color: evt.color || EVENT_COLORS.Event 
+                      color: evt.color || EVENT_COLORS.Event,
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0
                     }}>
                       {evt.typeLabel || 'Event'}
                     </span>
@@ -462,11 +464,11 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                 )}
 
                 {/* Footer Action */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--color-border)', gap: '8px', minWidth: 0 }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0, flexShrink: 1 }}>
                     {evt.details?.regions ? `📍 ${evt.details.regions[0]}` : 'Global Event'}
                   </span>
-                  <span style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', flexShrink: 0 }}>
                     View Details <ChevronRight size={14} />
                   </span>
                 </div>

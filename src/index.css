@@ -1257,6 +1257,9 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.2;
 }
 
 .home-countdown-today {
@@ -1515,10 +1518,18 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
   letter-spacing: 0.2px;
   white-space: nowrap;
-  max-width: 170px;
+  max-width: 140px;
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.event-subtle-region-pill span {
   overflow: hidden;
   text-overflow: ellipsis;
-  vertical-align: middle;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 /* Promo Code Box */

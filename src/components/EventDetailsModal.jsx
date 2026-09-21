@@ -5,6 +5,14 @@ import { formatEventDateRange } from '../utils/date';
 import { getPokemon3DIconUrl } from '../utils/pokemonAssets';
 
 export function EventDetailsModal({ evt, onClose }) {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!evt) return null;
 
   const rawFeatured = Array.isArray(evt.details?.featured) ? evt.details.featured : [];
@@ -29,14 +37,6 @@ export function EventDetailsModal({ evt, onClose }) {
 
   const wildEncountersList = evt.details?.['Wild Encounters'] || evt.details?.Spawns || [];
   const cleanWildSpawns = filterCleanPokemonNames(wildEncountersList);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
 
   return (
     <div style={{

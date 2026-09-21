@@ -60,8 +60,6 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
     }
   }, [selectedDate, dates]);
 
-  if (dates.length === 0) return null;
-
   const selectedEvents = getEventsForDate(selectedDate);
   const hasSpecificMaxMonday = (selectedEvents.maxBattles || []).some(m => (m.name || '').toLowerCase().includes('max monday'));
   const activeDiscoveries = hasSpecificMaxMonday 
@@ -333,7 +331,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           </div>
         </div>
 
-        <div style={{ zIndex: 1 }}>
+        <div style={{ zIndex: 1, flexShrink: 0 }}>
           <button className="btn" style={{ 
             background: color, 
             color: 'white',
@@ -343,7 +341,8 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             fontWeight: 'bold',
             border: 'none',
             boxShadow: `0 4px 12px ${color + '40'}`,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap'
           }}>
             {badge}
           </button>
@@ -351,6 +350,8 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
       </div>
     );
   };
+
+  if (dates.length === 0) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

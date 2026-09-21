@@ -402,19 +402,6 @@ export const events = {
       details: { regions: ["TBA, Bangkok"], featured: ["TBA T-Shirt Pikachu", "Regional spawns"] }
     },
     { 
-      name: "Choose Your Path: Venom and Vines", 
-      start: "2026-09-23", 
-      end: "2026-09-28", 
-      color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm71.fMEGA.icon.png`,
-      details: {
-        featured: ["Victreebel", "Malamar"],
-        "Branching Research": ["Venom Path (Poison-type focus)", "Vines Path (Grass-type focus)"],
-        bonuses: ["Increased spawns of Poison and Grass Pokémon", "Event-themed Timed Research"],
-        advice: "Choose between Venom and Vines branching research! Event concludes September 28 at 8:00 PM local time."
-      }
-    },
-    { 
       name: "Dancing in the Moonlight", 
       start: "2026-09-23", 
       end: "2026-09-27", 
