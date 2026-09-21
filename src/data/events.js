@@ -842,39 +842,39 @@ export const events = {
       }
     },
     { 
-      name: "Dialga (Origin Forme)", 
+      name: "Dialga", 
       start: "2026-10-14", 
       end: "2026-10-20", 
       color: EVENT_COLORS.Raid,
-      imageUrl: `${BASE_ASSET_URL}pm483.fORIGIN.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm483.icon.png`,
       details: {
-        featured: ["Dialga (Origin Forme)"],
+        featured: ["Dialga"],
         type: ["Steel", "Dragon"],
         weaknesses: ["Fighting", "Ground"],
         advice: "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 14 from 6:00 PM – 7:00 PM local time!"
       }
     },
     { 
-      name: "Palkia (Origin Forme)", 
+      name: "Palkia", 
       start: "2026-10-21", 
       end: "2026-10-27", 
       color: EVENT_COLORS.Raid,
-      imageUrl: `${BASE_ASSET_URL}pm484.fORIGIN.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm484.icon.png`,
       details: {
-        featured: ["Palkia (Origin Forme)"],
+        featured: ["Palkia"],
         type: ["Water", "Dragon"],
         weaknesses: ["Dragon", "Fairy"],
         advice: "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 21 from 6:00 PM – 7:00 PM local time!"
       }
     },
     { 
-      name: "Giratina (Altered Forme)", 
+      name: "Giratina (Origin Forme)", 
       start: "2026-10-28", 
       end: "2026-11-03", 
       color: EVENT_COLORS.Raid,
-      imageUrl: `${BASE_ASSET_URL}pm487.fALTERED.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm487.fORIGIN.icon.png`,
       details: {
-        featured: ["Giratina (Altered Forme)"],
+        featured: ["Giratina (Origin Forme)"],
         type: ["Ghost", "Dragon"],
         weaknesses: ["Dark", "Dragon", "Fairy", "Ghost", "Ice"],
         advice: "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 28 from 6:00 PM – 7:00 PM local time!"
@@ -974,19 +974,16 @@ export const events = {
       }
     },
     { 
-      name: "Mega Charizard X & Mega Charizard Y", 
+      name: "Mega Charizard X", 
       start: "2026-10-21", 
       end: "2026-10-27", 
       color: EVENT_COLORS.Raid,
       imageUrl: `${BASE_ASSET_URL}pm6.fMEGA_X.icon.png`,
       details: {
-        featured: ["Mega Charizard X", "Mega Charizard Y"],
-        type: ["Fire / Dragon (Mega Charizard X)", "Fire / Flying (Mega Charizard Y)"],
-        weaknesses: [
-          "Dragon, Ground, Rock (Mega Charizard X)",
-          "Rock (Double Weakness - 2x), Electric, Water (Mega Charizard Y)"
-        ],
-        advice: "Both Mega Charizard X and Mega Charizard Y appear in Mega Raids simultaneously!"
+        featured: ["Mega Charizard X"],
+        type: ["Fire", "Dragon"],
+        weaknesses: ["Dragon", "Ground", "Rock"],
+        advice: "Mega Charizard X appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     { 

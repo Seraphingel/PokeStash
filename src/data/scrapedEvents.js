@@ -280,25 +280,25 @@ export const scrapedEvents = {
       }
     },
     {
-      "name": "Mega Charizard X & Mega Charizard Y",
+      "name": "Mega Charizard X",
       "type": "raid-battles",
       "start": "2026-10-21",
       "end": "2026-10-27",
       "imageUrl": "/assets/pokemon/pm6.fMEGA_X.icon.png",
       "details": {
         "featured": [
-          "Mega Charizard X",
-          "Mega Charizard Y"
+          "Mega Charizard X"
         ],
         "type": [
-          "Fire / Dragon (Mega Charizard X)",
-          "Fire / Flying (Mega Charizard Y)"
+          "Fire",
+          "Dragon"
         ],
         "weaknesses": [
-          "Dragon, Ground, Rock (Mega Charizard X)",
-          "Rock (Double Weakness - 2x), Electric, Water (Mega Charizard Y)"
+          "Dragon",
+          "Ground",
+          "Rock"
         ],
-        "advice": "Both Mega Charizard X and Mega Charizard Y appear in Mega Raids simultaneously!"
+        "advice": "Mega Charizard X appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     {
@@ -583,14 +583,14 @@ export const scrapedEvents = {
       }
     },
     {
-      "name": "Dialga (Origin Forme) Raid Hour",
+      "name": "Dialga Raid Hour",
       "type": "raid-hour",
       "start": "2026-10-14",
       "end": "2026-10-14",
-      "imageUrl": "/assets/pokemon/pm483.fORIGIN.icon.png",
+      "imageUrl": "/assets/pokemon/pm483.icon.png",
       "details": {
         "featured": [
-          "Dialga (Origin Forme)"
+          "Dialga"
         ],
         "type": [
           "Steel",
@@ -600,18 +600,18 @@ export const scrapedEvents = {
           "Fighting",
           "Ground"
         ],
-        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Dialga (Origin Forme) raids globally!"
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Dialga raids globally!"
       }
     },
     {
-      "name": "Dialga (Origin Forme)",
+      "name": "Dialga",
       "type": "raid-battles",
       "start": "2026-10-14",
       "end": "2026-10-20",
-      "imageUrl": "/assets/pokemon/pm483.fORIGIN.icon.png",
+      "imageUrl": "/assets/pokemon/pm483.icon.png",
       "details": {
         "featured": [
-          "Dialga (Origin Forme)"
+          "Dialga"
         ],
         "type": [
           "Steel",
@@ -625,14 +625,14 @@ export const scrapedEvents = {
       }
     },
     {
-      "name": "Palkia (Origin Forme) Raid Hour",
+      "name": "Palkia Raid Hour",
       "type": "raid-hour",
       "start": "2026-10-21",
       "end": "2026-10-21",
-      "imageUrl": "/assets/pokemon/pm484.fORIGIN.icon.png",
+      "imageUrl": "/assets/pokemon/pm484.icon.png",
       "details": {
         "featured": [
-          "Palkia (Origin Forme)"
+          "Palkia"
         ],
         "type": [
           "Water",
@@ -642,18 +642,18 @@ export const scrapedEvents = {
           "Dragon",
           "Fairy"
         ],
-        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Palkia (Origin Forme) raids globally!"
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Palkia raids globally!"
       }
     },
     {
-      "name": "Palkia (Origin Forme)",
+      "name": "Palkia",
       "type": "raid-battles",
       "start": "2026-10-21",
       "end": "2026-10-27",
-      "imageUrl": "/assets/pokemon/pm484.fORIGIN.icon.png",
+      "imageUrl": "/assets/pokemon/pm484.icon.png",
       "details": {
         "featured": [
-          "Palkia (Origin Forme)"
+          "Palkia"
         ],
         "type": [
           "Water",
@@ -667,14 +667,14 @@ export const scrapedEvents = {
       }
     },
     {
-      "name": "Giratina (Altered Forme) Raid Hour",
+      "name": "Giratina (Origin Forme) Raid Hour",
       "type": "raid-hour",
       "start": "2026-10-28",
       "end": "2026-10-28",
-      "imageUrl": "/assets/pokemon/pm487.fALTERED.icon.png",
+      "imageUrl": "/assets/pokemon/pm487.fORIGIN.icon.png",
       "details": {
         "featured": [
-          "Giratina (Altered Forme)"
+          "Giratina (Origin Forme)"
         ],
         "type": [
           "Ghost",
@@ -687,18 +687,18 @@ export const scrapedEvents = {
           "Ghost",
           "Ice"
         ],
-        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Giratina (Altered Forme) raids globally!"
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Giratina (Origin Forme) raids globally!"
       }
     },
     {
-      "name": "Giratina (Altered Forme)",
+      "name": "Giratina (Origin Forme)",
       "type": "raid-battles",
       "start": "2026-10-28",
       "end": "2026-11-03",
-      "imageUrl": "/assets/pokemon/pm487.fALTERED.icon.png",
+      "imageUrl": "/assets/pokemon/pm487.fORIGIN.icon.png",
       "details": {
         "featured": [
-          "Giratina (Altered Forme)"
+          "Giratina (Origin Forme)"
         ],
         "type": [
           "Ghost",

@@ -81,13 +81,17 @@ const POKEMON_3D_ICONS = {
   'sableye': 'pm302.icon.png',
   'mega sableye': 'pm302.fMEGA.icon.png',
   'dynamax sableye': 'pm302.icon.png',
-  'dialga': 'pm483.fORIGIN.icon.png',
+  'dialga': 'pm483.icon.png',
+  'dialga altered': 'pm483.icon.png',
   'dialga origin': 'pm483.fORIGIN.icon.png',
   'origin dialga': 'pm483.fORIGIN.icon.png',
-  'palkia': 'pm484.fORIGIN.icon.png',
+  'palkia': 'pm484.icon.png',
+  'palkia altered': 'pm484.icon.png',
   'palkia origin': 'pm484.fORIGIN.icon.png',
   'origin palkia': 'pm484.fORIGIN.icon.png',
-  'giratina': 'pm487.fALTERED.icon.png',
+  'giratina': 'pm487.fORIGIN.icon.png',
+  'giratina origin': 'pm487.fORIGIN.icon.png',
+  'origin giratina': 'pm487.fORIGIN.icon.png',
   'giratina altered': 'pm487.fALTERED.icon.png',
   'altered giratina': 'pm487.fALTERED.icon.png',
   'elgyem': 'pm605.icon.png',
@@ -148,6 +152,15 @@ export function getPokemon3DIconUrl(evt) {
     return `${BASE_POKEMON_URL}${iconPath}`;
   };
 
+  // Special rule: If there are 2 Mega Evolutions (e.g. Charizard X & Y), feature Mega X
+  const fullText = `${evt.name || ''} ${JSON.stringify(evt.details || '')}`.toLowerCase();
+  if (fullText.includes('charizard') && (fullText.includes('charizard x') || fullText.includes('mega charizard x') || fullText.includes('mega x'))) {
+    return resolvePath('pm6.fMEGA_X.icon.png');
+  }
+
+  // Sort keys by length descending so specific forms (e.g. 'mega charizard x') match before base ('charizard')
+  const sortedIconEntries = Object.entries(POKEMON_3D_ICONS).sort((a, b) => b[0].length - a[0].length);
+
   // 1. Check details.featured (first mentioned featured Pokemon)
   const featuredList = Array.isArray(evt.details?.featured) 
     ? evt.details.featured 
@@ -156,7 +169,7 @@ export function getPokemon3DIconUrl(evt) {
   for (const item of featuredList) {
     if (!item || typeof item !== 'string') continue;
     const clean = item.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-    for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
+    for (const [key, iconPath] of sortedIconEntries) {
       if (clean.includes(key)) {
         return resolvePath(iconPath);
       }
@@ -168,7 +181,7 @@ export function getPokemon3DIconUrl(evt) {
   let firstMatch = null;
   let minIndex = Infinity;
 
-  for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
+  for (const [key, iconPath] of sortedIconEntries) {
     const idx = nameLower.indexOf(key);
     if (idx !== -1 && idx < minIndex) {
       minIndex = idx;
@@ -190,7 +203,7 @@ export function getPokemon3DIconUrl(evt) {
   for (const item of fallbackLists) {
     if (!item || typeof item !== 'string') continue;
     const clean = item.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-    for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
+    for (const [key, iconPath] of sortedIconEntries) {
       if (clean.includes(key)) {
         return resolvePath(iconPath);
       }
