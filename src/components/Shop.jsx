@@ -194,7 +194,7 @@ export function Shop({ coins, deductCoins, DAILY_COINS = 50, overrideCoins, onNa
                 className="shop-wallet-coin-img"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+                  e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
                 }}
               />
             </div>
@@ -246,7 +246,7 @@ export function Shop({ coins, deductCoins, DAILY_COINS = 50, overrideCoins, onNa
                 style={{ width: '26px', height: '26px', objectFit: 'contain' }}
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+                  e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
                 }}
               />
             </div>
@@ -422,7 +422,7 @@ export function Shop({ coins, deductCoins, DAILY_COINS = 50, overrideCoins, onNa
                             style={{ width: '18px', height: '18px', objectFit: 'contain' }}
                             onError={(e) => {
                               e.currentTarget.onerror = null;
-                              e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+                              e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
                             }}
                           />
                           <span>{item.price}</span>
@@ -662,7 +662,7 @@ export function Shop({ coins, deductCoins, DAILY_COINS = 50, overrideCoins, onNa
                         style={{ width: '20px', height: '20px', objectFit: 'contain' }}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
-                          e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+                          e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
                         }}
                       />
                       {cartTotal}

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { 
   Coins, LogIn, Sparkles, Calendar, 
   ArrowRight, Clock, Award, Swords, ChevronRight, 
-  Compass, Link2, Mail, Flame, CheckCircle2, Globe
+  Compass, Link2, Mail, Flame, CheckCircle2
 } from 'lucide-react';
 import { getEventsForDate, getUpcomingEvents, EVENT_COLORS } from '../data/events';
 import { EventDetailsModal } from './EventDetailsModal';
@@ -384,29 +384,18 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                     <Clock size={12} style={{ flexShrink: 0 }} /> <span>{badge.text}</span>
                   </span>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0, flexShrink: 1, justifyContent: 'flex-end' }}>
-                    {subtleRegion && (
-                      <span 
-                        className="event-subtle-region-pill" 
-                        title={regions.join(', ')}
-                      >
-                        <Globe size={11} style={{ flexShrink: 0 }} />
-                        <span>{subtleRegion}</span>
-                      </span>
-                    )}
-                    <span style={{ 
-                      fontSize: '0.72rem', 
-                      fontWeight: '700', 
-                      padding: '3px 9px', 
-                      borderRadius: '8px', 
-                      background: `${evt.color || EVENT_COLORS.Event}20`, 
-                      color: evt.color || EVENT_COLORS.Event,
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0
-                    }}>
-                      {evt.typeLabel || 'Event'}
-                    </span>
-                  </div>
+                  <span style={{ 
+                    fontSize: '0.72rem', 
+                    fontWeight: '700', 
+                    padding: '3px 9px', 
+                    borderRadius: '8px', 
+                    background: `${evt.color || EVENT_COLORS.Event}20`, 
+                    color: evt.color || EVENT_COLORS.Event,
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0
+                  }}>
+                    {evt.typeLabel || 'Event'}
+                  </span>
                 </div>
 
                 {/* Event Thumbnail & Title Row */}
@@ -466,7 +455,7 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                 {/* Footer Action */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--color-border)', gap: '8px', minWidth: 0 }}>
                   <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0, flexShrink: 1 }}>
-                    {evt.details?.regions ? `📍 ${evt.details.regions[0]}` : 'Global Event'}
+                    {subtleRegion ? `📍 ${subtleRegion}` : 'Global Event'}
                   </span>
                   <span style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', flexShrink: 0 }}>
                     View Details <ChevronRight size={14} />

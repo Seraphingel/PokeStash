@@ -324,14 +324,14 @@ export const scrapedEvents = {
   ],
   "shadowRaids": [
     {
-      "name": "Shadow Thundurus (Therian Forme)",
+      "name": "Shadow Thundurus (Incarnate Forme)",
       "type": "raid-battles",
       "start": "2026-09-09",
       "end": "2026-10-06",
       "imageUrl": "/assets/pokemon/pm642.fTHERIAN.icon.png",
       "details": {
         "featured": [
-          "Shadow Thundurus (Therian Forme)"
+          "Shadow Thundurus (Incarnate Forme)"
         ],
         "type": [
           "Electric",

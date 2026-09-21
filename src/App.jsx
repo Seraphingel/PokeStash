@@ -228,7 +228,7 @@ function App() {
               style={{ width: '18px', height: '18px', objectFit: 'contain', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+                e.currentTarget.src = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
               }}
             />
             <span>{coins.toLocaleString()} Coins</span>

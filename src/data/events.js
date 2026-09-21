@@ -989,14 +989,14 @@ export const events = {
   ],
   shadowRaids: [
     { 
-      name: "Shadow Thundurus (Therian Forme)", 
+      name: "Shadow Thundurus (Incarnate Forme)", 
       start: "2026-09-09", 
       end: "2026-10-06", 
       color: EVENT_COLORS.Raid, 
       isWeekendOnly: true,
       imageUrl: `${BASE_ASSET_URL}pm642.fTHERIAN.icon.png`,
       details: {
-        featured: ["Shadow Thundurus (Therian Forme)"],
+        featured: ["Shadow Thundurus (Incarnate Forme)"],
         type: ["Electric", "Flying"],
         weaknesses: ["Ice", "Rock"],
         difficulty: "3+ trainers needed",

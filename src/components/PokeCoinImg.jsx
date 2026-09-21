@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAssetUrl } from '../utils/assets';
 
-const FALLBACK_SRC = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_1401.png';
+const FALLBACK_SRC = 'https://raw.githubusercontent.com/PokeMiners/pogo_assets/master/Images/Items/Item_COIN_01.png';
 
 /**
  * Reusable PokéCoin image with automatic fallback to the PokeMiners CDN.

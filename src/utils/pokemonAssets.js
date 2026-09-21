@@ -46,6 +46,8 @@ const POKEMON_3D_ICONS = {
   'zorua': 'pm570.icon.png',
   'thundurus': 'pm642.fTHERIAN.icon.png',
   'shadow thundurus': 'pm642.fTHERIAN.icon.png',
+  'shadow thundurus (incarnate forme)': 'pm642.fTHERIAN.icon.png',
+  'shadow thundurus incarnate': 'pm642.fTHERIAN.icon.png',
   'zekrom': '/assets/events/pokemon_icon_644_00.png',
   'skiddo': 'pm672.icon.png',
   'malamar': 'pm687.fMEGA.icon.png',
