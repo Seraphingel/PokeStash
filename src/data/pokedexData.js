@@ -342,7 +342,7 @@ export const POKEDEX_LIST = [
     "types": [
       "Electric"
     ],
-    "icon": "pm26.icon.png"
+    "icon": "pm26.fMEGA_X.icon.png"
   },
   {
     "id": 26,
@@ -350,7 +350,7 @@ export const POKEDEX_LIST = [
     "types": [
       "Electric"
     ],
-    "icon": "pm26.icon.png"
+    "icon": "pm26.fMEGA_Y.icon.png"
   },
   {
     "id": 26,
@@ -838,7 +838,7 @@ export const POKEDEX_LIST = [
       "Grass",
       "Poison"
     ],
-    "icon": "pm71.icon.png"
+    "icon": "pm71.fMEGA.icon.png"
   },
   {
     "id": 71,
@@ -1773,7 +1773,7 @@ export const POKEDEX_LIST = [
       "Dragon",
       "Flying"
     ],
-    "icon": "pm149.icon.png"
+    "icon": "pm149.fMEGA.icon.png"
   },
   {
     "id": 150,
@@ -1782,7 +1782,7 @@ export const POKEDEX_LIST = [
       "Psychic",
       "Fighting"
     ],
-    "icon": "pm150.icon.png"
+    "icon": "pm150.fMEGA_X.icon.png"
   },
   {
     "id": 150,
@@ -1790,7 +1790,7 @@ export const POKEDEX_LIST = [
     "types": [
       "Psychic"
     ],
-    "icon": "pm150.icon.png"
+    "icon": "pm150.fMEGA_Y.icon.png"
   },
   {
     "id": 150,
@@ -4090,7 +4090,7 @@ export const POKEDEX_LIST = [
     "types": [
       "Water"
     ],
-    "icon": "pm382.icon.png"
+    "icon": "pm382.fPRIMAL.icon.png"
   },
   {
     "id": 383,
@@ -4107,7 +4107,7 @@ export const POKEDEX_LIST = [
       "Ground",
       "Fire"
     ],
-    "icon": "pm383.icon.png"
+    "icon": "pm383.fPRIMAL.icon.png"
   },
   {
     "id": 384,
@@ -4269,7 +4269,7 @@ export const POKEDEX_LIST = [
       "Fighting",
       "Flying"
     ],
-    "icon": "pm398.icon.png"
+    "icon": "pm398.fMEGA.icon.png"
   },
   {
     "id": 398,
@@ -7218,7 +7218,7 @@ export const POKEDEX_LIST = [
       "Grass",
       "Fighting"
     ],
-    "icon": "pm652.icon.png"
+    "icon": "pm652.fMEGA.icon.png"
   },
   {
     "id": 653,
@@ -7252,7 +7252,7 @@ export const POKEDEX_LIST = [
       "Fire",
       "Psychic"
     ],
-    "icon": "pm655.icon.png"
+    "icon": "pm655.fMEGA.icon.png"
   },
   {
     "id": 656,
@@ -7286,7 +7286,7 @@ export const POKEDEX_LIST = [
       "Water",
       "Dark"
     ],
-    "icon": "pm658.icon.png"
+    "icon": "pm658.fMEGA.icon.png"
   },
   {
     "id": 659,
@@ -11996,7 +11996,7 @@ export const POKEDEX_MAP = {
     "types": [
       "Electric"
     ],
-    "icon": "pm26.icon.png"
+    "icon": "pm26.fMEGA_X.icon.png"
   },
   "mega raichu y": {
     "id": 26,
@@ -12004,7 +12004,7 @@ export const POKEDEX_MAP = {
     "types": [
       "Electric"
     ],
-    "icon": "pm26.icon.png"
+    "icon": "pm26.fMEGA_Y.icon.png"
   },
   "alolan raichu": {
     "id": 26,
@@ -12502,7 +12502,7 @@ export const POKEDEX_MAP = {
       "Grass",
       "Poison"
     ],
-    "icon": "pm71.icon.png"
+    "icon": "pm71.fMEGA.icon.png"
   },
   "tentacool": {
     "id": 72,
@@ -13428,7 +13428,7 @@ export const POKEDEX_MAP = {
       "Dragon",
       "Flying"
     ],
-    "icon": "pm149.icon.png"
+    "icon": "pm149.fMEGA.icon.png"
   },
   "mewtwo": {
     "id": 150,
@@ -13445,7 +13445,7 @@ export const POKEDEX_MAP = {
       "Psychic",
       "Fighting"
     ],
-    "icon": "pm150.icon.png"
+    "icon": "pm150.fMEGA_X.icon.png"
   },
   "mega mewtwo y": {
     "id": 150,
@@ -13453,7 +13453,7 @@ export const POKEDEX_MAP = {
     "types": [
       "Psychic"
     ],
-    "icon": "pm150.icon.png"
+    "icon": "pm150.fMEGA_Y.icon.png"
   },
   "mew": {
     "id": 151,
@@ -15745,7 +15745,7 @@ export const POKEDEX_MAP = {
     "types": [
       "Water"
     ],
-    "icon": "pm382.icon.png"
+    "icon": "pm382.fPRIMAL.icon.png"
   },
   "groudon": {
     "id": 383,
@@ -15762,7 +15762,7 @@ export const POKEDEX_MAP = {
       "Ground",
       "Fire"
     ],
-    "icon": "pm383.icon.png"
+    "icon": "pm383.fPRIMAL.icon.png"
   },
   "rayquaza": {
     "id": 384,
@@ -15933,7 +15933,7 @@ export const POKEDEX_MAP = {
       "Fighting",
       "Flying"
     ],
-    "icon": "pm398.icon.png"
+    "icon": "pm398.fMEGA.icon.png"
   },
   "bidoof": {
     "id": 399,
@@ -16823,8 +16823,8 @@ export const POKEDEX_MAP = {
     "icon": "pm483.icon.png"
   },
   "dialga (origin forme)": {
-    "name": "Dialga (Origin Forme)",
     "id": 483,
+    "name": "Dialga (Origin Forme)",
     "types": [
       "Steel",
       "Dragon"
@@ -16841,8 +16841,8 @@ export const POKEDEX_MAP = {
     "icon": "pm484.icon.png"
   },
   "palkia (origin forme)": {
-    "name": "Palkia (Origin Forme)",
     "id": 484,
+    "name": "Palkia (Origin Forme)",
     "types": [
       "Water",
       "Dragon"
@@ -16876,8 +16876,8 @@ export const POKEDEX_MAP = {
     "icon": "pm487.icon.png"
   },
   "giratina (altered forme)": {
-    "name": "Giratina (Altered Forme)",
     "id": 487,
+    "name": "Giratina (Altered Forme)",
     "types": [
       "Ghost",
       "Dragon"
@@ -16885,8 +16885,8 @@ export const POKEDEX_MAP = {
     "icon": "pm487.fALTERED.icon.png"
   },
   "giratina (origin forme)": {
-    "name": "Giratina (Origin Forme)",
     "id": 487,
+    "name": "Giratina (Origin Forme)",
     "types": [
       "Ghost",
       "Dragon"
@@ -18802,7 +18802,7 @@ export const POKEDEX_MAP = {
       "Grass",
       "Fighting"
     ],
-    "icon": "pm652.icon.png"
+    "icon": "pm652.fMEGA.icon.png"
   },
   "fennekin": {
     "id": 653,
@@ -18836,7 +18836,7 @@ export const POKEDEX_MAP = {
       "Fire",
       "Psychic"
     ],
-    "icon": "pm655.icon.png"
+    "icon": "pm655.fMEGA.icon.png"
   },
   "froakie": {
     "id": 656,
@@ -18870,7 +18870,7 @@ export const POKEDEX_MAP = {
       "Water",
       "Dark"
     ],
-    "icon": "pm658.icon.png"
+    "icon": "pm658.fMEGA.icon.png"
   },
   "bunnelby": {
     "id": 659,

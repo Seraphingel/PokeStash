@@ -4,11 +4,15 @@ import { POKEDEX_LIST, POKEDEX_MAP } from '../data/pokedexData.js';
 const BASE_POKEMON_URL = '/assets/pokemon/';
 const BASE_EVENTS_URL = '/assets/events/';
 
-// High-speed CDN mirror for Pokemon GO 3D assets
+// PokeMiners CDN — full 3D GO asset library including all form suffixes (.fMEGA, .fPRIMAL, etc.)
+const POKEMINERS_CDN = 'https://cdn.jsdelivr.net/gh/PokeMiners/pogo_assets@master/Images/Pokemon%20-%20256x256/Addressable%20Assets/';
+// Fallback CDN for base-form icons (no form suffix)
 const CDN_BASE_URL = 'https://cdn.jsdelivr.net/gh/pokemon-go-api/assets@main/Pokemon/';
 const CDN_FALLBACK_URL = 'https://raw.githubusercontent.com/pokemon-go-api/assets/main/Pokemon/';
 
 // Local files saved in public/assets/pokemon/
+// NOTE: Only keep files here that are authentic GO 3D models and cannot be sourced from CDN.
+// Do NOT add 2D artwork or Pokémon HOME renders here — they will override the CDN 3D models.
 const LOCAL_POKEMON_ICONS = new Set([
   'pm111.icon.png', 'pm13.icon.png', 'pm133.icon.png', 'pm144.icon.png', 'pm145.icon.png',
   'pm146.icon.png', 'pm15.fMEGA.icon.png', 'pm18.fMEGA.icon.png', 'pm19.icon.png', 'pm228.icon.png',
@@ -17,11 +21,11 @@ const LOCAL_POKEMON_ICONS = new Set([
   'pm460.fMEGA.icon.png', 'pm483.fORIGIN.icon.png', 'pm483.icon.png', 'pm484.fORIGIN.icon.png',
   'pm484.icon.png', 'pm487.fALTERED.icon.png', 'pm487.fORIGIN.icon.png', 'pm570.icon.png',
   'pm6.fMEGA_X.icon.png', 'pm6.fMEGA_Y.icon.png', 'pm6.icon.png', 'pm605.icon.png',
-  'pm642.fINCARNATE.icon.png', 'pm642.fTHERIAN.icon.png', 'pm645.fINCARNATE.icon.png', 'pm672.icon.png',
+  'pm642.fTHERIAN.icon.png', 'pm645.fINCARNATE.icon.png', 'pm672.icon.png',
   'pm68.icon.png', 'pm687.fMEGA.icon.png', 'pm701.icon.png', 'pm708.icon.png', 'pm71.fMEGA.icon.png',
   'pm716.icon.png', 'pm717.icon.png', 'pm755.icon.png', 'pm759.icon.png', 'pm794.icon.png',
-  'pm795.icon.png', 'pm796.icon.png', 'pm798.icon.png', 'pm815.icon.png', 'pm816.icon.png',
-  'pm825.icon.png', 'pm850.icon.png', 'pm859.icon.png', 'pm888.icon.png', 'pm889.icon.png',
+  'pm795.icon.png', 'pm796.icon.png', 'pm798.icon.png', 'pm816.icon.png',
+  'pm850.icon.png', 'pm859.icon.png', 'pm888.icon.png', 'pm889.icon.png',
   'pm9.fMEGA.icon.png', 'pm92.icon.png', 'pm943.icon.png', 'pokeball.png'
 ]);
 
@@ -142,7 +146,11 @@ function resolveIconPath(iconFilename) {
     return `${BASE_EVENTS_URL}${iconFilename}`;
   }
 
-  // 3. Fallback to high-speed jsDelivr CDN
+  // 3. Form-suffixed icons (.fXXX, .cXXX) → PokeMiners CDN (has all GO 3D form models)
+  //    Base icons (pm{id}.icon.png) → pokemon-go-api CDN (lighter, faster for base forms)
+  if (/\.(f|c)[A-Z0-9_]/.test(iconFilename)) {
+    return `${POKEMINERS_CDN}${iconFilename}`;
+  }
   return `${CDN_BASE_URL}${iconFilename}`;
 }
 

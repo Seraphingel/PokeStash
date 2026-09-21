@@ -6,6 +6,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const OUTPUT_FILE = path.join(__dirname, '../src/data/pokedexData.js');
 
+// Hardcoded icon overrides for forms whose correct icon filenames differ from what the API returns.
+// These have been verified to exist in the PokeMiners 256x256 Addressable Assets CDN.
+const ICON_OVERRIDES = {
+  // Primals
+  'primal kyogre': 'pm382.fPRIMAL.icon.png',
+  'primal groudon': 'pm383.fPRIMAL.icon.png',
+  // Mega Mewtwo
+  'mega mewtwo x': 'pm150.fMEGA_X.icon.png',
+  'mega mewtwo y': 'pm150.fMEGA_Y.icon.png',
+  // Mega Raichu — GO uses X for Electric and Y for Electric/Fairy
+  'mega raichu x': 'pm26.fMEGA_X.icon.png',
+  'mega raichu y': 'pm26.fMEGA_Y.icon.png',
+  // Released Megas confirmed by user
+  'mega dragonite': 'pm149.fMEGA.icon.png',
+  'mega staraptor': 'pm398.fMEGA.icon.png',
+  'mega chesnaught': 'pm652.fMEGA.icon.png',
+  'mega delphox': 'pm655.fMEGA.icon.png',
+  'mega greninja': 'pm658.fMEGA.icon.png',
+  'mega victreebel': 'pm71.fMEGA.icon.png',
+};
+
 async function build() {
   console.log('Fetching Pokemon GO Pokedex dataset...');
   const res = await fetch('https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex.json');
@@ -40,9 +61,10 @@ async function build() {
         if (mega?.names?.English) {
           const megaName = mega.names.English.trim();
           const megaTypes = [mega.primaryType?.names?.English, mega.secondaryType?.names?.English].filter(Boolean);
-          let megaIcon = baseIcon;
-          if (mega.assets?.image) {
-            megaIcon = path.basename(mega.assets.image);
+          // Use hardcoded override if available, else fall back to API asset basename
+          let megaIcon = ICON_OVERRIDES[megaName.toLowerCase()];
+          if (!megaIcon) {
+            megaIcon = mega.assets?.image ? path.basename(mega.assets.image) : baseIcon;
           }
           const megaEntry = {
             id,
@@ -63,9 +85,10 @@ async function build() {
         if (rf?.names?.English) {
           const rfName = rf.names.English.trim();
           const rfTypes = [rf.primaryType?.names?.English, rf.secondaryType?.names?.English].filter(Boolean);
-          let rfIcon = baseIcon;
-          if (rf.assets?.image) {
-            rfIcon = path.basename(rf.assets.image);
+          // Use hardcoded override if available, else fall back to API asset basename
+          let rfIcon = ICON_OVERRIDES[rfName.toLowerCase()];
+          if (!rfIcon) {
+            rfIcon = rf.assets?.image ? path.basename(rf.assets.image) : baseIcon;
           }
           const rfEntry = {
             id,
@@ -81,6 +104,7 @@ async function build() {
   }
 
   // Add Special Form / Costume Aliases & Presets
+  // NOTE: Only ONE canonical name per unique form (no duplicate aliases).
   const specialAliases = [
     {
       name: "Captain's Cap Pikachu",
@@ -118,14 +142,9 @@ async function build() {
       types: ["Grass", "Fairy"],
       icon: "pm546.cSPRING_2024.icon.png"
     },
+    // Origin/Altered formes — one canonical name each
     {
       name: "Origin Dialga",
-      id: 483,
-      types: ["Steel", "Dragon"],
-      icon: "pm483.fORIGIN.icon.png"
-    },
-    {
-      name: "Dialga (Origin Forme)",
       id: 483,
       types: ["Steel", "Dragon"],
       icon: "pm483.fORIGIN.icon.png"
@@ -137,19 +156,7 @@ async function build() {
       icon: "pm484.fORIGIN.icon.png"
     },
     {
-      name: "Palkia (Origin Forme)",
-      id: 484,
-      types: ["Water", "Dragon"],
-      icon: "pm484.fORIGIN.icon.png"
-    },
-    {
       name: "Origin Giratina",
-      id: 487,
-      types: ["Ghost", "Dragon"],
-      icon: "pm487.fORIGIN.icon.png"
-    },
-    {
-      name: "Giratina (Origin Forme)",
       id: 487,
       types: ["Ghost", "Dragon"],
       icon: "pm487.fORIGIN.icon.png"
@@ -160,12 +167,7 @@ async function build() {
       types: ["Ghost", "Dragon"],
       icon: "pm487.fALTERED.icon.png"
     },
-    {
-      name: "Giratina (Altered Forme)",
-      id: 487,
-      types: ["Ghost", "Dragon"],
-      icon: "pm487.fALTERED.icon.png"
-    },
+    // Forces/Musketeer incarnate/therian — one canonical name each
     {
       name: "Therian Thundurus",
       id: 642,
@@ -193,11 +195,14 @@ async function build() {
   ];
 
   for (const alias of specialAliases) {
-    pokemonList.push(alias);
-    pokemonMap[alias.name.toLowerCase()] = alias;
+    // Only add if not already present (the API may have already added this form)
+    if (!pokemonMap[alias.name.toLowerCase()]) {
+      pokemonList.push(alias);
+      pokemonMap[alias.name.toLowerCase()] = alias;
+    }
   }
 
-  // Deduplicate and sort list
+  // Deduplicate list (first occurrence wins) and sort
   const uniqueNames = new Set();
   const dedupedList = [];
   for (const item of pokemonList) {
