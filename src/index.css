@@ -1531,6 +1531,88 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ------------------------------------- */
+/* ADD & EDIT EVENT MODAL STYLING        */
+/* ------------------------------------- */
+.add-event-modal-dialog {
+  background: var(--color-surface-solid);
+  color: var(--color-text-primary);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.add-event-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface-subtle);
+}
+
+.add-event-subcard {
+  background: var(--color-surface-subtle);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+}
+
+.add-event-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-solid);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add-event-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.15);
+}
+
+.add-event-category-btn-unselected {
+  background: var(--color-surface-solid);
+  color: var(--color-text-primary);
+  border: 1.5px solid var(--color-border);
+}
+
+.add-event-img-preview-box {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-border);
+}
+
+.add-event-dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface-subtle);
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-event-dropzone:hover {
+  border-color: var(--color-primary);
+  background: rgba(229, 57, 53, 0.04);
+}
+
+[data-theme="dark"] .add-event-dropzone:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ------------------------------------- */
 /* EVENT DETAILS MODAL: DARK MODE        */
 /* ------------------------------------- */
 [data-theme="dark"] .event-modal-dialog {
@@ -1571,7 +1653,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-theme="dark"] .modal-research-box {
-  background: rgba(79, 70, 229, 0.18);
+  background: rgba(79, 70, 229, 0.2);
   color: #C7D2FE;
   border-color: rgba(79, 70, 229, 0.35);
 }
@@ -1604,6 +1686,47 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(234, 179, 8, 0.16);
   color: #FDE047;
   border-color: rgba(234, 179, 8, 0.35);
+}
+
+/* ADD & EDIT EVENT MODAL: DARK MODE */
+[data-theme="dark"] .add-event-modal-dialog {
+  background: #151d30;
+  color: #F8FAFC;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+}
+
+[data-theme="dark"] .add-event-header {
+  background: #101626;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .add-event-subcard {
+  background: #0d1322;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .add-event-input {
+  background: #090e1a;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F8FAFC;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .add-event-input:focus {
+  border-color: #E53935;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.25);
+}
+
+[data-theme="dark"] .add-event-category-btn-unselected {
+  background: #090e1a;
+  color: #F8FAFC;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .add-event-img-preview-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ------------------------------------- */

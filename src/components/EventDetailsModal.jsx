@@ -1,10 +1,19 @@
 import React, { useEffect } from 'react';
-import { X, Info, Star, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy, Target } from 'lucide-react';
+import { X, Info, Star, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy, Target, Edit3, Trash2 } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 import { formatEventDateRange } from '../utils/date';
 import { getPokemon3DIconUrl } from '../utils/pokemonAssets';
 
-export function EventDetailsModal({ evt, onClose }) {
+export function EventDetailsModal({ evt, onClose, onEdit, onDelete }) {
+  useEffect(() => {
+    if (!evt) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [evt, onClose]);
+
   if (!evt) return null;
 
   const rawFeatured = Array.isArray(evt.details?.featured) ? evt.details.featured : [];
@@ -29,14 +38,6 @@ export function EventDetailsModal({ evt, onClose }) {
 
   const wildEncountersList = evt.details?.['Wild Encounters'] || evt.details?.Spawns || [];
   const cleanWildSpawns = filterCleanPokemonNames(wildEncountersList);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
 
   return (
     <div style={{
@@ -76,6 +77,10 @@ export function EventDetailsModal({ evt, onClose }) {
               <img 
                 src={getAssetUrl(icon)} 
                 alt={evt.name} 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/assets/pokemon/pokeball.png';
+                }}
                 style={{ 
                   width: '80px', 
                   height: '80px', 
@@ -376,6 +381,80 @@ export function EventDetailsModal({ evt, onClose }) {
           {!evt.details && !evt.bonus && (
             <div style={{ color: 'var(--color-text-secondary)', textAlign: 'center', padding: '20px' }}>
               No additional details available for this event.
+            </div>
+          )}
+
+          {/* Custom Event Actions: Edit & Delete */}
+          {evt.isCustom && (
+            <div style={{
+              marginTop: '20px',
+              paddingTop: '16px',
+              borderTop: '1px solid var(--color-border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{
+                fontSize: '0.78rem',
+                fontWeight: '700',
+                color: 'var(--color-text-secondary)',
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase'
+              }}>
+                Custom User Event
+              </span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {onEdit && (
+                  <button
+                    onClick={() => {
+                      onEdit(evt);
+                      onClose();
+                    }}
+                    style={{
+                      background: 'var(--color-surface-solid)',
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                      borderRadius: '10px',
+                      padding: '8px 14px',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Edit3 size={15} /> Edit Event
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    onClick={() => {
+                      if (window.confirm(`Are you sure you want to delete "${evt.name}"?`)) {
+                        onDelete(evt.id);
+                        onClose();
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(239, 68, 68, 0.1)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      color: '#DC2626',
+                      borderRadius: '10px',
+                      padding: '8px 14px',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Trash2 size={15} /> Delete Event
+                  </button>
+                )}
+              </div>
             </div>
           )}
 

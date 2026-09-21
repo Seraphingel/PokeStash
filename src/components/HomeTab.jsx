@@ -60,12 +60,16 @@ const RaidBossCard = ({ event, badgeLabel, badgeColor, subtitle, onClick }) => {
   );
 };
 
-export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS, setActiveTab }) {
+export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS, setActiveTab, userEvents = [] }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
-  const [displayCount, setDisplayCount] = useState(6);
+  const [displayCount, setDisplayCount] = useState(8);
 
-  const today = useMemo(() => new Date(), []);
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
   const todayStr = useMemo(() => {
     const y = today.getFullYear();
     const m = String(today.getMonth() + 1).padStart(2, '0');
@@ -73,8 +77,8 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
     return `${y}-${m}-${d}`;
   }, [today]);
 
-  const todayEvents = useMemo(() => getEventsForDate(today), [today]);
-  const upcomingEvents = useMemo(() => getUpcomingEvents(today), [today]);
+  const todayEvents = useMemo(() => getEventsForDate(today, userEvents), [today, userEvents]);
+  const upcomingEvents = useMemo(() => getUpcomingEvents(today, userEvents), [today, userEvents]);
 
   const activeFiveStar = todayEvents.fiveStarRaids[0];
   const activeMega = todayEvents.megaRaids[0];
@@ -121,7 +125,7 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
       
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return { text: `${monthNames[sm - 1]} ${sd}`, cls: 'home-countdown-later' };
-    } catch (e) {
+    } catch {
       return { text: startStr, cls: 'home-countdown-later' };
     }
   };

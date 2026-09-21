@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X, Globe, CheckCircle2 } from 'lucide-react';
-import { getEventsForDate, events, areEventsEqual, cleanEventName, EVENT_COLORS } from '../data/events';
+import { Calendar, AlertCircle, ChevronDown, MapPin, Tag, Search, X, Globe, CheckCircle2, Plus, Sparkles } from 'lucide-react';
+import { getEventsForDate, events, areEventsEqual, cleanEventName } from '../data/events';
 import { scrapedEvents } from '../data/scrapedEvents';
 import { EventDetailsModal } from './EventDetailsModal';
+import { AddEventModal } from './AddEventModal';
 import { getAssetUrl } from '../utils/assets';
 import { getSubtleRegionDisplay } from '../utils/date';
 import { getPokemon3DIconUrl, hasEventDetails } from '../utils/pokemonAssets';
@@ -10,8 +11,10 @@ import { getPokemon3DIconUrl, hasEventDetails } from '../utils/pokemonAssets';
 const SEASON_START = new Date('2026-09-08');
 const SEASON_END = new Date('2026-12-01');
 
-export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
+export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid, userEvents = [], addUserEvent, updateUserEvent, deleteUserEvent }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(null);
   const [selectedDate, setSelectedDate] = useState(() => {
     const d = new Date();
     d.setHours(0,0,0,0);
@@ -60,9 +63,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
     }
   }, [selectedDate, dates]);
 
-  if (dates.length === 0) return null;
-
-  const selectedEvents = getEventsForDate(selectedDate);
+  const selectedEvents = getEventsForDate(selectedDate, userEvents);
   const hasSpecificMaxMonday = (selectedEvents.maxBattles || []).some(m => (m.name || '').toLowerCase().includes('max monday'));
   const activeDiscoveries = hasSpecificMaxMonday 
     ? selectedEvents.discoveries.filter(d => !(d.name || '').toLowerCase().includes('max monday'))
@@ -92,7 +93,8 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
       ...(scrapedEvents.fiveStarRaids || []),
       ...(scrapedEvents.megaRaids || []),
       ...(scrapedEvents.shadowRaids || []),
-      ...(scrapedEvents.spotlightHours || [])
+      ...(scrapedEvents.spotlightHours || []),
+      ...(userEvents || [])
     ];
 
     // Deduplicate and merge events by equality matching
@@ -163,7 +165,7 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
     });
 
     return matches;
-  }, [searchQuery]);
+  }, [searchQuery, userEvents]);
 
   // Helper to format string with <wbr> at slashes for nice wrapping
   const formatWrapSlash = (text) => {
@@ -303,7 +305,15 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
           {(() => {
             const icon = getPokemon3DIconUrl(evt) || evt.imageUrl;
             return icon ? (
-              <img src={getAssetUrl(icon)} alt={evt.name} style={{ width: '44px', height: '44px', objectFit: 'contain' }} />
+              <img 
+                src={getAssetUrl(icon)} 
+                alt={evt.name} 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/assets/pokemon/pokeball.png';
+                }}
+                style={{ width: '44px', height: '44px', objectFit: 'contain' }} 
+              />
             ) : (
               <Calendar color={color} size={24} />
             );
@@ -313,6 +323,23 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
         <div style={{ flex: 1, zIndex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
             <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'var(--color-text-primary)' }}>{evt.name}</h4>
+            {evt.isCustom && (
+              <span style={{
+                background: 'rgba(99, 102, 241, 0.14)',
+                color: '#6366F1',
+                border: '1px solid rgba(99, 102, 241, 0.35)',
+                padding: '1px 7px',
+                borderRadius: '6px',
+                fontSize: '0.7rem',
+                fontWeight: '700',
+                letterSpacing: '0.4px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '3px'
+              }}>
+                <Sparkles size={11} /> CUSTOM
+              </span>
+            )}
             {subtleRegion && (
               <span 
                 className="event-subtle-region-pill" 
@@ -613,35 +640,63 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
               )}
             </div>
 
-            {/* Event & Pokémon Search Input */}
-            <div style={{ position: 'relative', flex: '1 1 200px', maxWidth: '340px' }}>
-              <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)', pointerEvents: 'none' }} />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search events, raids, Pokémon..."
-                style={{
-                  width: '100%',
-                  padding: '9px 36px',
-                  borderRadius: '12px',
-                  border: '1px solid var(--color-border)',
-                  background: 'var(--color-surface-solid)',
-                  color: 'var(--color-text-primary)',
-                  fontSize: '0.88rem',
-                  outline: 'none',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: '1 1 320px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+              {/* Event & Pokémon Search Input */}
+              <div style={{ position: 'relative', flex: '1 1 200px', maxWidth: '300px' }}>
+                <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)', pointerEvents: 'none' }} />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search events, raids, Pokémon..."
+                  style={{
+                    width: '100%',
+                    padding: '9px 36px',
+                    borderRadius: '12px',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-surface-solid)',
+                    color: 'var(--color-text-primary)',
+                    fontSize: '0.88rem',
+                    outline: 'none',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+                  }}
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', display: 'flex' }}
+                    aria-label="Clear search"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
+
+              {/* Add Event Action Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingEvent(null);
+                  setIsAddModalOpen(true);
                 }}
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', display: 'flex' }}
-                  aria-label="Clear search"
-                >
-                  <X size={16} />
-                </button>
-              )}
+                className="btn btn-primary"
+                style={{
+                  padding: '9px 16px',
+                  borderRadius: '12px',
+                  fontSize: '0.88rem',
+                  fontWeight: 'bold',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  boxShadow: '0 2px 8px rgba(229, 57, 53, 0.25)'
+                }}
+                title="Add custom event, raid, or spotlight"
+              >
+                <Plus size={16} />
+                <span>Add Event</span>
+              </button>
             </div>
           </div>
 
@@ -658,18 +713,40 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
             >
               {dates.map((d, i) => {
                 const isActive = d.getTime() === selectedDate.getTime();
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                const dStr = `${y}-${m}-${day}`;
+                const hasCustom = (userEvents || []).some(ue => (ue.start || '') <= dStr && (ue.end || ue.start || '') >= dStr);
+
                 return (
                   <button 
                     key={i} 
                     className={`premium-date ${isActive ? 'active' : ''}`}
                     onClick={() => setSelectedDate(d)}
+                    style={{ position: 'relative' }}
                   >
                     <span style={{ fontSize: '0.85rem', opacity: isActive ? 0.9 : 0.6, marginBottom: '4px' }}>
                       {d.toLocaleDateString(undefined, { weekday: 'short' })}
                     </span>
                     <strong>{d.getDate()}</strong>
+                    {hasCustom && (
+                      <span 
+                        title="Contains user custom event"
+                        style={{
+                          position: 'absolute',
+                          bottom: '6px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: '5px',
+                          height: '5px',
+                          borderRadius: '50%',
+                          background: '#6366F1'
+                        }}
+                      />
+                    )}
                   </button>
-                )
+                );
               })}
             </div>
           )}
@@ -735,7 +812,36 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
         </div>
       </div>
 
-      <EventDetailsModal evt={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      <EventDetailsModal 
+        evt={selectedEvent} 
+        onClose={() => setSelectedEvent(null)}
+        onEdit={(evtToEdit) => {
+          setEditingEvent(evtToEdit);
+          setIsAddModalOpen(true);
+        }}
+        onDelete={(idToDelete) => {
+          if (deleteUserEvent) deleteUserEvent(idToDelete);
+          setSelectedEvent(null);
+        }}
+      />
+
+      <AddEventModal
+        isOpen={isAddModalOpen}
+        initialEvent={editingEvent}
+        onClose={() => {
+          setIsAddModalOpen(false);
+          setEditingEvent(null);
+        }}
+        onSave={(data) => {
+          if (editingEvent && updateUserEvent) {
+            updateUserEvent(editingEvent.id, data);
+          } else if (addUserEvent) {
+            addUserEvent(data);
+          }
+          setIsAddModalOpen(false);
+          setEditingEvent(null);
+        }}
+      />
     </div>
   );
 }

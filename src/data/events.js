@@ -217,7 +217,7 @@ export const events = {
       start: "2026-09-12", 
       end: "2026-09-13", 
       color: EVENT_COLORS.Event,
-      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`,
+      imageUrl: '/assets/events/pm25.fTSHIRT_03.icon.png',
       details: {
         regions: ["KLCC Park, Kuala Lumpur"],
         "Wild Encounters": ["Turquoise T-Shirt Pikachu", "Unown", "Corsola", "Regional spawns"], "Sales": ["PokéXciting Box - 2 Premium Battle Passes, 1 Lure Module"]
@@ -1078,7 +1078,7 @@ export const areEventsEqual = (name1, name2) => {
   return false;
 };
 
-export const getEventsForDate = (date) => {
+export const getEventsForDate = (date, userEvents = []) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -1153,18 +1153,44 @@ export const getEventsForDate = (date) => {
   }));
   const majorEvents = allMajorMerged.filter(evt => !isMaxBattleEvent(evt));
 
+  // Process and partition active user-created events
+  const activeUserList = (userEvents || []).filter(e => {
+    if (!e || !e.start) return false;
+    const s = e.start;
+    const end = e.end || e.start;
+    return s <= dateStr && end >= dateStr;
+  }).map(e => ({
+    ...e,
+    isCustom: true,
+    imageUrl: getPokemon3DIconUrl(e) || e.imageUrl,
+    color: e.color || EVENT_COLORS[e.category] || EVENT_COLORS.Event
+  }));
+
+  const userSpotlight = activeUserList.filter(e => e.category === 'spotlight');
+  const userMax = activeUserList.filter(e => e.category === 'max-battles' || isMaxBattleEvent(e));
+  const user5Star = activeUserList.filter(e => e.category === 'raid' || e.category === 'fiveStar');
+  const userMega = activeUserList.filter(e => e.category === 'mega');
+  const userShadow = activeUserList.filter(e => e.category === 'shadow');
+  const userMajor = activeUserList.filter(e => 
+    !userSpotlight.includes(e) && 
+    !userMax.includes(e) && 
+    !user5Star.includes(e) && 
+    !userMega.includes(e) && 
+    !userShadow.includes(e)
+  );
+
   return {
     discoveries: events.discoveries.filter(d => d.dayOfWeek === dayOfWeek),
-    spotlightHours: dedupeAndMerge(events.spotlightHours.filter(s => s.date === dateStr), (scrapedEvents.spotlightHours || []).filter(s => s.start === dateStr), EVENT_COLORS.Spotlight),
-    maxBattles,
-    majorEvents,
-    fiveStarRaids: dedupeAndMerge(events.fiveStarRaids, scrapedEvents.fiveStarRaids, EVENT_COLORS.Raid),
-    megaRaids: dedupeAndMerge(events.megaRaids, scrapedEvents.megaRaids, EVENT_COLORS.Raid),
-    shadowRaids: activeShadowRaids
+    spotlightHours: [...dedupeAndMerge(events.spotlightHours.filter(s => s.date === dateStr), (scrapedEvents.spotlightHours || []).filter(s => s.start === dateStr), EVENT_COLORS.Spotlight), ...userSpotlight],
+    maxBattles: [...maxBattles, ...userMax],
+    majorEvents: [...majorEvents, ...userMajor],
+    fiveStarRaids: [...dedupeAndMerge(events.fiveStarRaids, scrapedEvents.fiveStarRaids, EVENT_COLORS.Raid), ...user5Star],
+    megaRaids: [...dedupeAndMerge(events.megaRaids, scrapedEvents.megaRaids, EVENT_COLORS.Raid), ...userMega],
+    shadowRaids: [...activeShadowRaids, ...userShadow]
   };
 };
 
-export const getUpcomingEvents = (fromDate = new Date()) => {
+export const getUpcomingEvents = (fromDate = new Date(), userEvents = []) => {
   const year = fromDate.getFullYear();
   const month = String(fromDate.getMonth() + 1).padStart(2, '0');
   const day = String(fromDate.getDate()).padStart(2, '0');
@@ -1194,6 +1220,23 @@ export const getUpcomingEvents = (fromDate = new Date()) => {
   addCategory(events.spotlightHours?.map(s => ({ ...s, start: s.date, end: s.date })), 'spotlight', 'Spotlight Hour', EVENT_COLORS.Spotlight);
   addCategory(scrapedEvents.spotlightHours, 'spotlight', 'Spotlight Hour', EVENT_COLORS.Spotlight);
 
+  // Add User-Created Events
+  if (Array.isArray(userEvents)) {
+    userEvents.forEach(e => {
+      const cat = e.category || 'event';
+      const label = cat === 'mega' ? 'Mega Raid' : cat === 'raid' ? '5-Star Raid' : cat === 'shadow' ? 'Shadow Raid' : cat === 'spotlight' ? 'Spotlight Hour' : cat === 'max-battles' ? 'Max Battle' : 'Special Event';
+      const defaultCol = cat === 'spotlight' ? EVENT_COLORS.Spotlight : (cat === 'raid' || cat === 'mega' || cat === 'shadow') ? EVENT_COLORS.Raid : (cat === 'max-battles' ? EVENT_COLORS.MaxBattle : EVENT_COLORS.Event);
+      all.push({
+        ...e,
+        category: cat,
+        typeLabel: e.typeLabel || label,
+        color: e.color || defaultCol,
+        imageUrl: getPokemon3DIconUrl(e) || e.imageUrl,
+        isCustom: true
+      });
+    });
+  }
+
   const unique = [];
   all.forEach(item => {
     const end = item.end || item.start;
@@ -1201,7 +1244,12 @@ export const getUpcomingEvents = (fromDate = new Date()) => {
     const nameLower = (item.name || '').toLowerCase();
     if (nameLower.includes('go pass')) return;
 
-    const existingIdx = unique.findIndex(u => areEventsEqual(u.name, item.name));
+    if (item.isCustom) {
+      unique.push(item);
+      return;
+    }
+
+    const existingIdx = unique.findIndex(u => !u.isCustom && areEventsEqual(u.name, item.name));
     const icon = getPokemon3DIconUrl(item) || item.imageUrl;
     if (existingIdx >= 0) {
       unique[existingIdx].details = { ...(item.details || {}), ...(unique[existingIdx].details || {}) };

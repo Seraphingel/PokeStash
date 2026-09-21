@@ -797,6 +797,7 @@ export const scrapedEvents = {
           "Charmander wearing Friede’s goggles Spotlight Hour takes place on Thursday, September 17, 2026, from 6:00 p.m. to 7:00 p.m. local time. Charmander wearing Friede’s goggles will appear more frequently in the wild, and Trainers will earn 2× Stardust for catching Pokémon."
         ],
         "featured": [
+          "Charmander wearing Friede's goggles",
           "Captain's Cap Pikachu",
           "Charizard wearing Friede's goggles",
           "Meowscarada",

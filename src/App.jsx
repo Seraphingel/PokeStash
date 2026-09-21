@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePokecoins } from './hooks/usePokecoins';
+import { useUserEvents } from './hooks/useUserEvents';
 import { HomeTab } from './components/HomeTab';
 import { EventsTab } from './components/EventsTab';
 import { Shop } from './components/Shop';
@@ -45,6 +46,7 @@ const TabLink = ({ id, label, icon: Icon, isMobile, activeTab, setActiveTab, set
 
 function App() {
   const { coins, todayClaimedAmount, logTodayCoins, deductCoins, megaRaidDoneThisWeek, toggleMegaRaid, DAILY_COINS, overrideCoins } = usePokecoins();
+  const { userEvents, addUserEvent, updateUserEvent, deleteUserEvent } = useUserEvents();
   const [activeTab, setActiveTab] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -244,12 +246,17 @@ function App() {
             logTodayCoins={logTodayCoins} 
             DAILY_COINS={DAILY_COINS} 
             setActiveTab={setActiveTab}
+            userEvents={userEvents}
           />
         )}
         {activeTab === 'events' && (
           <EventsTab 
             megaRaidDoneThisWeek={megaRaidDoneThisWeek} 
-            toggleMegaRaid={toggleMegaRaid} 
+            toggleMegaRaid={toggleMegaRaid}
+            userEvents={userEvents}
+            addUserEvent={addUserEvent}
+            updateUserEvent={updateUserEvent}
+            deleteUserEvent={deleteUserEvent}
           />
         )}
         {activeTab === 'shop' && (
