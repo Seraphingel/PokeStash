@@ -63,7 +63,19 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
   if (dates.length === 0) return null;
 
   const selectedEvents = getEventsForDate(selectedDate);
-  const totalEventsCount = selectedEvents.discoveries.length + selectedEvents.spotlightHours.length + selectedEvents.fiveStarRaids.length + selectedEvents.megaRaids.length + selectedEvents.shadowRaids.length + selectedEvents.majorEvents.length;
+  const hasSpecificMaxMonday = (selectedEvents.maxBattles || []).some(m => (m.name || '').toLowerCase().includes('max monday'));
+  const activeDiscoveries = hasSpecificMaxMonday 
+    ? selectedEvents.discoveries.filter(d => !(d.name || '').toLowerCase().includes('max monday'))
+    : selectedEvents.discoveries;
+  const activeMaxBattles = selectedEvents.maxBattles || [];
+
+  const totalEventsCount = activeDiscoveries.length + 
+    selectedEvents.spotlightHours.length + 
+    activeMaxBattles.length + 
+    selectedEvents.fiveStarRaids.length + 
+    selectedEvents.megaRaids.length + 
+    selectedEvents.shadowRaids.length + 
+    selectedEvents.majorEvents.length;
 
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -686,11 +698,12 @@ export function EventsTab({ megaRaidDoneThisWeek, toggleMegaRaid }) {
               </div>
             ) : (
               <>
-                {(selectedEvents.discoveries.length > 0 || selectedEvents.spotlightHours.length > 0) && (
+                {(activeDiscoveries.length > 0 || selectedEvents.spotlightHours.length > 0 || activeMaxBattles.length > 0) && (
                   <div style={{ marginBottom: '32px' }}>
                     <h4 style={{ color: 'var(--color-text-secondary)', fontWeight: '600', fontSize: '0.85rem', marginBottom: '16px' }}>Discoveries & Spotlight</h4>
-                    {selectedEvents.discoveries.map((evt, j) => <EventItemCard key={`d-${j}`} evt={evt} categoryName="Daily Discovery" />)}
+                    {activeDiscoveries.map((evt, j) => <EventItemCard key={`d-${j}`} evt={evt} categoryName="Daily Discovery" />)}
                     {selectedEvents.spotlightHours.map((evt, j) => <EventItemCard key={`sh-${j}`} evt={evt} categoryName="Spotlight Hour" />)}
+                    {activeMaxBattles.map((evt, j) => <EventItemCard key={`mb-${j}`} evt={evt} categoryName="Max Battle" />)}
                   </div>
                 )}
 

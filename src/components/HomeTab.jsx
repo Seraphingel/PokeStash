@@ -81,6 +81,7 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
   const activeShadow = todayEvents.shadowRaids[0];
   const activeDiscovery = todayEvents.discoveries[0];
   const activeSpotlight = todayEvents.spotlightHours[0];
+  const activeMaxBattle = todayEvents.maxBattles?.[0];
 
   // Filter upcoming events by chosen category
   const filteredUpcoming = useMemo(() => {
@@ -165,8 +166,8 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
               </p>
             </div>
 
-            {/* Daily Discovery / Spotlight Pill */}
-            {(activeSpotlight || activeDiscovery) && (
+            {/* Daily Discovery / Spotlight / Max Battle Pill */}
+            {(activeSpotlight || activeMaxBattle || activeDiscovery) && (
               <div 
                 style={{ 
                   background: 'rgba(255,255,255,0.06)', 
@@ -176,22 +177,35 @@ export function HomeTab({ coins, todayClaimedAmount, logTodayCoins, DAILY_COINS,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  cursor: activeSpotlight ? 'pointer' : 'default',
+                  cursor: (activeSpotlight || activeMaxBattle) ? 'pointer' : 'default',
                   transition: 'background 0.2s ease'
                 }}
-                onClick={() => activeSpotlight && setSelectedEvent(activeSpotlight)}
+                onClick={() => {
+                  const target = activeSpotlight || activeMaxBattle;
+                  if (target) setSelectedEvent(target);
+                }}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activeSpotlight && setSelectedEvent(activeSpotlight); } }}
+                onKeyDown={(e) => { 
+                  if (e.key === 'Enter' || e.key === ' ') { 
+                    e.preventDefault(); 
+                    const target = activeSpotlight || activeMaxBattle;
+                    if (target) setSelectedEvent(target);
+                  } 
+                }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#FCD34D', fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>
                   <Sparkles size={14} /> Today's Highlight
                 </div>
                 <div style={{ fontWeight: '700', fontSize: '1.05rem', color: '#FFFFFF', marginBottom: '4px' }}>
-                  {activeSpotlight ? activeSpotlight.name : activeDiscovery.name}
+                  {activeSpotlight ? activeSpotlight.name : (activeMaxBattle ? activeMaxBattle.name : activeDiscovery.name)}
                 </div>
                 <div style={{ fontSize: '0.82rem', color: '#CBD5E1', lineHeight: 1.4 }}>
-                  {activeSpotlight ? '6:00 PM – 7:00 PM Local Time • Click for details' : activeDiscovery.description}
+                  {activeSpotlight 
+                    ? '6:00 PM – 7:00 PM Local Time • Click for details' 
+                    : (activeMaxBattle 
+                        ? (activeMaxBattle.details?.advice || 'Max Battle active today • Click for details') 
+                        : activeDiscovery.description)}
                 </div>
               </div>
             )}

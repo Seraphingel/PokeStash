@@ -28,6 +28,8 @@ const POKEMON_3D_ICONS = {
   'dynamax articuno': 'pm144.icon.png',
   'zapdos': 'pm145.icon.png',
   'dynamax zapdos': 'pm145.icon.png',
+  'moltres': 'pm146.icon.png',
+  'dynamax moltres': 'pm146.icon.png',
   'houndour': 'pm228.icon.png',
   'houndoom': 'pm229.fMEGA.icon.png',
   'mega houndoom': 'pm229.fMEGA.icon.png',
@@ -54,10 +56,11 @@ const POKEMON_3D_ICONS = {
   'goodra': '/assets/events/pm705.fHISUIAN.icon.png',
   'phantump': 'pm708.icon.png',
   'xerneas': 'pm716.icon.png',
-  'buzzwole': '/assets/events/pm794.icon.png',
-  'pheromosa': '/assets/events/pm794.icon.png',
-  'xurkitree': '/assets/events/pm794.icon.png',
-  'ultra beasts': '/assets/events/pm794.icon.png',
+  'buzzwole': 'pm794.icon.png',
+  'pheromosa': 'pm795.icon.png',
+  'xurkitree': 'pm796.icon.png',
+  'ultra beasts': 'pm796.icon.png',
+  'ultra beast': 'pm796.icon.png',
   'kartana': 'pm798.icon.png',
   'cinderace': 'pm815.icon.png',
   'gigantamax cinderace': 'pm815.icon.png',
@@ -65,6 +68,40 @@ const POKEMON_3D_ICONS = {
   'dynamax sobble': 'pm816.icon.png',
   'zacian': 'pm888.icon.png',
   'zamazenta': 'pm889.icon.png',
+  'gastly': 'pm92.icon.png',
+  'blastoise': 'pm9.fMEGA.icon.png',
+  'mega blastoise': 'pm9.fMEGA.icon.png',
+  'pidgeot': 'pm18.fMEGA.icon.png',
+  'mega pidgeot': 'pm18.fMEGA.icon.png',
+  'charizard x': 'pm6.fMEGA_X.icon.png',
+  'mega charizard x': 'pm6.fMEGA_X.icon.png',
+  'charizard y': 'pm6.fMEGA_Y.icon.png',
+  'mega charizard y': 'pm6.fMEGA_Y.icon.png',
+  'seedot': 'pm273.icon.png',
+  'sableye': 'pm302.icon.png',
+  'mega sableye': 'pm302.fMEGA.icon.png',
+  'dynamax sableye': 'pm302.icon.png',
+  'dialga': 'pm483.fORIGIN.icon.png',
+  'dialga origin': 'pm483.fORIGIN.icon.png',
+  'origin dialga': 'pm483.fORIGIN.icon.png',
+  'palkia': 'pm484.fORIGIN.icon.png',
+  'palkia origin': 'pm484.fORIGIN.icon.png',
+  'origin palkia': 'pm484.fORIGIN.icon.png',
+  'giratina': 'pm487.fALTERED.icon.png',
+  'giratina altered': 'pm487.fALTERED.icon.png',
+  'altered giratina': 'pm487.fALTERED.icon.png',
+  'elgyem': 'pm605.icon.png',
+  'landorus': 'pm645.fINCARNATE.icon.png',
+  'shadow landorus': 'pm645.fINCARNATE.icon.png',
+  'yveltal': 'pm717.icon.png',
+  'morelull': 'pm755.icon.png',
+  'stufful': 'pm759.icon.png',
+  'dottler': 'pm825.icon.png',
+  'dynamax dottler': 'pm825.icon.png',
+  'sizzlipede': 'pm850.icon.png',
+  'dynamax sizzlipede': 'pm850.icon.png',
+  'impidimp': 'pm859.icon.png',
+  'dynamax impidimp': 'pm859.icon.png',
   'maschiff': '/assets/events/Maschiff.png',
   'mabosstiff': '/assets/events/Maschiff.png',
   'shroodle': 'pm943.icon.png',
@@ -105,38 +142,58 @@ export function hasEventDetails(evt) {
 export function getPokemon3DIconUrl(evt) {
   if (!evt) return '';
 
-  // 1. If evt.imageUrl is already a 3D pokemon icon (.png and not a banner)
-  if (evt.imageUrl && !isBannerOrArtImage(evt.imageUrl)) {
-    return evt.imageUrl;
-  }
+  const resolvePath = (iconPath) => {
+    if (!iconPath) return '';
+    if (iconPath.startsWith('/')) return iconPath;
+    return `${BASE_POKEMON_URL}${iconPath}`;
+  };
 
-  // 2. Check details.featured or debuts or wild encounters
-  const candidates = [
-    ...(Array.isArray(evt.details?.featured) ? evt.details.featured : (evt.details?.featured ? [evt.details.featured] : [])),
-    ...(Array.isArray(evt.details?.['Pokémon Debuts']) ? evt.details['Pokémon Debuts'] : []),
-    ...(Array.isArray(evt.details?.['Mega-Evolved Pokémon']) ? evt.details['Mega-Evolved Pokémon'] : []),
-    ...(Array.isArray(evt.details?.['Wild Encounters']) ? evt.details['Wild Encounters'] : []),
-    evt.name
-  ];
+  // 1. Check details.featured (first mentioned featured Pokemon)
+  const featuredList = Array.isArray(evt.details?.featured) 
+    ? evt.details.featured 
+    : (evt.details?.featured ? [evt.details.featured] : []);
 
-  for (const item of candidates) {
+  for (const item of featuredList) {
     if (!item || typeof item !== 'string') continue;
     const clean = item.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-
     for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
       if (clean.includes(key)) {
-        if (iconPath.startsWith('/')) return iconPath;
-        return `${BASE_POKEMON_URL}${iconPath}`;
+        return resolvePath(iconPath);
       }
     }
   }
 
-  // 3. Fallback: check if name mentions known Pokemon
+  // 2. Check event name for the first mentioned Pokemon
   const nameLower = (evt.name || '').toLowerCase();
+  let firstMatch = null;
+  let minIndex = Infinity;
+
   for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
-    if (nameLower.includes(key)) {
-      if (iconPath.startsWith('/')) return iconPath;
-      return `${BASE_POKEMON_URL}${iconPath}`;
+    const idx = nameLower.indexOf(key);
+    if (idx !== -1 && idx < minIndex) {
+      minIndex = idx;
+      firstMatch = iconPath;
+    }
+  }
+
+  if (firstMatch) {
+    return resolvePath(firstMatch);
+  }
+
+  // 3. Check debuts or wild encounters
+  const fallbackLists = [
+    ...(Array.isArray(evt.details?.['Pokémon Debuts']) ? evt.details['Pokémon Debuts'] : []),
+    ...(Array.isArray(evt.details?.['Mega-Evolved Pokémon']) ? evt.details['Mega-Evolved Pokémon'] : []),
+    ...(Array.isArray(evt.details?.['Wild Encounters']) ? evt.details['Wild Encounters'] : [])
+  ];
+
+  for (const item of fallbackLists) {
+    if (!item || typeof item !== 'string') continue;
+    const clean = item.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+    for (const [key, iconPath] of Object.entries(POKEMON_3D_ICONS)) {
+      if (clean.includes(key)) {
+        return resolvePath(iconPath);
+      }
     }
   }
 

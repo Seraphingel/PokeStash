@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Info, Star, Target, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy } from 'lucide-react';
+import { X, Info, Star, Zap, Globe, Shield, ShoppingBag, Sparkles, Clock, Gift, Copy, Target } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 import { formatEventDateRange } from '../utils/date';
 import { getPokemon3DIconUrl } from '../utils/pokemonAssets';
@@ -352,25 +352,6 @@ export function EventDetailsModal({ evt, onClose }) {
                 {(Array.isArray(evt.details.weaknesses) ? evt.details.weaknesses : [evt.details.weaknesses]).map((w, i) => (
                   <span key={i} className="modal-weakness-chip">
                     {w}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Counters */}
-          {evt.details?.counters && (
-            <div>
-              <h4 className="modal-section-title" style={{ color: '#F59E0B' }}>
-                <Target size={18} /> Top Counters
-              </h4>
-              <div className="modal-counters-container">
-                {(Array.isArray(evt.details.counters) 
-                  ? evt.details.counters 
-                  : (typeof evt.details.counters === 'string' ? evt.details.counters.split(',').map(s => s.trim()).filter(Boolean) : [evt.details.counters])
-                ).map((c, i) => (
-                  <span key={i} className="modal-counter-chip">
-                    {c}
                   </span>
                 ))}
               </div>

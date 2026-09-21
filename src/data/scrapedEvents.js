@@ -11,7 +11,9 @@ export const scrapedEvents = {
       "details": {
         "Wild Encounters": [
           "Charmander wearing Friede's goggles"
-        ]
+        ],
+        "bonus": "2x Catch Stardust",
+        "advice": "6:00 PM – 7:00 PM local time. Double Catch Stardust active!"
       }
     },
     {
@@ -19,11 +21,83 @@ export const scrapedEvents = {
       "type": "pokémon-spotlight-hour",
       "start": "2026-09-24",
       "end": "2026-09-24",
-      "imageUrl": "/assets/events/pokemon_icon_019_00.png",
+      "imageUrl": "/assets/pokemon/pm19.icon.png",
       "details": {
         "Wild Encounters": [
           "Rattata"
-        ]
+        ],
+        "bonus": "2x Evolution XP",
+        "advice": "6:00 PM – 7:00 PM local time. Evolve Pokémon with a Lucky Egg for quadruple XP!"
+      }
+    },
+    {
+      "name": "Seedot",
+      "type": "pokémon-spotlight-hour",
+      "start": "2026-10-06",
+      "end": "2026-10-06",
+      "imageUrl": "/assets/pokemon/pm273.icon.png",
+      "details": {
+        "featured": [
+          "Seedot"
+        ],
+        "bonus": "2x Catch XP",
+        "advice": "6:00 PM – 7:00 PM local time. Excellent Throws with a Lucky Egg award massive XP!"
+      }
+    },
+    {
+      "name": "Elgyem",
+      "type": "pokémon-spotlight-hour",
+      "start": "2026-10-13",
+      "end": "2026-10-13",
+      "imageUrl": "/assets/pokemon/pm605.icon.png",
+      "details": {
+        "featured": [
+          "Elgyem"
+        ],
+        "bonus": "2x Catch Candy",
+        "advice": "6:00 PM – 7:00 PM local time. Use Pinap Berries for 4x candy per catch!"
+      }
+    },
+    {
+      "name": "Stufful",
+      "type": "pokémon-spotlight-hour",
+      "start": "2026-10-20",
+      "end": "2026-10-20",
+      "imageUrl": "/assets/pokemon/pm759.icon.png",
+      "details": {
+        "featured": [
+          "Stufful"
+        ],
+        "bonus": "2x Transfer Candy",
+        "advice": "6:00 PM – 7:00 PM local time. Clear out Pokémon storage for double transfer candy!"
+      }
+    },
+    {
+      "name": "Morelull",
+      "type": "pokémon-spotlight-hour",
+      "start": "2026-10-27",
+      "end": "2026-10-27",
+      "imageUrl": "/assets/pokemon/pm755.icon.png",
+      "details": {
+        "featured": [
+          "Morelull"
+        ],
+        "bonus": "2x Catch Stardust",
+        "advice": "6:00 PM – 7:00 PM local time. Pop a Star Piece for huge Stardust returns on Morelull catches!"
+      }
+    },
+    {
+      "name": "Gastly",
+      "type": "pokémon-spotlight-hour",
+      "start": "2026-11-03",
+      "end": "2026-11-03",
+      "imageUrl": "/assets/pokemon/pm92.icon.png",
+      "details": {
+        "featured": [
+          "Gastly"
+        ],
+        "bonus": "2x Evolution XP",
+        "advice": "6:00 PM – 7:00 PM local time. Evolve Pokémon during Halloween week with a Lucky Egg!"
       }
     }
   ],
@@ -33,7 +107,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-08",
       "end": "2026-09-15",
-      "imageUrl": "/assets/events/pokemon_icon_015_51.png",
+      "imageUrl": "/assets/pokemon/pm15.fMEGA.icon.png",
       "details": {
         "featured": [
           "Mega Beedrill"
@@ -48,14 +122,7 @@ export const scrapedEvents = {
           "Psychic",
           "Rock"
         ],
-        "counters": [
-          "Mewtwo",
-          "Reshiram",
-          "Rampardos",
-          "Heatran",
-          "Rayquaza",
-          "Chandelure"
-        ]
+        "advice": "Mega Beedrill appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     {
@@ -63,7 +130,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-11",
       "end": "2026-09-15",
-      "imageUrl": "/assets/events/pokemon_icon_229_51.png",
+      "imageUrl": "/assets/pokemon/pm229.fMEGA.icon.png",
       "details": {
         "featured": [
           "Mega Houndoom"
@@ -78,15 +145,7 @@ export const scrapedEvents = {
           "Rock",
           "Water"
         ],
-        "counters": [
-          "Kyogre",
-          "Terrakion",
-          "Rampardos",
-          "Swampert",
-          "Groudon",
-          "Lucario",
-          "Conkeldurr"
-        ]
+        "advice": "Mega Houndoom appears in Mega Raids!"
       }
     },
     {
@@ -94,13 +153,10 @@ export const scrapedEvents = {
       "type": "raid-day",
       "start": "2026-09-19",
       "end": "2026-09-19",
-      "imageUrl": "/assets/events/pokemon_icon_398_00_shiny.png",
+      "imageUrl": "/assets/pokemon/pm398.icon.png",
       "details": {
-        "Mega-Evolved Pokémon": [
-          "The following Pokémon will make its Pokémon GO debut in Super Mega Raids!"
-        ],
-        "Sales": [
-          "Staraptor Super Mega Raid Day Ultra Ticket Box will be available for US$4.99 (or the equivalent pricing tier in your local currency) and - both an event ticket and a bonus Premium Battle Pass at no additional cost"
+        "featured": [
+          "Mega Staraptor"
         ],
         "type": [
           "Normal",
@@ -111,16 +167,7 @@ export const scrapedEvents = {
           "Ice",
           "Rock"
         ],
-        "counters": [
-          "Xurkitree",
-          "Rampardos",
-          "Mamoswine",
-          "Zekrom",
-          "Thundurus"
-        ],
-        "featured": [
-          "Staraptor"
-        ]
+        "advice": "2:00 PM – 5:00 PM local time. Staraptor makes its Super Mega Raid debut! Receive up to 5 additional free Raid Passes."
       }
     },
     {
@@ -128,7 +175,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-16",
       "end": "2026-09-22",
-      "imageUrl": "/assets/events/pokemon_icon_003_51.png",
+      "imageUrl": "/assets/pokemon/pm3.fMEGA.icon.png",
       "details": {
         "featured": [
           "Mega Venusaur"
@@ -143,13 +190,7 @@ export const scrapedEvents = {
           "Ice",
           "Psychic"
         ],
-        "counters": [
-          "Mewtwo",
-          "Reshiram",
-          "Heatran",
-          "Ho-Oh",
-          "Kyurem"
-        ]
+        "advice": "Mega Venusaur appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     {
@@ -157,7 +198,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-23",
       "end": "2026-09-29",
-      "imageUrl": "/assets/events/pm687.fMEGA.icon.png",
+      "imageUrl": "/assets/pokemon/pm687.fMEGA.icon.png",
       "details": {
         "featured": [
           "Mega Malamar"
@@ -170,13 +211,7 @@ export const scrapedEvents = {
           "Bug (Double Weakness)",
           "Fairy"
         ],
-        "counters": [
-          "Volcarona",
-          "Pheromosa",
-          "Vikavolt",
-          "Pinsir",
-          "Scizor"
-        ]
+        "advice": "Mega Malamar appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     {
@@ -184,7 +219,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-30",
       "end": "2026-10-06",
-      "imageUrl": "/assets/events/pm71.fMEGA.icon.png",
+      "imageUrl": "/assets/pokemon/pm71.fMEGA.icon.png",
       "details": {
         "featured": [
           "Mega Victreebel"
@@ -199,40 +234,104 @@ export const scrapedEvents = {
           "Ice",
           "Psychic"
         ],
-        "counters": [
-          "Mewtwo",
-          "Reshiram",
-          "Heatran",
-          "Chandelure",
-          "Moltres"
-        ]
+        "advice": "Mega Victreebel appears in Mega Raids! Thursday is Mega Raid day."
       }
     },
     {
-      "name": "Super Mega",
-      "type": "raid-day",
-      "start": "2026-10-31",
-      "end": "2026-10-31",
-      "imageUrl": "/assets/events/events-default-img.jpg"
+      "name": "Mega Blastoise",
+      "type": "raid-battles",
+      "start": "2026-10-07",
+      "end": "2026-10-13",
+      "imageUrl": "/assets/pokemon/pm9.fMEGA.icon.png",
+      "details": {
+        "featured": [
+          "Mega Blastoise"
+        ],
+        "type": [
+          "Water"
+        ],
+        "weaknesses": [
+          "Electric",
+          "Grass"
+        ],
+        "advice": "Mega Blastoise appears in Mega Raids! Earn Blastoise Mega Energy to Mega Evolve."
+      }
     },
     {
-      "name": "Super Mega",
-      "type": "raid-day",
-      "start": "2026-11-28",
-      "end": "2026-11-28",
-      "imageUrl": "/assets/events/events-default-img.jpg"
+      "name": "Mega Pidgeot",
+      "type": "raid-battles",
+      "start": "2026-10-14",
+      "end": "2026-10-20",
+      "imageUrl": "/assets/pokemon/pm18.fMEGA.icon.png",
+      "details": {
+        "featured": [
+          "Mega Pidgeot"
+        ],
+        "type": [
+          "Normal",
+          "Flying"
+        ],
+        "weaknesses": [
+          "Electric",
+          "Ice",
+          "Rock"
+        ],
+        "advice": "Mega Pidgeot appears in Mega Raids! Earn Pidgeot Mega Energy to Mega Evolve."
+      }
+    },
+    {
+      "name": "Mega Charizard X & Mega Charizard Y",
+      "type": "raid-battles",
+      "start": "2026-10-21",
+      "end": "2026-10-27",
+      "imageUrl": "/assets/pokemon/pm6.fMEGA_X.icon.png",
+      "details": {
+        "featured": [
+          "Mega Charizard X",
+          "Mega Charizard Y"
+        ],
+        "type": [
+          "Fire / Dragon (Mega Charizard X)",
+          "Fire / Flying (Mega Charizard Y)"
+        ],
+        "weaknesses": [
+          "Dragon, Ground, Rock (Mega Charizard X)",
+          "Rock (Double Weakness - 2x), Electric, Water (Mega Charizard Y)"
+        ],
+        "advice": "Both Mega Charizard X and Mega Charizard Y appear in Mega Raids simultaneously!"
+      }
+    },
+    {
+      "name": "Mega Sableye",
+      "type": "raid-battles",
+      "start": "2026-10-28",
+      "end": "2026-11-03",
+      "imageUrl": "/assets/pokemon/pm302.fMEGA.icon.png",
+      "details": {
+        "featured": [
+          "Mega Sableye"
+        ],
+        "type": [
+          "Dark",
+          "Ghost"
+        ],
+        "weaknesses": [
+          "Fairy"
+        ],
+        "advice": "Mega Sableye appears in Mega Raids throughout Halloween season!"
+      }
     }
   ],
   "shadowRaids": [
     {
-      "name": "Shadow Thundurus (Incarnate Forme)",
+      "name": "Shadow Thundurus (Therian Forme)",
       "type": "raid-battles",
       "start": "2026-09-09",
       "end": "2026-10-06",
-      "imageUrl": "/assets/events/pokemon_icon_642_11.png",
+      "imageUrl": "/assets/pokemon/pm642.fTHERIAN.icon.png",
       "details": {
         "featured": [
-          "Thundurus (Incarnate)"
+          "Shadow Thundurus (Therian Forme)"
         ],
         "type": [
           "Electric",
@@ -242,13 +341,30 @@ export const scrapedEvents = {
           "Ice",
           "Rock"
         ],
-        "counters": [
-          "Mamoswine",
-          "Rampardos",
-          "Galarian Darmanitan",
-          "Rhyperior",
-          "Tyrantrum"
-        ]
+        "difficulty": "3+ trainers needed",
+        "advice": "Appears in 5-Star Shadow Raids exclusively on weekends (Saturdays & Sundays). Bring Purified Gems to subdue it!"
+      }
+    },
+    {
+      "name": "Shadow Landorus (Incarnate Forme)",
+      "type": "raid-battles",
+      "start": "2026-10-07",
+      "end": "2026-11-03",
+      "imageUrl": "/assets/pokemon/pm645.fINCARNATE.icon.png",
+      "details": {
+        "featured": [
+          "Shadow Landorus (Incarnate Forme)"
+        ],
+        "type": [
+          "Ground",
+          "Flying"
+        ],
+        "weaknesses": [
+          "Ice (Double Weakness - 2x)",
+          "Water"
+        ],
+        "difficulty": "3+ trainers needed",
+        "advice": "Appears in 5-Star Shadow Raids exclusively on weekends (Saturdays & Sundays). Ice-type Pokémon deal 4x massive damage! Bring Purified Gems to subdue it when enraged."
       }
     }
   ],
@@ -258,7 +374,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-09",
       "end": "2026-09-15",
-      "imageUrl": "/assets/events/pm888.fHERO.icon.png",
+      "imageUrl": "/assets/pokemon/pm888.icon.png",
       "details": {
         "featured": [
           "Zacian (Hero of Many Battles)"
@@ -270,14 +386,7 @@ export const scrapedEvents = {
           "Poison",
           "Steel"
         ],
-        "counters": [
-          "Metagross",
-          "Nihilego",
-          "Dialga",
-          "Excadrill",
-          "Roserade",
-          "Genesect"
-        ]
+        "advice": "5-Star Raid boss. Wednesday Raid Hour on September 9 from 6:00 PM – 7:00 PM local time."
       }
     },
     {
@@ -285,8 +394,11 @@ export const scrapedEvents = {
       "type": "raid-hour",
       "start": "2026-09-16",
       "end": "2026-09-16",
-      "imageUrl": "/assets/events/raidhour.jpg",
+      "imageUrl": "/assets/pokemon/pm889.icon.png",
       "details": {
+        "featured": [
+          "Zamazenta (Hero of Many Battles)"
+        ],
         "type": [
           "Fighting"
         ],
@@ -295,17 +407,7 @@ export const scrapedEvents = {
           "Flying",
           "Psychic"
         ],
-        "counters": [
-          "Mewtwo",
-          "Rayquaza",
-          "Togekiss",
-          "Gardevoir",
-          "Ho-Oh",
-          "Lugia"
-        ],
-        "featured": [
-          "Zamazenta (Hero of Many Battles)"
-        ]
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Zamazenta raids globally!"
       }
     },
     {
@@ -313,7 +415,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-16",
       "end": "2026-09-22",
-      "imageUrl": "/assets/events/pm889.fHERO.icon.png",
+      "imageUrl": "/assets/pokemon/pm889.icon.png",
       "details": {
         "featured": [
           "Zamazenta (Hero of Many Battles)"
@@ -326,14 +428,7 @@ export const scrapedEvents = {
           "Flying",
           "Psychic"
         ],
-        "counters": [
-          "Mewtwo",
-          "Rayquaza",
-          "Togekiss",
-          "Gardevoir",
-          "Ho-Oh",
-          "Lugia"
-        ]
+        "advice": "5-Star Raid boss. Wednesday Raid Hour on September 16 from 6:00 PM – 7:00 PM local time."
       }
     },
     {
@@ -341,28 +436,31 @@ export const scrapedEvents = {
       "type": "raid-hour",
       "start": "2026-09-23",
       "end": "2026-09-23",
-      "imageUrl": "/assets/events/raidhour.jpg",
+      "imageUrl": "/assets/pokemon/pm796.icon.png",
       "details": {
+        "featured": [
+          "Xurkitree",
+          "Pheromosa",
+          "Buzzwole"
+        ],
+        "regions": [
+          "Xurkitree (Asia-Pacific)",
+          "Pheromosa (Europe, Middle East, Africa, India)",
+          "Buzzwole (Americas, Greenland)"
+        ],
         "type": [
-          "Bug",
-          "Fighting"
+          "Electric (Xurkitree)",
+          "Bug / Fighting (Pheromosa)",
+          "Bug / Fighting (Buzzwole)"
         ],
         "weaknesses": [
-          "Flying (Double Weakness)",
-          "Fire",
-          "Psychic",
-          "Fairy"
+          "Ground (Xurkitree)",
+          "Flying (Double Weakness - Pheromosa & Buzzwole)",
+          "Fire (Pheromosa & Buzzwole)",
+          "Psychic (Pheromosa & Buzzwole)",
+          "Fairy (Pheromosa & Buzzwole)"
         ],
-        "counters": [
-          "Rayquaza",
-          "Mewtwo",
-          "Moltres",
-          "Staraptor",
-          "Yveltal"
-        ],
-        "featured": [
-          "Buzzwole"
-        ]
+        "advice": "6:00 PM – 7:00 PM local time. Raid hour for region-locked Ultra Beasts!"
       }
     },
     {
@@ -370,30 +468,32 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-23",
       "end": "2026-09-29",
-      "imageUrl": "/assets/events/pm794.icon.png",
+      "imageUrl": "/assets/pokemon/pm796.icon.png",
       "details": {
         "featured": [
-          "Buzzwole",
+          "Xurkitree",
           "Pheromosa",
-          "Xurkitree"
+          "Buzzwole"
+        ],
+        "regions": [
+          "Xurkitree (Asia-Pacific)",
+          "Pheromosa (Europe, Middle East, Africa, India)",
+          "Buzzwole (Americas, Greenland)"
         ],
         "type": [
-          "Bug",
-          "Fighting"
+          "Electric (Xurkitree)",
+          "Bug / Fighting (Pheromosa)",
+          "Bug / Fighting (Buzzwole)"
         ],
         "weaknesses": [
-          "Flying (Double Weakness)",
-          "Fire",
-          "Psychic",
-          "Fairy"
+          "Ground (Xurkitree)",
+          "Flying (Double Weakness - Pheromosa & Buzzwole)",
+          "Fire (Pheromosa & Buzzwole)",
+          "Psychic (Pheromosa & Buzzwole)",
+          "Fairy (Pheromosa & Buzzwole)"
         ],
-        "counters": [
-          "Rayquaza",
-          "Mewtwo",
-          "Moltres",
-          "Staraptor",
-          "Yveltal"
-        ]
+        "difficulty": "3+ trainers needed",
+        "advice": "Ultra Beasts are region-locked! Use Remote Raid passes and coordinate with international friends to collect all three."
       }
     },
     {
@@ -401,8 +501,11 @@ export const scrapedEvents = {
       "type": "raid-hour",
       "start": "2026-09-30",
       "end": "2026-09-30",
-      "imageUrl": "/assets/events/raidhour.jpg",
+      "imageUrl": "/assets/pokemon/pm716.icon.png",
       "details": {
+        "featured": [
+          "Xerneas"
+        ],
         "type": [
           "Fairy"
         ],
@@ -410,15 +513,7 @@ export const scrapedEvents = {
           "Poison",
           "Steel"
         ],
-        "counters": [
-          "Metagross",
-          "Nihilego",
-          "Dialga",
-          "Excadrill"
-        ],
-        "featured": [
-          "Xerneas"
-        ]
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Xerneas raids globally!"
       }
     },
     {
@@ -426,7 +521,7 @@ export const scrapedEvents = {
       "type": "raid-battles",
       "start": "2026-09-30",
       "end": "2026-10-06",
-      "imageUrl": "/assets/events/pokemon_icon_716_00.png",
+      "imageUrl": "/assets/pokemon/pm716.icon.png",
       "details": {
         "featured": [
           "Xerneas"
@@ -438,12 +533,185 @@ export const scrapedEvents = {
           "Poison",
           "Steel"
         ],
-        "counters": [
-          "Metagross",
-          "Nihilego",
-          "Dialga",
-          "Excadrill"
-        ]
+        "advice": "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on September 30 from 6:00 PM – 7:00 PM local time!"
+      }
+    },
+    {
+      "name": "Yveltal Raid Hour",
+      "type": "raid-hour",
+      "start": "2026-10-07",
+      "end": "2026-10-07",
+      "imageUrl": "/assets/pokemon/pm717.icon.png",
+      "details": {
+        "featured": [
+          "Yveltal"
+        ],
+        "type": [
+          "Dark",
+          "Flying"
+        ],
+        "weaknesses": [
+          "Electric",
+          "Fairy",
+          "Ice",
+          "Rock"
+        ],
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Yveltal raids globally!"
+      }
+    },
+    {
+      "name": "Yveltal",
+      "type": "raid-battles",
+      "start": "2026-10-07",
+      "end": "2026-10-13",
+      "imageUrl": "/assets/pokemon/pm717.icon.png",
+      "details": {
+        "featured": [
+          "Yveltal"
+        ],
+        "type": [
+          "Dark",
+          "Flying"
+        ],
+        "weaknesses": [
+          "Electric",
+          "Fairy",
+          "Ice",
+          "Rock"
+        ],
+        "advice": "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 7 from 6:00 PM – 7:00 PM local time!"
+      }
+    },
+    {
+      "name": "Dialga (Origin Forme) Raid Hour",
+      "type": "raid-hour",
+      "start": "2026-10-14",
+      "end": "2026-10-14",
+      "imageUrl": "/assets/pokemon/pm483.fORIGIN.icon.png",
+      "details": {
+        "featured": [
+          "Dialga (Origin Forme)"
+        ],
+        "type": [
+          "Steel",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Fighting",
+          "Ground"
+        ],
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Dialga (Origin Forme) raids globally!"
+      }
+    },
+    {
+      "name": "Dialga (Origin Forme)",
+      "type": "raid-battles",
+      "start": "2026-10-14",
+      "end": "2026-10-20",
+      "imageUrl": "/assets/pokemon/pm483.fORIGIN.icon.png",
+      "details": {
+        "featured": [
+          "Dialga (Origin Forme)"
+        ],
+        "type": [
+          "Steel",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Fighting",
+          "Ground"
+        ],
+        "advice": "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 14 from 6:00 PM – 7:00 PM local time!"
+      }
+    },
+    {
+      "name": "Palkia (Origin Forme) Raid Hour",
+      "type": "raid-hour",
+      "start": "2026-10-21",
+      "end": "2026-10-21",
+      "imageUrl": "/assets/pokemon/pm484.fORIGIN.icon.png",
+      "details": {
+        "featured": [
+          "Palkia (Origin Forme)"
+        ],
+        "type": [
+          "Water",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Dragon",
+          "Fairy"
+        ],
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Palkia (Origin Forme) raids globally!"
+      }
+    },
+    {
+      "name": "Palkia (Origin Forme)",
+      "type": "raid-battles",
+      "start": "2026-10-21",
+      "end": "2026-10-27",
+      "imageUrl": "/assets/pokemon/pm484.fORIGIN.icon.png",
+      "details": {
+        "featured": [
+          "Palkia (Origin Forme)"
+        ],
+        "type": [
+          "Water",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Dragon",
+          "Fairy"
+        ],
+        "advice": "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 21 from 6:00 PM – 7:00 PM local time!"
+      }
+    },
+    {
+      "name": "Giratina (Altered Forme) Raid Hour",
+      "type": "raid-hour",
+      "start": "2026-10-28",
+      "end": "2026-10-28",
+      "imageUrl": "/assets/pokemon/pm487.fALTERED.icon.png",
+      "details": {
+        "featured": [
+          "Giratina (Altered Forme)"
+        ],
+        "type": [
+          "Ghost",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Dark",
+          "Dragon",
+          "Fairy",
+          "Ghost",
+          "Ice"
+        ],
+        "advice": "6:00 PM – 7:00 PM local time. Increased 5-Star Giratina (Altered Forme) raids globally!"
+      }
+    },
+    {
+      "name": "Giratina (Altered Forme)",
+      "type": "raid-battles",
+      "start": "2026-10-28",
+      "end": "2026-11-03",
+      "imageUrl": "/assets/pokemon/pm487.fALTERED.icon.png",
+      "details": {
+        "featured": [
+          "Giratina (Altered Forme)"
+        ],
+        "type": [
+          "Ghost",
+          "Dragon"
+        ],
+        "weaknesses": [
+          "Dark",
+          "Dragon",
+          "Fairy",
+          "Ghost",
+          "Ice"
+        ],
+        "advice": "5-Star Raid boss appearing worldwide. Wednesday Raid Hour on October 28 from 6:00 PM – 7:00 PM local time!"
       }
     }
   ],
@@ -462,26 +730,26 @@ export const scrapedEvents = {
       "end": "2026-09-21",
       "imageUrl": "/assets/events/pokemon_icon_144_00.png",
       "details": {
+        "featured": [
+          "Dynamax Articuno",
+          "Dynamax Zapdos",
+          "Dynamax Moltres"
+        ],
         "type": [
-          "Ice",
-          "Flying"
+          "Ice / Flying (Articuno)",
+          "Electric / Flying (Zapdos)",
+          "Fire / Flying (Moltres)"
         ],
         "weaknesses": [
-          "Rock (Double Weakness)",
-          "Fire",
-          "Electric",
-          "Steel"
+          "Rock (Double Weakness - Articuno & Moltres)",
+          "Rock (Zapdos)",
+          "Ice (Zapdos)",
+          "Fire (Articuno)",
+          "Electric (Articuno & Moltres)",
+          "Water (Moltres)",
+          "Steel (Articuno)"
         ],
-        "counters": [
-          "Rampardos",
-          "Rhyperior",
-          "Gigalith",
-          "Tyrantrum",
-          "Terrakion"
-        ],
-        "featured": [
-          "Dynamax Articuno"
-        ]
+        "advice": "6:00 PM – 7:00 PM local time. Dynamax Articuno, Zapdos, and Moltres will appear simultaneously at Power Spots with boosted Max Battle encounters!"
       }
     },
     {
@@ -591,7 +859,20 @@ export const scrapedEvents = {
       "type": "max-mondays",
       "start": "2026-09-28",
       "end": "2026-09-28",
-      "imageUrl": "/assets/events/pm816.icon.png"
+      "imageUrl": "/assets/events/pm816.icon.png",
+      "details": {
+        "featured": [
+          "Dynamax Sobble"
+        ],
+        "type": [
+          "Water"
+        ],
+        "weaknesses": [
+          "Electric",
+          "Grass"
+        ],
+        "advice": "6:00 PM – 7:00 PM local time. Dynamax Sobble appears in Max Battles at Power Spots with boosted encounters!"
+      }
     },
     {
       "name": "Ultra League, Master League: Mega Edition, and Retro Cup: Great League Edition | Twilight Trails",
@@ -743,7 +1024,14 @@ export const scrapedEvents = {
       "type": "event",
       "start": "2026-10-17",
       "end": "2026-10-17",
-      "imageUrl": "/assets/events/events-default-img.jpg"
+      "imageUrl": "/assets/pokemon/pm133.icon.png",
+      "details": {
+        "bonuses": [
+          "1/2 Egg Hatch Distance",
+          "Increased chance of hatching Shiny Pokémon from 2km & 7km Eggs"
+        ],
+        "advice": "2:00 PM – 5:00 PM local time. Super Incubators are 2x as fast during this 3-hour event window."
+      }
     },
     {
       "name": "Great League, Ultra League: Mega Edition, and Little Cup | Twilight Trails",
@@ -753,11 +1041,19 @@ export const scrapedEvents = {
       "imageUrl": "/assets/events/gobattle-greatleague-key.jpg"
     },
     {
-      "name": "Max Battle Day",
+      "name": "Dynamax Max Battle Day",
       "type": "max-battles",
       "start": "2026-10-24",
       "end": "2026-10-24",
-      "imageUrl": "/assets/events/events-default-img.jpg"
+      "imageUrl": "/assets/pokemon/pm111.icon.png",
+      "details": {
+        "bonuses": [
+          "Remote Max Battle limit increased to 20",
+          "Max Particle capacity increased to 1,600",
+          "8 extra Max Particle packs from Power Spots"
+        ],
+        "advice": "2:00 PM – 5:00 PM local time. Group up at local Power Spots to challenge high-tier Max Battles!"
+      }
     },
     {
       "name": "Ultra League, Master League: Mega Edition, and Fantasy Cup: Great League Edition | Twilight Trails",
