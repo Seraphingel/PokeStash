@@ -259,10 +259,16 @@ export const events = {
       start: "2026-09-18", 
       end: "2026-10-11", 
       color: EVENT_COLORS.Event,
-      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`,
+      bonus: "Sep 18 – Oct 11 | In-Person Special Gym Raids & 2h Lures",
+      imageUrl: `${BASE_ASSET_URL}pm25.fORANGE_HANBOK.icon.png`,
       details: {
-        regions: ["South Korea (Select Locations)"],
-        "Wild Encounters": ["Orange Hanbok Pikachu", "Bulbasaur", "Oddish", "Seedot"], "Sales": ["Autumn Box - 10 Ultra Balls, 2 Premium Battle Passes", "Picnic Bundle - 1 Poffin, 5 Max Potions"]
+        regions: ["South Korea (Parts of Jongno-gu and Jung-gu, Seoul & Incheon International Airport Hiker Station)"],
+        featured: ["Orange Hanbok Pikachu"],
+        "Costume Debut": ["Orange Hanbok Pikachu (Shiny boosted)"],
+        "Raids": ["15 special Gyms (1 raid per Gym/day, in-person only - NOT remotable)"],
+        "Timed Research": ["Orange Hanbok Pikachu encounter, XP, Premium Battle Pass"],
+        bonuses: ["2-hour Lure Modules"],
+        advice: "September 18 – October 11, 2026 in select Seoul & Incheon locations. In-person raids at 15 special Gyms once per day featuring shiny-boosted Orange Hanbok Pikachu!"
       }
     },
     { 
@@ -283,12 +289,32 @@ export const events = {
       start: "2026-09-24", 
       end: "2026-09-26", 
       color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      bonus: "Sep 24 – Sep 26 | 2x Transfer Candy & 2x Raid Stardust",
+      imageUrl: `${BASE_ASSET_URL}pm25.fORANGE_HANBOK.icon.png`, 
       details: { 
-        regions: ["Nationwide South Korea"], 
+        regions: ["Throughout South Korea"], 
         featured: ["Orange Hanbok Pikachu"],
-        advice: "Special celebration event across South Korea featuring Orange Hanbok Pikachu!"
+        "Costume Featured": ["Orange Hanbok Pikachu in raids nationwide"],
+        "Timed Research": ["Orange Hanbok Pikachu encounter, XP, Premium Battle Pass"],
+        bonuses: ["2x Transfer Candy", "2x Raid Stardust"],
+        advice: "September 24 – September 26, 2026 nationwide across South Korea. Orange Hanbok Pikachu in raids, Timed Research, 2x Transfer Candy, and 2x Raid Stardust!"
       } 
+    },
+    { 
+      name: "Pokémon GO x adidas", 
+      start: "2026-09-25", 
+      end: "2027-01-15", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm448.icon.png`,
+      details: {
+        featured: ["Lucario"],
+        bonuses: [
+          "Visit a participating adidas store to receive exclusive Timed Research",
+          "Timed Research awards an encounter with Lucario and Lucario Mega Energy",
+          "Exclusive adidas jacket and adidas cap for your in-game avatar (shoes releasing later)"
+        ],
+        advice: "Check in via QR code at participating adidas retail locations between September 25, 2026 and January 15, 2027 to unlock exclusive Timed Research!"
+      }
     },
     { 
       name: "Catch Mastery: Phantump", 
@@ -304,17 +330,65 @@ export const events = {
       }
     },
     { 
-      name: "City Safari (Global)", 
+      name: "City Safari", 
       start: "2026-09-26", 
       end: "2026-09-27", 
       color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm133.icon.png`,
+      bonus: "10:00 AM – 6:00 PM local time | Sep 26 – Sep 27",
+      imageUrl: `${BASE_ASSET_URL}pm133.cEXPLORER.icon.png`,
       details: {
-        regions: ["Lisbon", "Brisbane", "Boston", "Marseille", "Munich", "Rio de Janeiro"],
-        "Pokémon Debuts": ["Skiddo", "Gogoat"], 
-        "Wild Encounters": ["Eevee in Explorer Hat", "Mudbray", "Heracross"], 
-        "Sales": ["Safari Box - 5 Super Incubators, 5 Premium Battle Passes"],
-        advice: "City Safari events happening worldwide with special costumed Eevee and location-specific encounters!"
+        regions: ["Lisbon, Portugal", "Brisbane, Australia", "Boston, USA", "Marseille, France", "Munich, Germany", "Rio de Janeiro, Brazil"],
+        featured: ["Eevee wearing an explorer hat", "Mudbray", "Mudsdale"],
+        "Exclusive Safari Pokémon": ["Mudbray & Mudsdale (Shiny debut; exclusive to City Safari events)"],
+        "Costumed Pokémon": ["Eevee wearing an explorer hat (ticket holders get up to 16 encounters, evolvable into all 8 Eeveelutions wearing explorer hat)"],
+        "Wild Encounters": [
+          "10:00 a.m. – 6:00 p.m. local time",
+          "Eevee wearing an explorer hat",
+          "Mudbray",
+          "Unown M",
+          "Unown S",
+          "Unown B",
+          "Unown P",
+          "Jigglypuff",
+          "Abra",
+          "Slowpoke",
+          "Chikorita",
+          "Natu",
+          "Marill",
+          "Dunsparce",
+          "Hoppip",
+          "Stantler",
+          "Miltank",
+          "Wingull",
+          "Baltoy",
+          "Gothita",
+          "Dwebble",
+          "Karrablast",
+          "Shelmet",
+          "Komala",
+          "Hawlucha",
+          "Oranguru",
+          "Oricorio (Baile Style)",
+          "Binacle"
+        ],
+        "Eggs": [
+          "Hawlucha (7 km)",
+          "Flabébé (7 km)",
+          "Komala (7 km)",
+          "Mudbray (7 km)"
+        ],
+        bonuses: [
+          "10:00 a.m. – 6:00 p.m. local time on September 26 & 27",
+          "Increased Shiny chance for featured Pokémon",
+          "Up to 5 Special Trades per day",
+          "Trades require 50% less Stardust",
+          "Lure Modules last 4 hours",
+          "Buddy may find exclusive Tiny Compass souvenir",
+          "Unique location card for Eevee in each city",
+          "GO Stamp Rally at participating PokéStops",
+          "Optional Paid Add-ons: Citywide Gameplay, Raid Lover, Egg-thusiast"
+        ],
+        advice: "Saturday, September 26 – Sunday, September 27, 2026, 10:00 AM – 6:00 PM local time. City Safari takes place across Lisbon, Brisbane, Boston, Marseille, Munich, and Rio de Janeiro with exclusive Mudbray, 7 km Egg hatches, and Explorer Hat Eevee!"
       }
     },
     { 
@@ -455,22 +529,44 @@ export const events = {
       start: "2026-10-13", 
       end: "2026-10-19", 
       color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm133.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm946.icon.png`,
       details: {
-        featured: ["Buddy Pokémon"],
-        bonuses: ["1/2 distance for Buddy Hearts & Candy", "Boosted buddy exploration souvenirs and gifts"],
-        advice: "Keep your Buddy fed and on the adventure map to maximize distance bonuses and Candy XL!"
+        featured: ["Bramblin", "Manectric"],
+        "Pokémon Debuts": ["Bramblin", "Brambleghast"],
+        "Super Max Debut": ["Manectric (Discharge+)"],
+        "Shiny Boosts": ["Electrike", "Hisuian Growlithe (Oct 16–19)"],
+        "Incense Encounters": [
+          "Oct 13–16: Galarian Ponyta, Hoppip, Electrike, Dwebble, Bramblin",
+          "Oct 16–19: Hisuian Growlithe, Nincada, Electrike, Helioptile, Bramblin"
+        ],
+        "Wild & Research Encounters": ["Ponyta", "Doduo", "Electrike", "Zebstrika", "Skarmory", "Bramblin"],
+        bonuses: [
+          "1-hour Incense duration (excluding Daily Adventure Incense)",
+          "Earn 5x Mega Energy by exploring with Electrike or Manectric as your buddy",
+          "Extra exploration Buddy XP",
+          "GO Pass Deluxe ticket available ($4.99)"
+        ],
+        advice: "10:00 AM – 8:00 PM local time. Bramblin debuts! Walk 20 km with Bramblin as your buddy to evolve it into Brambleghast. Super Max Manectric debuts with Discharge+."
       }
     },
     { 
-      name: "Hatch Day", 
+      name: "Sandile Hatch Day", 
       start: "2026-10-17", 
       end: "2026-10-17", 
       color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm133.icon.png`,
+      imageUrl: `${BASE_ASSET_URL}pm551.icon.png`,
       details: {
-        bonuses: ["1/2 Egg Hatch Distance", "Increased chance of hatching Shiny Pokémon from 2km & 7km Eggs"],
-        advice: "2:00 PM – 5:00 PM local time. Super Incubators are 2x as fast during this 3-hour event window."
+        featured: ["Sandile"],
+        bonuses: [
+          "Sandile will hatch much more frequently from 2 km eggs (592 CP hundo)",
+          "Significantly increased chance of hatching Shiny Sandile",
+          "2x Candy from hatching Eggs",
+          "1/2 Egg Hatch Distance during event hours",
+          "Increased chance of receiving 2 km Eggs from PokéStops",
+          "Free Timed Research awarding Super Incubator and XP",
+          "Optional $2.00 USD Event Ticket (1/4 Hatch Distance, 1x Star Piece, 2x Super Incubators)"
+        ],
+        advice: "11:00 AM – 5:00 PM local time. Sandile hatches much more frequently from 2 km eggs with boosted shiny chance and 1/2 hatch distance!"
       }
     },
     { 
@@ -1040,6 +1136,7 @@ export const cleanEventName = (name) => {
     .replace(/raid day/gi, '')
     .replace(/max battle day/gi, '')
     .replace(/community day/gi, '')
+    .replace(/hatch day/gi, '')
     .replace(/applin picking/gi, '')
     .replace(/\b(therian|incarnate)(\s+forme)?\b/gi, '')
     .replace(/\band\b/gi, '')

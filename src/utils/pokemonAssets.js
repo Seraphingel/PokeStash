@@ -111,7 +111,24 @@ const POKEMON_3D_ICONS = {
   'maschiff': '/assets/events/Maschiff.png',
   'mabosstiff': '/assets/events/Maschiff.png',
   'shroodle': 'pm943.icon.png',
-  'grafaiai': 'pm943.icon.png'
+  'grafaiai': 'pm943.icon.png',
+  'bramblin': 'pm946.icon.png',
+  'brambleghast': 'pm946.icon.png',
+  'sandile': 'pm551.icon.png',
+  'krokorok': 'pm551.icon.png',
+  'krookodile': 'pm551.icon.png',
+  'lucario': 'pm448.icon.png',
+  'mega lucario': 'pm448.icon.png',
+  'mudbray': 'pm749.icon.png',
+  'mudsdale': 'pm749.icon.png',
+  'eevee wearing an explorer hat': 'pm133.cEXPLORER.icon.png',
+  'explorer hat eevee': 'pm133.cEXPLORER.icon.png',
+  'explorer eevee': 'pm133.cEXPLORER.icon.png',
+  'city safari': 'pm133.cEXPLORER.icon.png',
+  'orange hanbok pikachu': 'pm25.fORANGE_HANBOK.icon.png',
+  'orange hanbok': 'pm25.fORANGE_HANBOK.icon.png',
+  'autumn picnic': 'pm25.fORANGE_HANBOK.icon.png',
+  'korea outing': 'pm25.fORANGE_HANBOK.icon.png'
 };
 
 export function isBannerOrArtImage(url) {
