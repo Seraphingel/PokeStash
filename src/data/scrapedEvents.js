@@ -33,8 +33,8 @@ export const scrapedEvents = {
     {
       "name": "Seedot",
       "type": "pokémon-spotlight-hour",
-      "start": "2026-10-06",
-      "end": "2026-10-06",
+      "start": "2026-10-01",
+      "end": "2026-10-01",
       "imageUrl": "/assets/pokemon/pm273.icon.png",
       "details": {
         "featured": [
@@ -900,6 +900,8 @@ export const scrapedEvents = {
       "end": "2026-10-02",
       "imageUrl": "/assets/events/pm25.fTSHIRT_03.icon.png",
       "details": {
+        "regions": ["Indonesia"],
+        "featured": ["Pikachu (Batik Shirt)"],
         "Wild Encounters": [
           "Caterpie",
           "Batik Shirt Pikachu",
@@ -912,7 +914,14 @@ export const scrapedEvents = {
           "Skiploom",
           "Sunkern",
           "Wurmple"
-        ]
+        ],
+        "bonuses": [
+          "2-hour Incense duration",
+          "Higher chance to encounter Pikachu wearing a batik shirt and event Pokémon from Incense",
+          "Special Background available for Pikachu wearing a batik shirt",
+          "Timed Research and Collection Challenges awarding XP, Stardust, and encounters"
+        ],
+        "advice": "10:00 AM – 8:00 PM local time in Indonesia. Encounter Pikachu wearing a batik shirt with an exclusive Special Background!"
       }
     },
     {
@@ -1041,18 +1050,28 @@ export const scrapedEvents = {
       "imageUrl": "/assets/events/gobattle-greatleague-key.jpg"
     },
     {
-      "name": "Dynamax Max Battle Day",
+      "name": "Lake Trio Max Battle Day",
       "type": "max-battles",
       "start": "2026-10-24",
       "end": "2026-10-24",
-      "imageUrl": "/assets/pokemon/pm111.icon.png",
+      "imageUrl": "/assets/pokemon/pm480.icon.png",
       "details": {
+        "featured": ["Uxie", "Mesprit", "Azelf"],
+        "Regional Rotations": [
+          "Uxie: Asia-Pacific region",
+          "Mesprit: Europe, Middle East, Africa, and India",
+          "Azelf: Americas and Greenland"
+        ],
         "bonuses": [
           "Remote Max Battle limit increased to 20",
-          "Max Particle capacity increased to 1,600",
-          "8 extra Max Particle packs from Power Spots"
+          "All Power Spots will host Max Battles and refresh more frequently",
+          "Up to 3 Special Trades for the day",
+          "Max Particle collection limit increased to 1,600",
+          "8x MP from Power Spots",
+          "Active 12:00 AM – 5:00 PM: 2x Max Particles from exploring and 1/4 adventuring distance for MP",
+          "Optional $5 USD Paid Timed Research: 1x Max Mushroom, 25,000 XP, 6,400 MP, and 2x XP from Max Battles"
         ],
-        "advice": "2:00 PM – 5:00 PM local time. Group up at local Power Spots to challenge high-tier Max Battles!"
+        "advice": "2:00 PM – 5:00 PM local time. Uxie, Mesprit, and Azelf appear in Dynamax Max Battles regionally! Take advantage of the 20 Remote Max Battle limit to join friends across regions."
       }
     },
     {

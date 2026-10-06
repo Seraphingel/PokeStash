@@ -106,7 +106,7 @@ export const events = {
       }
     },
     { 
-      date: "2026-10-06", 
+      date: "2026-10-01", 
       name: "Seedot", 
       color: EVENT_COLORS.Spotlight, 
       bonus: "2x Catch XP", 
@@ -392,11 +392,11 @@ export const events = {
       }
     },
     { 
-      name: "Gigantamax Cinderace Max Battle Day", 
+      name: "Gigantamax Cinderace", 
       start: "2026-10-03", 
       end: "2026-10-03", 
       color: EVENT_COLORS.MaxMonday,
-      imageUrl: `${BASE_ASSET_URL}pm815.icon.png`,
+      imageUrl: "/assets/events/poke_capture_0815_000_mf_g_00000000_f_n.png",
       details: {
         featured: ["Gigantamax Cinderace"],
         type: ["Fire"],
@@ -406,15 +406,27 @@ export const events = {
       }
     },
     { 
-      name: "Harvest Festival 2026: Applin Picking", 
+      name: "Harvest Festival", 
       start: "2026-09-29", 
       end: "2026-10-05", 
       color: EVENT_COLORS.Event, 
-      imageUrl: "/assets/events/pm546.cSPRING_2024.icon.png",
+      bonus: "10:00 AM – 8:00 PM local time | Sep 29 – Oct 5",
+      imageUrl: `${BASE_ASSET_URL}pm840.icon.png`,
       details: {
-        featured: ["Applin", "Flapple", "Appletun", "Dipplin", "Hydrapple"],
-        "Wild Encounters": ["Applin", "Cottonee", "Oddish", "Bounsweet", "Smoliv"],
-        advice: "Collect Applin during the Harvest Festival and look out for Mossy Lure Module bonuses!"
+        featured: ["Applin"],
+        "Wild Encounters": [
+          "10:00 a.m. – 8:00 p.m. local time",
+          "Applin",
+          "Smoliv",
+          "Skwovet",
+          "Lechonk"
+        ],
+        bonuses: [
+          "Mossy Lure Modules will attract apples during the event—tap them to get Apples or encounters",
+          "Branching Timed Research with apples",
+          "GO Pass Deluxe ($4.99): Increased Apple drop chance on catch, 1-hour Mossy Lures, more Stardust from Team GO Rocket"
+        ],
+        advice: "September 29 at 10:00 AM – October 5 at 8:00 PM local time. Tap apples attracted by Mossy Lure Modules to collect Apples and encounters with Applin!"
       }
     },
     { 
@@ -513,6 +525,36 @@ export const events = {
       }
     },
     { 
+      name: "Patterns of the Wild", 
+      start: "2026-10-02", 
+      end: "2026-10-02", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: "/assets/events/pm25.fTSHIRT_03.icon.png",
+      details: {
+        regions: ["Indonesia"],
+        featured: ["Pikachu (Batik Shirt)"],
+        "Wild Encounters": [
+          "Caterpie",
+          "Oddish",
+          "Gloom",
+          "Bellsprout",
+          "Ledyba",
+          "Ledian",
+          "Hoppip",
+          "Skiploom",
+          "Sunkern",
+          "Wurmple"
+        ],
+        bonuses: [
+          "2-hour Incense duration",
+          "Higher chance to encounter Pikachu wearing a batik shirt and event Pokémon from Incense",
+          "Special Background available for Pikachu wearing a batik shirt",
+          "Timed Research and Collection Challenges awarding XP, Stardust, and encounters"
+        ],
+        advice: "10:00 AM – 8:00 PM local time in Indonesia. Encounter Pikachu wearing a batik shirt with an exclusive Special Background!"
+      }
+    },
+    { 
       name: "Team GO Rocket: Taken Over", 
       start: "2026-10-02", 
       end: "2026-10-05", 
@@ -570,26 +612,80 @@ export const events = {
       }
     },
     { 
-      name: "Dynamax Max Battle Day", 
-      start: "2026-10-24", 
+      name: "Minior Showers: Orionids", 
+      start: "2026-10-19", 
       end: "2026-10-24", 
-      color: EVENT_COLORS.MaxMonday, 
-      imageUrl: `${BASE_ASSET_URL}pm111.icon.png`,
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm774.icon.png`,
       details: {
-        bonuses: ["Remote Max Battle limit increased to 20", "Max Particle capacity increased to 1,600", "8 extra Max Particle packs from Power Spots"],
-        advice: "2:00 PM – 5:00 PM local time. Group up at local Power Spots to challenge high-tier Max Battles!"
+        featured: ["Minior"],
+        "Pokémon Debuts": ["Minior (Meteor Form & 7 Core forms)"],
+        "Wild Encounters": ["Minior (Meteor Form)"],
+        bonuses: [
+          "Explore by Starlight: 5:00 PM – 9:00 PM local time daily",
+          "The in-game sky will be lit by shooting stars from 5:00 PM to 9:00 PM",
+          "Increased Minior encounters during Starlight hours",
+          "Increased Stardust for catching Minior"
+        ],
+        advice: "Minior debuts in its Meteor Form! During Explore by Starlight (5:00 PM – 9:00 PM local time), look out for shooting stars, boosted Minior spawns, and extra catch Stardust. Meteor Form has higher Defense and lower Attack, changing to Core form with higher Attack and lower Defense below 50% HP. Future showers: Leonids (Nov 14–19), Geminids (Dec 11–16), Eta Aquariids (May 3–8, 2027), Southern Delta Aquariids (July 28 – Aug 2, 2027), Perseids (Aug 10–15, 2027)."
       }
     },
     { 
-      name: "Halloween 2026 Pt. I", 
-      start: "2026-10-27", 
-      end: "2026-10-31", 
-      color: EVENT_COLORS.Event, 
-      imageUrl: `${BASE_ASSET_URL}pm92.icon.png`,
+      name: "Lake Trio Max Battle Day", 
+      start: "2026-10-24", 
+      end: "2026-10-24", 
+      color: EVENT_COLORS.MaxBattle, 
+      imageUrl: `${BASE_ASSET_URL}pm480.icon.png`,
       details: {
-        featured: ["Gastly", "Phantump", "Ghost-type Pokémon", "Dark-type Pokémon"],
-        bonuses: ["2x Catch Candy", "2x Transfer Candy", "Guaranteed Candy XL when transferring Pokémon"],
-        advice: "Stockpile your Ghost & Dark-type transfers to earn double candy and guaranteed XL candy!"
+        featured: ["Uxie", "Mesprit", "Azelf"],
+        "Regional Rotations": [
+          "Uxie: Asia-Pacific region",
+          "Mesprit: Europe, Middle East, Africa, and India",
+          "Azelf: Americas and Greenland"
+        ],
+        bonuses: [
+          "Remote Max Battle limit increased to 20",
+          "All Power Spots will host Max Battles and refresh more frequently",
+          "Up to 3 Special Trades for the day",
+          "Max Particle collection limit increased to 1,600",
+          "8x MP from Power Spots",
+          "Active 12:00 AM – 5:00 PM: 2x Max Particles from exploring and 1/4 adventuring distance for MP",
+          "Optional $5 USD Paid Timed Research: 1x Max Mushroom, 25,000 XP, 6,400 MP, and 2x XP from Max Battles"
+        ],
+        advice: "2:00 PM – 5:00 PM local time. Uxie, Mesprit, and Azelf appear in Dynamax Max Battles regionally! Take advantage of the 20 Remote Max Battle limit to join friends across regions."
+      }
+    },
+    { 
+      name: "Halloween 2026 Part 1", 
+      start: "2026-10-27", 
+      end: "2026-11-01", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: "/assets/events/pm25.cHALLOWEEN_2026.icon.png", 
+      details: {
+        featured: ["Pikachu (Halloween Dress)", "Sinistea (Ribbon)", "Zubat (Top Hat)"],
+        "New Costumes": [
+          "Pikachu wearing a Halloween dress",
+          "Sinistea wearing a ribbon",
+          "Zubat wearing a top hat"
+        ],
+        "Wild Encounters": [
+          "Zubat (Top Hat)",
+          "Duskull",
+          "Piplup (Halloween Costume)",
+          "Drifblim (Halloween Costume)"
+        ],
+        "Raids (1-Star)": [
+          "Sinistea (Ribbon)",
+          "Pikachu (Halloween Dress)"
+        ],
+        bonuses: [
+          "Trick or Treat! Tap spooky surprises in the wild for Pikachu, Zubat, Sinistea, and Rare Candy",
+          "GO Pass Rank 10: 2x Catch Candy (3x with GO Pass Deluxe)",
+          "GO Pass Rank 20: 2x Catch Stardust (3x with GO Pass Deluxe)",
+          "Halloween map decorations & Lavender Town nightly music remix",
+          "New avatar items available (Skirt, Shorts, Socks, Boots, Chef outfit)"
+        ],
+        advice: "10:00 AM Oct 27 – 10:00 AM Nov 1 local time. Tap spooky surprises in the wild for candy treats! New costumed Pikachu, Sinistea, and Zubat debut."
       }
     },
     { 
