@@ -76,7 +76,7 @@ If you wish to run PokéStash locally:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/pokestash.git
+git clone https://github.com/Seraphingel/pokestash.git
 
 # 2. Navigate to project root
 cd pokestash
