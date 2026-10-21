@@ -75,6 +75,8 @@ const POKEMON_3D_ICONS = {
   'ultra beasts': 'pm796.icon.png',
   'ultra beast': 'pm796.icon.png',
   'kartana': 'pm798.icon.png',
+  'meltan': 'pm808.icon.png',
+  'into the wild': 'pm808.icon.png',
   'cinderace': 'pm815.icon.png',
   'gigantamax cinderace': '/assets/events/poke_capture_0815_000_mf_g_00000000_f_n.png',
   'sobble': 'pm816.icon.png',

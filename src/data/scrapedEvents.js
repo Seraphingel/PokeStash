@@ -61,8 +61,8 @@ export const scrapedEvents = {
     {
       "name": "Stufful",
       "type": "pokémon-spotlight-hour",
-      "start": "2026-10-20",
-      "end": "2026-10-20",
+      "start": "2026-10-15",
+      "end": "2026-10-15",
       "imageUrl": "/assets/pokemon/pm759.icon.png",
       "details": {
         "featured": [
@@ -261,7 +261,7 @@ export const scrapedEvents = {
       "name": "Mega Pidgeot",
       "type": "raid-battles",
       "start": "2026-10-14",
-      "end": "2026-10-20",
+      "end": "2026-10-15",
       "imageUrl": "/assets/pokemon/pm18.fMEGA.icon.png",
       "details": {
         "featured": [
@@ -607,7 +607,7 @@ export const scrapedEvents = {
       "name": "Dialga",
       "type": "raid-battles",
       "start": "2026-10-14",
-      "end": "2026-10-20",
+      "end": "2026-10-15",
       "imageUrl": "/assets/pokemon/pm483.icon.png",
       "details": {
         "featured": [
@@ -1046,7 +1046,7 @@ export const scrapedEvents = {
       "name": "Great League, Ultra League: Mega Edition, and Little Cup | Twilight Trails",
       "type": "go-battle-league",
       "start": "2026-10-13",
-      "end": "2026-10-20",
+      "end": "2026-10-15",
       "imageUrl": "/assets/events/gobattle-greatleague-key.jpg"
     },
     {
@@ -1077,7 +1077,7 @@ export const scrapedEvents = {
     {
       "name": "Ultra League, Master League: Mega Edition, and Fantasy Cup: Great League Edition | Twilight Trails",
       "type": "go-battle-league",
-      "start": "2026-10-20",
+      "start": "2026-10-15",
       "end": "2026-10-27",
       "imageUrl": "/assets/events/go-battle-league-ultra-league-machamp-swampert.jpg"
     },

@@ -130,7 +130,7 @@ export const events = {
       }
     },
     { 
-      date: "2026-10-20", 
+      date: "2026-10-15", 
       name: "Stufful", 
       color: EVENT_COLORS.Spotlight, 
       bonus: "2x Transfer Candy", 
@@ -622,12 +622,13 @@ export const events = {
         "Pokémon Debuts": ["Minior (Meteor Form & 7 Core forms)"],
         "Wild Encounters": ["Minior (Meteor Form)"],
         bonuses: [
+          "Event Active: 5:00 PM – 11:59 PM local time daily",
           "Explore by Starlight: 5:00 PM – 9:00 PM local time daily",
           "The in-game sky will be lit by shooting stars from 5:00 PM to 9:00 PM",
           "Increased Minior encounters during Starlight hours",
           "Increased Stardust for catching Minior"
         ],
-        advice: "Minior debuts in its Meteor Form! During Explore by Starlight (5:00 PM – 9:00 PM local time), look out for shooting stars, boosted Minior spawns, and extra catch Stardust. Meteor Form has higher Defense and lower Attack, changing to Core form with higher Attack and lower Defense below 50% HP. Future showers: Leonids (Nov 14–19), Geminids (Dec 11–16), Eta Aquariids (May 3–8, 2027), Southern Delta Aquariids (July 28 – Aug 2, 2027), Perseids (Aug 10–15, 2027)."
+        advice: "5:00 PM – 11:59 PM local time daily. Minior debuts in its Meteor Form! During Explore by Starlight (5:00 PM – 9:00 PM local time), look out for shooting stars, boosted Minior spawns, and extra catch Stardust. Meteor Form has higher Defense and lower Attack, changing to Core form with higher Attack and lower Defense below 50% HP. Future showers: Leonids (Nov 14–19), Geminids (Dec 11–16), Eta Aquariids (May 3–8, 2027), Southern Delta Aquariids (July 28 – Aug 2, 2027), Perseids (Aug 10–15, 2027)."
       }
     },
     { 
@@ -710,6 +711,192 @@ export const events = {
         featured: ["Costume Pokémon", "Spooky Festival Spawns"],
         bonuses: ["2x Catch Candy", "Special costume encounters from Halloween Timed Research"],
         advice: "Part 2 of Halloween features exclusive costumed Pokémon and heightened spooky wild encounters!"
+      }
+    },
+    { 
+      name: "Pokémon Run: Taiwan (Taichung)", 
+      start: "2026-10-17", 
+      end: "2026-10-18", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["Taichung Central Park, Taiwan"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at Taichung Central Park! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Taiwan (Kaohsiung)", 
+      start: "2026-10-31", 
+      end: "2026-11-01", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["Dream Mall, Kaohsiung, Taiwan"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at Dream Mall Kaohsiung! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Singapore", 
+      start: "2026-11-07", 
+      end: "2026-11-08", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["The Kallang, Singapore"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at The Kallang Singapore! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Into the Wild", 
+      start: "2026-11-09", 
+      end: "2026-11-13", 
+      color: EVENT_COLORS.WildArea, 
+      imageUrl: `${BASE_ASSET_URL}pm808.icon.png`, 
+      details: {
+        featured: ["Meltan", "Dynamax Registeel", "Dynamax Regidrago", "Dynamax Latios & Latias", "Zacian", "Zamazenta"],
+        "Raid & Max Battle Hours (6:00 – 7:00 PM)": [
+          "Nov 9: Zacian Raid Hour",
+          "Nov 10: Zamazenta Raid Hour",
+          "Nov 11: Dynamax Registeel Max Battle Hour (with Metal Claw)",
+          "Nov 12: Dynamax Regidrago Max Battle Hour (with Dragon Breath)",
+          "Nov 13: Dynamax Latios (Luster Purge) & Latias (Mist Ball) Max Battle Hour"
+        ],
+        "Wild Encounters": ["Magnemite", "Noibat", "Togedemaru"],
+        bonuses: [
+          "Remote Raid limit increased to 30 (Nov 9–13) / No limit (Nov 14–15)",
+          "Shiny Gimmighoul and Shiny Meltan available until November 15",
+          "Mystery Box cooldown reduced",
+          "Wild Global Challenge & Wild Area-themed Field Research",
+          "GO Pass: Into the Wild (Free: 1/2 Hatch Distance; Deluxe $14.99 USD: Silver Bottle Cap for Hyper Training, extra Raid & Max Battle XP & Candy XL)"
+        ],
+        advice: "10:00 AM – 8:00 PM local time. Lead-up to GO Wild Area 2026! Shiny Meltan & Gimmighoul unlocked, daily 6–7 PM Raid & Max Battle Hours with featured moves, and Remote Raid limit increased to 30."
+      }
+    },
+    { 
+      name: "Pokémon Run: Taiwan (New Taipei)", 
+      start: "2026-11-14", 
+      end: "2026-11-15", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["New Taipei Metropolitan Park, Taiwan"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at New Taipei Metropolitan Park! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Malaysia", 
+      start: "2026-11-21", 
+      end: "2026-11-22", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["KLCC Plaza Petronas, Malaysia"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at KLCC Plaza Petronas! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Indonesia", 
+      start: "2026-12-12", 
+      end: "2026-12-13", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["Gelora Bung Karno, Jakarta, Indonesia"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at Gelora Bung Karno, Jakarta! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Thailand", 
+      start: "2027-01-09", 
+      end: "2027-01-10", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["Outdoor Plaza, CentralWorld, Bangkok, Thailand"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at CentralWorld Bangkok! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
+      }
+    },
+    { 
+      name: "Pokémon Run: Hong Kong", 
+      start: "2027-01-23", 
+      end: "2027-01-24", 
+      color: EVENT_COLORS.Event, 
+      imageUrl: `${BASE_ASSET_URL}pm25.icon.png`, 
+      details: {
+        regions: ["Science Park, Hong Kong"],
+        featured: ["Pikachu", "First-Partner Pokémon (Kanto to Paldea)", "Unown (P, O, N)"],
+        "Incense Encounters": ["Unown P", "Unown O", "Unown N"],
+        bonuses: [
+          "2x Incense duration (excluding Daily Adventure Incense)",
+          "10x XP for spinning new PokéStops",
+          "2x XP for spinning PokéStops",
+          "1/2 Egg Hatch Distance",
+          "Two event-exclusive free Timed Research opportunities within event area"
+        ],
+        advice: "Pokémon Run at Science Park Hong Kong! Incense attracts Unown P, O, N with shiny chance, 10x XP for new stops, and 1/2 hatch distance."
       }
     },
     { 

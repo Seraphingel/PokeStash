@@ -7,11 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Runtime & Build outputs
-node_modules
-dist
-dist-ssr
+# Runtime, Build & Development Caches (Not needed on client)
+node_modules/
+dist/
+dist-ssr/
 *.local
+.vite/
+.turbo/
+.parcel-cache/
 
 # Environment variables & secrets
 .env
@@ -38,6 +41,7 @@ coverage/
 .eslintcache
 .oxlintcache
 .cache/
+*.tsbuildinfo
 
 # Agent & AI toolchains / Workspaces
 .agents/
@@ -54,15 +58,26 @@ skills-lock.json
 AGENTS.md
 GEMINI.md
 
-# Agent Artifacts & Scratch files
+# Agent Artifacts, Plans & Scratch files
 task*.md
 walkthrough*.md
-implementation_plan*.md
-learning_proposal*.md
+*implementation_plan*.md
+*learning_proposal*.md
+*plan*.md
 
-# Local Dev Scratch Scripts & Data Dumps
+# Developer-only Scraping & Maintenance Scripts
+scripts/
 scripts/downloadMissingAssets.js
 scripts/syncRemainingAssets.js
+scripts/scrapeEvents.js
 scripts/temp/
+
+# Temporary / Scratch & Test Assets
 *.tmp
 *.temp
+*.bak
+*.backup
+public/assets/events/*_test*
+public/assets/events/*_cutout*
+*_test_*.png
+*_test_*.jpg
